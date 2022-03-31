@@ -27,7 +27,7 @@ const MyStack = () => {
         <Stack.Screen name="Login" component={Login}/>
         <Stack.Screen name="Main" component={Main}
         options={{
-          title: 'Login',
+          title: 'Candidates List',
           headerTitleStyle: {
             color: '#fff',
           },
