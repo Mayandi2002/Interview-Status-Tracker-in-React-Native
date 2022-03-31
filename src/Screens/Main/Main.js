@@ -1,69 +1,81 @@
-import React, { useRef, useState } from "react";
-import { Button, DrawerLayoutAndroid, Text, StyleSheet, View, Pressable } from "react-native";
+import React,{ useState } from 'react';
+import { Button, DrawerLayoutAndroid, Text, StyleSheet, View, Pressable,FlatList } from 'react-native';
+import { Card } from 'react-native-paper';
 
 const Main = () => {
-  const drawer = useRef(null);
-  const [drawerPosition, setDrawerPosition] = useState("left");
+  const[Candidates] = useState ([
+    {ID:'1',Appid:'A1',Name:'Mayandi',Degree:'B.Sc(CS)',Contact:'9087654321'},
+    {ID:'2',Appid:'A2',Name:'Muppidathi',Degree:'B.Sc(CS)',Contact:'9087698421'},
+    {ID:'3',Appid:'A3',Name:'Rakesh',Degree:'B.Sc(CS)',Contact:'9087655421'},
+    {ID:'4',Appid:'A4',Name:'Kuthalinagm',Degree:'B.Sc(CS)',Contact:'98777654321'},
+    {ID:'5',Appid:'A5',Name:'Jp',Degree:'B.Sc(CS)',Contact:'9087687321'},
+    {ID:'6',Appid:'A6',Name:'Seelan',Degree:'B.Sc(CS)',Contact:'9034654321'}
+  ]);
 
-  const navigationView = () => (
-    <View style={[styles.navigationContainer]}>
-      <Text style={styles.drawtext}>I'm in the Drawer!</Text>
-      {/*<Button
-        title="Close drawer"
-        onPress={() => drawer.current.closeDrawer()}
-  />*/}
-    </View>
-  );
+const CandidatesData = (item) => {
+  var Appid=item.Appid;
+  var Name=item.Name;
+  var Degree=item.Degree;
+  var Contact=item.Contact;
 
-  return (
-    <DrawerLayoutAndroid
-      ref={drawer}
-      drawerWidth={200}
-      //drawerPosition={drawerPosition}//
-      renderNavigationView={navigationView}
-    >
-      <View style={styles.container}>
-        {/*<Text style={styles.paragraph}>
-          Drawer on the {drawerPosition}!
-        </Text>
-        <Button
-          title="Change Drawer Position"
-          onPress={() => changeDrawerPosition()}
-  />*/}
-        <Text style={styles.paragraph}>
-          Swipe from the side or press button below to see it!
-        </Text>
-      <Pressable 
-      style={({ pressed }) => [
-        { opacity: pressed ? 0.5 : 1.0 }
-      ]}
-      onPress={() => drawer.current.openDrawer()}> 
-          <Text style={{backgroundColor:"blue",color:"white",padding:10,borderColor:"green",borderRadius:2}}>Open drawer</Text>
-          </Pressable>
+alert(Appid+"\n"+Name+"\n"+Degree+"\n"+Contact);
+}
+
+  return(
+    <View style={styles.container}>
+      <FlatList 
+      data={Candidates}
+      renderItem={({item})=>
+    <Card
+    onPress={CandidatesData.bind(this,item)} 
+    style={styles.card}>
+      <View style={styles.list}>
+        <Text style={styles.text}>Application ID</Text>
+        <Text style={styles.text}>{item.Appid}</Text>
       </View>
-    </DrawerLayoutAndroid>
-  );
+      <View style={styles.list}>
+        <Text style={styles.text}>Name</Text>
+        <Text style={styles.text}>{item.Name}</Text>
+      </View>
+      <View style={styles.list}>
+        <Text style={styles.text}>Degree</Text>
+        <Text style={styles.text}>{item.Degree}</Text>
+      </View>
+      <View style={styles.list}>
+        <Text style={styles.text}>Contact</Text>
+        <Text style={styles.text}>{item.Contact}</Text>
+      </View>
+    </Card>
+    }
+    keyExtractor={item=>item.ID}
+    />
+    
+    </View>
+    );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    padding: 16
+    padding: 5,
+    backgroundColor:"lightblue"
   },
-  navigationContainer: {
-    backgroundColor: "white"
+  list: {
+    flex: 1,
+    flexDirection: 'row',
+    padding: 5,
+    marginLeft :20
   },
-  paragraph: {
-    padding: 16,
+  text: {
+    flex: 1,
     fontSize: 15,
-    textAlign: "center",
+    fontWeight:'bold',
+    color:"white"
   },
-  drawtext:{
-    padding:16,
-  fontSize:20,
-  textAlign: "center"
+  card:{
+    margin:5,
+    backgroundColor:"#0000cd",
+    borderRadius:15
   }
 });
 

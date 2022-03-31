@@ -7,9 +7,13 @@ const Login = () => {
   const {height} = useWindowDimensions();
   const MyStack = useNavigation();
   
-  const loginpress = () =>{
+  const loginpress = () => {
     console.warn("loginpressed");
     MyStack.navigate('Main');
+};
+const setpress = () => {
+  console.warn("Setpress");
+  MyStack.navigate('Home');
 }
   return (
     <View style={styles.root}>
@@ -46,7 +50,8 @@ const Login = () => {
     style={({ pressed }) => [{ 
       opacity: pressed ? 0.2 : 1.0 },
       styles.Btn2Style
-    ]}>
+    ]}
+    onPress={setpress}>
       <Text>Settings</Text>
     </Pressable>
     </View>
