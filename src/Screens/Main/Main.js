@@ -1,8 +1,10 @@
 import React,{ useState } from 'react';
-import { Button, DrawerLayoutAndroid, Text, StyleSheet, View, Pressable,FlatList } from 'react-native';
+import { Button, DrawerLayoutAndroid, Text, StyleSheet, View,ScrollView, Pressable,FlatList } from 'react-native';
+import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { Card } from 'react-native-paper';
 
 const Main = () => {
+  const MyStack = useNavigation();
   const[Candidates] = useState ([
     {ID:'1',Appid:'A1',Name:'Mayandi',Degree:'B.Sc(CS)',Contact:'9087654321'},
     {ID:'2',Appid:'A2',Name:'Muppidathi',Degree:'B.Sc(CS)',Contact:'9087698421'},
@@ -12,17 +14,21 @@ const Main = () => {
     {ID:'6',Appid:'A6',Name:'Seelan',Degree:'B.Sc(CS)',Contact:'9034654321'}
   ]);
 
-const CandidatesData = (item) => {
-  var Appid=item.Appid;
-  var Name=item.Name;
-  var Degree=item.Degree;
-  var Contact=item.Contact;
-
-alert(Appid+"\n"+Name+"\n"+Degree+"\n"+Contact);
+const CandidatesData = () => {
+MyStack.navigate('CvvView');
+};
+const Dashboard = () => {
+MyStack.navigate('Dash Board');
 }
 
   return(
     <View style={styles.container}>
+      <Pressable 
+      style={{backgroundColor :"green",padding :8,alignItems :"center",borderRadius :10}}
+    onPress={Dashboard}>
+        <Text style={{textAlign:'center',color:"white",fontWeight:'bold'}}>Dash Board</Text>
+      </Pressable>
+      
       <FlatList 
       data={Candidates}
       renderItem={({item})=>
@@ -74,7 +80,7 @@ const styles = StyleSheet.create({
   },
   card:{
     margin:5,
-    backgroundColor:"#0000cd",
+    backgroundColor:"blue",
     borderRadius:15
   }
 });

@@ -8,12 +8,11 @@ const Login = () => {
   const MyStack = useNavigation();
   
   const loginpress = () => {
-    console.warn("loginpressed");
     MyStack.navigate('Main');
 };
-const setpress = () => {
-  console.warn("Setpress");
-  MyStack.navigate('Home');
+const registerpress = () => {
+  //console.warn("regpress");
+  MyStack.navigate('CvvUpload');
 }
   return (
     <View style={styles.root}>
@@ -26,12 +25,12 @@ const setpress = () => {
 
     <TextInput
     style={styles.input}
-    placeholder='username'
+    placeholder='Username'
     placeholderTextColor="lightgrey"
     />
     <TextInput
     style={styles.input}
-    placeholder='username'
+    placeholder='Password'
     placeholderTextColor="lightgrey"
     />
 
@@ -51,8 +50,8 @@ const setpress = () => {
       opacity: pressed ? 0.2 : 1.0 },
       styles.Btn2Style
     ]}
-    onPress={setpress}>
-      <Text>Settings</Text>
+    onPress={registerpress}>
+      <Text style={styles.BtnText}>Register Candidate</Text>
     </Pressable>
     </View>
   );
@@ -60,8 +59,10 @@ const setpress = () => {
 
 const styles = StyleSheet.create({
     root: {
+      flex:1,
         alignItems: 'center',
         padding: 15,
+        backgroundColor:"lightblue"
     },
     Logo: {
         width : '100%',
@@ -72,8 +73,8 @@ const styles = StyleSheet.create({
       backgroundColor: 'white',
          width :'100%',
 
-         borderColor : '#e8e8e8',
-         borderWidth : 1,
+         borderColor : 'black',
+         borderWidth : 0.5,
          borderRadius: 7,
          
          
@@ -82,7 +83,7 @@ const styles = StyleSheet.create({
          marginVertical:5,
     },
     Btn1Style:{
-      backgroundColor: '#3B71F3',  
+      backgroundColor: 'blue',  
 
         width : '90%',
 
@@ -91,16 +92,24 @@ const styles = StyleSheet.create({
 
         alignItems: 'center',
         borderRadius: 5,
+        borderWidth : 0.5,
     },
     BtnText:{
       fontWeight:'bold',
+      fontSize:15,
       color:"white",
     },
     Btn2Style:{
-      padding:1,
-      marginVertical: 8,
+      backgroundColor: 'mediumblue',  
 
-      alignItems: 'center'
+        width : '90%',
+
+        padding: 15,
+        marginVertical: 8,
+
+        alignItems: 'center',
+        borderRadius: 5,
+        borderWidth : 0.5,
     }
 });
 

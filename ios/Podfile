@@ -12,6 +12,8 @@ target 'InterviewStatusTracker' do
     :hermes_enabled => false
   )
 
+  pod 'RNReanimated', :path => '../node_modules/react-native-reanimated'
+
   target 'InterviewStatusTrackerTests' do
     inherit! :complete
     # Pods for testing
