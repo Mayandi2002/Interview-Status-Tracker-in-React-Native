@@ -1,21 +1,25 @@
 import React, { useState } from "react";
-import {View  , Text , Button , ScrollView , Image, StyleSheet, useWindowDimensions} from 'react-native';
+import {View  , Text , Button , ScrollView , Image, StyleSheet, TextInput, useWindowDimensions} from 'react-native';
 //import Logo from '../../../assets/images/Logo';
 import CustomInput from '../../componet/CustomInput/CustomInput';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import {Picker} from '@react-native-picker/picker';
+import axios from "axios";
 
-const CvvUpload =() => {
+const CvvUpload = () => {
+  
   const [Firstname,setFirstname] = useState('');
   const [Lastname,setLastname] = useState('');
   const [Email,setEmail ] = useState('');
   const [Mobileno,setMobileno]  = useState('');
-  const [Phoneno,setPhoneno] = useState('');
-  const [Linkdln,setLinkdln] = useState('');
+  //const [Phoneno,setPhoneno] = useState('');
+  //const [Linkdln,setLinkdln] = useState('');
 
 
-  const [Ressidental,setRessidental] = useState('');
-  const [Permanent,setPermanent] = useState('');
-
+  const [doorno,setdoorno] = useState('');
+  const [Street,setStreet] = useState('');
+  const [Pincode,setPincode] = useState('');
+  const [city,setcity] = useState('');
 
   const [isPickerShow2, setIsPickerShow2] = useState(false);
   const [date2, setDate2] = useState(new Date(Date.now()));
@@ -36,12 +40,13 @@ const CvvUpload =() => {
   const [RolesandResponsible,setRolesandResponsible] = useState('');
   const [Previouscompany1,setPreviouscompany1] = useState('');
   const [RolesandResponsible1,setRolesandResponsible1] = useState('');
-  const [Previouscompany2,setPreviouscompany2] = useState('');
-  const [RolesandResponsible2,setRolesandResponsible2] = useState('');
+  //const [Previouscompany2,setPreviouscompany2] = useState('');
+  //const [RolesandResponsible2,setRolesandResponsible2] = useState('');
 
 
   const [TechSkill,setTechSkill] = useState('');
-  const [Position,setPosition] = useState('');
+  const [Job,setJob] = useState('');
+  const [dob,setdob] = useState('');
 
   
   const showPicker2 = () => {
@@ -92,6 +97,39 @@ const CvvUpload =() => {
     }
   };
   
+  let
+	 company = []
+
+
+	let formData = {
+		  firstName: Firstname,
+		  lastName: Lastname,
+		  email: Email,
+		  phone: Mobileno,
+		
+    company: [{
+		  role: RolesandResponsible,
+		  name: Currentcompany,
+		  from: date2,
+		  to: date3,
+		},
+    {
+      role: RolesandResponsible,
+      name: Currentcompany,
+      from: date2,
+      to: date3,
+      }],
+
+		qualification: [{
+			collegeName :college,
+			degree : qualification,
+		}],
+		job: [{
+			job: Job
+		}],
+		  skill: TechSkill
+	  }
+
 
   const ValidationEmail = (value) => {
     const regx = /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/;
@@ -116,45 +154,47 @@ const CvvUpload =() => {
       alert("please enter Mobileno")
       return true
     }
-    else if(Phoneno == "") {
-      alert("please enter phoneno")
-      return true   
-    }
-    else if(Linkdln == "") {
-      alert("please enter Linkdln")
-      return true   
-    }
-    else if(Firstname.length >9) {
-      alert("Firstname allowed maximum 9 characters")
-      return true
-    }
-    else if(Lastname.length >9) {
-      alert("Firstname allowed maximum 9 characters")
-      return true
-    }
+    
+    //else if(Phoneno == "") {
+      //alert("please enter phoneno")
+      //return true   
+    //}
+    //else if(Linkdln == "") {
+      //alert("please enter Linkdln")
+      //return true   
+    //}
+
+    //else if(Firstname.length >9) {
+      //alert("Firstname allowed maximum 9 characters")
+      //return true
+    //}
+
     else if(!ValidationEmail(Email)) {
       alert ("Invalid Email format")
       return true
     }
-    else if(Mobileno.length = 10) {
+    else if(Mobileno.length >10) {
       alert("Mobileno must 10 numbers")
       return true
     }
-    else if(Phoneno.length = 10) {
-      alert("Phoneno must 10 numbers")
-      return true
-    }
+    //else if(Phoneno.length = 10) {
+      //alert("Phoneno must 10 numbers")
+      //return true
+    //}
 
-    //
-    else if(Ressidental == "") {
-      alert("please enter Ressidental")
-      return true
-    }
-    else if(Permanent == "") {
-      alert("please enter Permanent")
-      return true  
-    }
-    //
+    
+    //else if(Ressidental == "") {
+      //alert("please enter Ressidental")
+      //return true
+    //}
+    
+    //else if(Permanent == "") {
+      //alert("please enter Permanent")
+      //return true  
+    //} 
+  
+  
+    
 
     else if(qualification == "") {
         alert("please enter qualificatin")
@@ -177,30 +217,93 @@ const CvvUpload =() => {
       return true
     }
     
-    else if(RolesandResponsible2 == "") {
-      alert("please enter Rolls and responsible")
-      return true
-    }
+    //else if(RolesandResponsible2 == "") {
+      //alert("please enter Rolls and responsible")
+      //return true
+    //}
 
     //
     else if(TechSkill == "") {
       alert("please enter Technology Skill")
       return true
     }
-    else if(Position == "") {
+    else if(Job == "") {
       alert("please enter Position Field")
       return true
     }
-  }
 
-  const onAddProfilePressed = () => {
+    console.log('infun')
+    console.log(formData)
+    alert('Data Send Success')
+
+	axios.post('http://192.168.0.146:8080/candidate ', { 
+		
+    data: formData
+	  })
+  
+    .then(({data}) => {
+		console.log(data)
+	  })
+  
+    .catch(err => {
+		console.log(err)
+	  })
+
+	};
+
+  {/*const onAddProfilePressed = () => {
+    console.log('infun')
+         axios.post('http://192.168.1.100:8080/candidate ', {
+            
+            firstName: Firstname,
+            lastName: Lastname,
+            email: Email,
+            phone: Mobileno,
+            
+            company:[{ 
+              roll: RolesandResponsible,
+              name: Currentcompany,
+              from: date2,
+              to: date3,
+            
+            }],
+            
+              roll:RolesandResponsible1,
+              name: Previouscompany1,
+              from: date4,
+              to: date5,
+         
+            
+              address:{
+              doorNo:doorno,
+              street: Street,
+              pincode: Pincode,
+              place: city,
+            },
+
+          skill: TechSkill,
+          dob: dob,
+          job: Job,
+            
+          })
+          .then(({data}) => {
+              //alert('Login Successfully')
+            alert(data.msg);
+            console.log(data)
+          })
+          .catch(function (error) {
+              alert(error)
+            alert(error);
+          });
+  
     //MyStack.navigate('info1');
     alert("Profile is Added");
-  };
+        
+  }; */}
 
 return (
   <ScrollView>
- <View style ={{alignItems: 'center',padding: 25,}}>
+ <View style ={{alignItems: 'center', padding: 20, backgroundColor:"lightblue"}}>
  {/*<Image 
     source={Logo} 
     style={{width : '50%',
@@ -208,80 +311,175 @@ return (
     maxHeight : 150,}} 
     resizeMode="contain" 
 />*/}
-   <Text style={{fontSize: 25,fontWeight:'bold',color: 'gray', padding: 20}}>Resume Upload</Text>
-   <Text style={{fontSize: 25,fontWeight:'bold',color: 'gray', padding: 20}}>Basic Information</Text>
-      <CustomInput
+
+   <Text style={{fontSize: 25,fontWeight:'bold',color: 'gray', padding: 2,margin:5}}>Basic Information</Text>
+
+<CustomInput
    placeholder="Firstname"
+   placeholderTextColor="lightgrey"
    value={Firstname}
    setValue={setFirstname} />
 
 <CustomInput
    placeholder="Lastname"
+   placeholderTextColor="lightgrey"
    value={Lastname}
    setValue={setLastname} />
   
-  <CustomInput
-   placeholder="Email"
-   value={Email}
-   setValue={setEmail} />
-
-   <CustomInput
-     placeholder="Mobileno"
-     value={Mobileno}
-     setValue={setMobileno}
-    
-     />
+<CustomInput
+  placeholder="Email"
+  placeholderTextColor="lightgrey"
+  value={Email}
+  setValue={setEmail}
+  keyboardType='email-address' />
 
 <CustomInput
-     placeholder="Phoneno"
-     value={Phoneno}
-     setValue={setPhoneno}
-     />
-
-<CustomInput
-     placeholder="Linkdln"
-     value={Linkdln}
-     setValue={setLinkdln}
-     />
+  placeholder="Mobileno"
+  placeholderTextColor="lightgrey"
+  value={Mobileno}
+  setValue={setMobileno}
+  keyboardType='number-pad' />
 
       
-<Text style={{fontSize: 25,fontWeight:'bold',color: 'gray', padding: 20}}>Address Information</Text>      
- <CustomInput 
-   placeholder="Ressidental"
-   value={Ressidental}
-   setValue={setRessidental} />
-    <CustomInput
-   placeholder="Permanent"
-   value={Permanent}
-   setValue={setPermanent} />
+<Text style={{fontSize: 25,fontWeight:'bold',color: 'gray', padding: 10,margin:3}}>Address Information</Text>      
+ 
+ <View style={{flex:1,flexDirection:'row'}}>
+ <TextInput style={{
+        backgroundColor: 'white',
+        width : '25%',
+        //borderColor: '#e8e8e8',
+        color: "black",
+        borderColor: 'black',
+        borderWidth : 1,
+        borderRadius: 7,
+        paddingHorizontal: 10,
+        marginVertical: 5}} 
+   placeholder="Door No"
+   placeholderTextColor="lightgrey"
+   value={doorno}
+   onChangeText={setdoorno}
+   keyboardType='number-pad' />   
    
-  <Text style={{fontSize: 25,fontWeight:'bold',color: 'gray', padding: 20}}>Educationl Detail</Text>      
- <CustomInput 
-   placeholder="qualification"
+   <TextInput style={{
+        backgroundColor: 'white',
+        color: "black",
+        width : '75%',
+        //borderColor: '#e8e8e8',
+        borderColor: 'black',
+        borderWidth : 1,
+        borderRadius: 7,
+        paddingHorizontal: 10,
+        marginVertical: 5}} 
+   placeholder="Street/Area"
+   placeholderTextColor="lightgrey"
+   value={Street}
+   onChangeText={setStreet} />
+   </View>
+
+   <View style={{flex:1,flexDirection:'row'}}>
+<TextInput style={{
+        backgroundColor: 'white',
+        color:"black",
+        width : '25%',
+        //borderColor: '#e8e8e8',
+        borderColor: 'black',
+        borderWidth : 1,
+        borderRadius: 7,
+        paddingHorizontal: 10,
+        marginVertical: 5}} 
+   placeholder="Pincode"
+   placeholderTextColor="lightgrey"
+   value={Pincode}
+   onChangeText={setPincode}
+   keyboardType='number-pad' />   
+   
+   <TextInput style={{
+        backgroundColor: 'white',
+        color:"black",
+        width : '75%',
+        //borderColor: '#e8e8e8',
+        borderColor: 'black',
+        borderWidth : 1,
+        borderRadius: 7,
+        paddingHorizontal: 10,
+        marginVertical: 5}} 
+   placeholder = "City"
+   placeholderTextColor="lightgrey"
+   value={city}
+   onChangeText={setcity} />
+   </View>
+   
+  <Text style={{fontSize: 25, fontWeight:'bold', color: 'gray', padding: 10, margin:3}}>Qualification</Text>      
+  <View style={{flex:1,flexDirection:'row'}}>
+<TextInput style={{
+        backgroundColor: 'white',
+        color:"black",
+        width : '25%',
+        borderColor: '#e8e8e8',
+        borderWidth : 1,
+        borderColor:"black",
+        borderRadius: 7,
+        paddingHorizontal: 10,
+        marginVertical: 5}} 
+   placeholder="Degree"
+   placeholderTextColor="lightgrey"
    value={qualification}
-   setValue={setqualification} />
-    <CustomInput
-   placeholder="college name"
+   onChangeText={setqualification}
+   //keyboardType='number-pad'
+    />   
+
+   <TextInput 
+      style={{
+        backgroundColor: 'white',
+        color:"black",
+        width : '75%',
+        borderColor: 'black',
+        borderWidth : 1,
+        borderRadius: 7,
+        paddingHorizontal: 10,
+        marginVertical: 5}} 
+   placeholder = "College Name"
+   placeholderTextColor="lightgrey"
    value={college}
-   setValue={setcollege} />
-
-
-
-   <Text style={{fontSize: 25,fontWeight:'bold',color: 'gray', padding: 20}}>Experience Detail</Text>
-       <CustomInput
-   placeholder="Currentcompany"
+    onChangeText={setcollege} 
+   />
+   </View>
+  
+    <Text style={{fontSize: 25,fontWeight:'bold',color: 'gray', padding: 20}}>Experience Detail</Text>
+  <TextInput style={{
+        backgroundColor: 'white',
+        color:"black",
+        width : '100%',
+        //borderColor: '#e8e8e8',
+        borderColor: 'black',
+        borderWidth : 1,
+        borderRadius: 7,
+        paddingHorizontal: 10,
+        marginVertical: 5}}
+   placeholder="Company Name"
+   placeholderTextColor="lightgrey"
    value={Currentcompany}
-   setValue={setCurrentcompany} />
+   onChangeText={setCurrentcompany} />
 
-<CustomInput
-   placeholder="Roles and Responsible"
+<TextInput style={{
+        backgroundColor: 'white',
+        color:"black",
+        width : '100%',
+        //borderColor: '#e8e8e8',
+        borderColor: 'black',
+        borderWidth : 1,
+        borderRadius: 7,
+        paddingHorizontal: 10,
+        marginVertical: 5}}
+   placeholder="Role"
+   placeholderTextColor="lightgrey"
    value={RolesandResponsible}
-   setValue={setRolesandResponsible} />
+   onChangeText={setRolesandResponsible} />
 
 
-<Text style={{fontSize: 25,fontWeight:'bold',color: 'gray', padding: 20}}>Previous Company1</Text>
-      <Text></Text>
-      <Text style={{fontSize: 25,color: 'lightblue',fontStyle: 'italic'}}>Starting Date</Text>
+{/*<Text style={{fontSize: 25,fontWeight:'bold',color: 'gray', padding: 20}}>Previous Company1</Text>*/}
+      
+      <Text style={{fontSize: 20,color: 'blue',fontStyle: 'italic'}}>Starting Date</Text>
       {/* Display the selected date */}
       <View style={styles.pickedDateContainer}>
         <Text style={styles.pickedDate}>{date2.toUTCString()}</Text>
@@ -305,7 +503,7 @@ return (
           style={styles.datePicker}
         />
       )}
-       <Text style={{fontSize: 25,color: 'lightblue',fontStyle: 'italic'}}>Ending Date</Text>
+       <Text style={{fontSize: 20,color: 'blue',fontStyle: 'italic'}}>Ending Date</Text>
       {/* Display the selected date */}
       <View style={styles.pickedDateContainer}>
         <Text style={styles.pickedDate}>{date3.toUTCString()}</Text>
@@ -330,16 +528,40 @@ return (
         />
       )}
 
-<CustomInput
-   placeholder="Roles and Responsible"
-   value={RolesandResponsible1}
-   setValue={setRolesandResponsible1} />
-
-
-
-<Text style={{fontSize: 25,fontWeight:'bold',color: 'gray', padding: 20}}>Previous Company2</Text>
+<Text style={{fontSize: 25,fontWeight:'bold',color: 'gray', padding: 10}}>Previous Company1</Text>
       <Text></Text>
-      <Text style={{fontSize: 25,color: 'lightblue',fontStyle: 'italic'}}>Starting Date</Text>
+      
+  <TextInput style={{
+        backgroundColor: 'white',
+        color:"black",
+        width : '100%',
+        borderColor: 'black',
+        //borderColor: '#e8e8e8',
+        borderWidth : 1,
+        borderRadius: 7,
+        paddingHorizontal: 10,
+        marginVertical: 5}}
+   placeholder="Company Name"
+   placeholderTextColor="lightgrey"
+   value={Previouscompany1}
+   onChangeText={setPreviouscompany1} />
+
+<TextInput style={{
+        backgroundColor: 'white',
+        color:"black",
+        width : '100%',
+        borderColor: 'black',
+        //borderColor: '#e8e8e8',
+        borderWidth : 1,
+        borderRadius: 7,
+        paddingHorizontal: 10,
+        marginVertical: 5}}
+   placeholder="Role"
+   placeholderTextColor="lightgrey"
+   value={RolesandResponsible1}
+   onChangeText={setRolesandResponsible1} />
+
+      <Text style={{fontSize: 20,color: 'blue',fontStyle: 'italic'}}>Starting Date</Text>
       {/* Display the selected date */}
       <View style={styles.pickedDateContainer}>
         <Text style={styles.pickedDate}>{date4.toUTCString()}</Text>
@@ -363,7 +585,7 @@ return (
           style={styles.datePicker}
         />
       )}
-       <Text style={{fontSize: 25,color: 'lightblue',fontStyle: 'italic'}}>Ending Date</Text>
+       <Text style={{fontSize: 20,color: 'blue',fontStyle: 'italic'}}>Ending Date</Text>
       {/* Display the selected date */}
       <View style={styles.pickedDateContainer}>
         <Text style={styles.pickedDate}>{date5.toUTCString()}</Text>
@@ -392,36 +614,52 @@ return (
       
       }
 
-<CustomInput
-   placeholder="Roles and Responsible"
-   value={RolesandResponsible2}
-   setValue={setRolesandResponsible2} />
- <Text></Text>
-<Button title="AddPrevious Company"
-   onPress={() => alert(" New Page Opened")}/> 
-
-<Text style={{fontSize: 25,fontWeight:'bold',color: 'gray', padding: 20}}>Skills</Text>
+{/*<Text style={{fontSize: 25,fontWeight:'bold',color: 'gray', padding: 20}}>Skills</Text>*/}
        <Text style={{fontSize: 25,fontWeight:'bold',color: 'gray', padding: 20}}>Technology Skills</Text>
        <CustomInput
    placeholder="Technology Skill"
+   placeholderTextColor="lightgrey"
    value={TechSkill}
    setValue={setTechSkill} />
-<Text style={{fontSize: 25,fontWeight:'bold',color: 'gray', padding: 20}}>Apply Position to</Text>
 
+<Text style={{fontSize: 25,fontWeight:'bold',color: 'gray', padding: 20}}>Apply Job Position</Text>
+  
+ {/* <CustomInput
+   placeholder="Job"
+   placeholderTextColor="lightgrey"
+   value={Job}
+   setValue={setJob} />
+    */}
+  
+    <Picker
+    style={{alignItems:'center',width :'100%',backgroundColor:"white",color:"black"}}
+    selectedValue = {Job} onValueChange = {setJob}>
+            <Picker.Item label = "React" value = "react" />
+            <Picker.Item label = "Native" value = "native" />
+            <Picker.Item label = "Springboot" value = "spring" />
+            <Picker.Item label = "AWS" value = "aws" />
+         </Picker>
+         
+         
+<Text style={{fontSize: 25,fontWeight:'bold',color: 'gray', padding: 20}}>Date of Birth</Text>
 <CustomInput
-   placeholder="Position"
-   value={Position}
-   setValue={setPosition} />
+   placeholder="Date of Birth"
+   placeholderTextColor="lightgrey"
+   value={dob}
+   setValue={setdob} />
+
 <Text></Text>
 <Text></Text>
-   <Button title="Resume Upload"
+   <Button title="Register Candidate"
    onPress={onRegisterPressed} />
+   
 
 <Text></Text>
 <Text></Text>
 
-<Button title="Add Profile"
-   onPress={onAddProfilePressed}/> 
+{/*<Button title="Add Profile"
+   onPress={onAddProfilePressed}/>
+  */} 
  </View>
  </ScrollView>
 );
@@ -430,6 +668,7 @@ return (
 const styles = StyleSheet.create({
   container: {
     display: 'flex',
+    backgroundColor:"lightblue",
     flexDirection: 'column',
     alignItems: 'center',
     flex: 1,
@@ -437,7 +676,7 @@ const styles = StyleSheet.create({
     padding: 50,
   },
   pickedDateContainer: {
-    padding: 20,
+    padding: 10,
     backgroundColor: '#eee',
     borderRadius: 10,
   },
@@ -447,7 +686,7 @@ const styles = StyleSheet.create({
 
   },
   btnContainer: {
-    padding: 30,
+    padding: 10,
   },
   // This only works on iOS
   datePicker: {

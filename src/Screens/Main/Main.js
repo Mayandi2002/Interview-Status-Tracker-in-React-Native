@@ -1,10 +1,12 @@
-import React,{ useState } from 'react';
+import React,{ useState,useEffect } from 'react';
 import { Button, DrawerLayoutAndroid, Text, StyleSheet, View,ScrollView, Pressable,FlatList } from 'react-native';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { Card } from 'react-native-paper';
+import axios from 'axios';
 
 const Main = () => {
   const MyStack = useNavigation();
+  
   const[Candidates] = useState ([
     {ID:'1',Appid:'A1',Name:'Mayandi',Degree:'B.Sc(CS)',Contact:'9087654321'},
     {ID:'2',Appid:'A2',Name:'Muppidathi',Degree:'B.Sc(CS)',Contact:'9087698421'},
@@ -17,18 +19,34 @@ const Main = () => {
 const CandidatesData = () => {
 MyStack.navigate('CvvView');
 };
-const Dashboard = () => {
-MyStack.navigate('Dash Board');
-}
 
-  return(
+const [cards,setCards] = useState([])
+useEffect(()=>{
+  axios.get("http://192.168.1.103:8080/candidate")
+  .then(({data}) => {
+     setCards(data)
+  })
+  .catch(err => {
+     console.log(err)
+  })
+}, [])
+
+return(
     <View style={styles.container}>
-      <Pressable 
-      style={{backgroundColor :"green",padding :8,alignItems :"center",borderRadius :10}}
-    onPress={Dashboard}>
-        <Text style={{textAlign:'center',color:"white",fontWeight:'bold'}}>Dash Board</Text>
-      </Pressable>
       
+      {/*
+      {cards.map((card, idx) => (
+      <Card
+      style={styles.card}
+      key={idx}> 
+      <View style={styles.list}>
+        <Text style={styles.text}>{card.title}</Text>
+        <Text style={styles.text}>{card.count}</Text>
+        <Text>hello</Text>
+      </View>
+      </Card>))}
+      */}
+
       <FlatList 
       data={Candidates}
       renderItem={({item})=>

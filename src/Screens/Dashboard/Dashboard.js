@@ -1,52 +1,122 @@
-import React,{ useState } from 'react';
-import { Text, StyleSheet, View ,ScrollView } from 'react-native';
+import axios from 'axios';
+import React,{ useState,useEffect } from 'react';
+import { Text, StyleSheet, View, ScrollView, FlatList } from 'react-native';
+//import { FlatList } from 'react-native-gesture-handler';
 import { Card } from 'react-native-paper';
-
 const Dashboard = () => {
-  
+  {/*const[Title] = useState('')
+  const[Count] = useState('')
+  const [Dash] = useState([
+    
+    axios.get('http://192.168.1.100:8080/dashboard',{
+      title: Title,
+      count: Count,
+  })
+    .then(({data}) => {
+      //alert('Login Successfully')
+    alert(data)
+    console.log(data)
+  })
+  .catch(function (error) {
+      alert(error)
+      console.log(error);
+  })
+    ]);
 
+  const getinfo = () => {
+    axios.get('http://192.168.1.100:8080/dashboard',{
+      title: Title,
+      count: Count,
+  })
+    .then(({data}) => {
+      //alert('Login Successfully')
+    alert(data)
+    console.log(data)
+  })
+  .catch(function (error) {
+      alert(error)
+      console.log(error);
+  });
+  }*/}
+  const [cards, setCards] = useState([])
+  //const [Title,Count] = useState();
+
+   useEffect(() => {
+      axios.get("http://192.168.43.31:8080/dashBoard")
+      .then(({data}) => {
+         setCards(data)
+      })
+      .catch(err => {
+         console.log(err)
+      })
+   }, [])
+  
   return(
 
-    <View style={styles.container}>
-      <ScrollView>
+    <ScrollView style={styles.container}>
+      
+      
       <Text style={{fontSize: 30,fontWeight: 'bold',color: "red",textAlign: 'center',padding: 20}}>DashBoard</Text>
-    <Card
-    onPress={() => alert(" Apply Detais Page Opened")}
+      
+      
+      {cards.map((card, idx) => (
+      <Card
+      style={styles.card}
+      key={idx}> 
+      <View style={styles.list}>
+        <Text style={styles.text}>{card.title}</Text>
+        <Text style={styles.txt}>{card.count}</Text>
+        <Text>hello</Text>
+      </View>
+      </Card>))}
+    
+      
+      <Card
+    //onPress={() => alert(" Apply Detais Page Opened")}
     style={styles.card}>
       <View style={styles.list}>
-        <Text style={styles.text}>Applied</Text>
-        <Text style={styles.txt}>      40</Text>
+        <Text style={styles.text}>Title</Text>
+        <Text style={styles.txt}>Count</Text>
+      </View>
+      </Card>
+    
+    {/*<Card
+    //onPress={() => alert(" Apply Detais Page Opened")}
+    style={styles.card}>
+      <View style={styles.list}>
+        <Text style={styles.text}>{Title}</Text>
+        <Text style={styles.txt}>      {Count}</Text>
       </View>
       </Card>
 
       <Card
-      onPress={() => alert(" Passed Detais Page Opened")}
+      //onPress={() => alert(" Passed Detais Page Opened")}
     style={styles.card}>
       <View style={styles.list}>
-        <Text style={styles.text}>Passed</Text>
-        <Text style={styles.txt}> 20/40</Text>
+        <Text style={styles.text}>{Title}</Text>
+        <Text style={styles.txt}> {Count}</Text>
       </View>
          </Card>
       
          <Card
-         onPress={() => alert(" Failed Detais Page Opened")}
+         //onPress={() => alert(" Failed Detais Page Opened")}
     style={styles.card}>
       <View style={styles.list}>
-        <Text style={styles.text}>Failed</Text>
-        <Text style={styles.txt}> 16/40</Text>
+        <Text style={styles.text}>{Title}</Text>
+        <Text style={styles.txt}> {Count}</Text>
       </View>
          </Card>
 
          <Card
-         onPress={() => alert(" Absents Detais Page Opened")}
+         //onPress={() => alert(" Absents Detais Page Opened")}
     style={styles.card}>
       <View style={styles.list}>
-        <Text style={styles.text}>Absents</Text>
-        <Text style={styles.txt}> 4/40</Text>
+        <Text style={styles.text}>{Title}</Text>
+        <Text style={styles.txt}> {Count}</Text>
       </View>
          </Card>
-         </ScrollView>
-    </View>
+      */}         
+  </ScrollView>
     );
 };
 

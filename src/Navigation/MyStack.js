@@ -4,25 +4,25 @@ import {createDrawerNavigator} from '@react-navigation/drawer';
 import 'react-native-gesture-handler';
 import Login from '../Screens/Login/Login';
 import Main from '../Screens/Main/Main';
-import Set from '../Screens/Dashboard/Dashboard';
+//import Set from '../Screens/Dashboard/Dashboard';
 import Home from '../Screens/Home/Home';
 import CvvView from '../Screens/CvvView/CvvView';
 import CvvUpload from '../Screens/CvvUpload/CvvUpload';
 import Dashboard from '../Screens/Dashboard/Dashboard';
 
 const Stack = createStackNavigator();
-//const Drawer = createDrawerNavigator();
+const Drawer = createDrawerNavigator();
 
-{/*const DrawerRoute =()=> {
+const DrawerRoute = () => {
   return(
-    
-    <Drawer.Navigator>
-    <Drawer.Screen name="Home" component={Home} />
+    <Drawer.Navigator initialRouteName='Candidates List'>
+    <Drawer.Screen name="Candidates List" component={Main} />
+    <Drawer.Screen name="Add Candidate" component={CvvUpload} />
+    <Drawer.Screen name="Dashboard" component={Dashboard} />
     </Drawer.Navigator>
     
   );
 };
-*/}
 
 const MyStack = () => {
   return (
@@ -38,7 +38,7 @@ const MyStack = () => {
           },
         }}
         />
-        <Stack.Screen name="Main" component={Main}
+        <Stack.Screen name="Main" component={DrawerRoute}
         options={{
           title: 'Candidates List',
           headerTitleStyle: {
@@ -49,16 +49,15 @@ const MyStack = () => {
           },
         }}
         />
-        <Stack.Screen name="Set" component={Set} />
         <Stack.Screen name="Candidate Register" component={Home} />
         <Stack.Screen name="CvvView" component={CvvView} 
          options={{
           title: 'Cvv Details',
           headerTitleStyle: {
-            color: '#fff',
+            color: 'white',
           },
           headerStyle: {
-            backgroundColor: 'royalblue',
+            backgroundColor: 'green',
           },
         }}
         />
