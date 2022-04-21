@@ -42,9 +42,10 @@ const Dashboard = () => {
   //const [Title,Count] = useState();
 
    useEffect(() => {
-      axios.get("http://192.168.43.31:8080/dashBoard")
+      axios.get("http://192.168.254.111:8080/dashBoard")
       .then(({data}) => {
          setCards(data)
+         console.log(data)
       })
       .catch(err => {
          console.log(err)
@@ -52,12 +53,9 @@ const Dashboard = () => {
    }, [])
   
   return(
-
-    <ScrollView style={styles.container}>
+  <ScrollView style={styles.container}>
       
-      
-      <Text style={{fontSize: 30,fontWeight: 'bold',color: "red",textAlign: 'center',padding: 20}}>DashBoard</Text>
-      
+      {/*<Text style={{fontSize: 30,fontWeight: 'bold',color: "red",textAlign: 'center',padding: 20}}>DashBoard</Text>*/}
       
       {cards.map((card, idx) => (
       <Card
@@ -66,56 +64,10 @@ const Dashboard = () => {
       <View style={styles.list}>
         <Text style={styles.text}>{card.title}</Text>
         <Text style={styles.txt}>{card.count}</Text>
-        <Text>hello</Text>
+      
       </View>
       </Card>))}
-    
-      
-      <Card
-    //onPress={() => alert(" Apply Detais Page Opened")}
-    style={styles.card}>
-      <View style={styles.list}>
-        <Text style={styles.text}>Title</Text>
-        <Text style={styles.txt}>Count</Text>
-      </View>
-      </Card>
-    
-    {/*<Card
-    //onPress={() => alert(" Apply Detais Page Opened")}
-    style={styles.card}>
-      <View style={styles.list}>
-        <Text style={styles.text}>{Title}</Text>
-        <Text style={styles.txt}>      {Count}</Text>
-      </View>
-      </Card>
-
-      <Card
-      //onPress={() => alert(" Passed Detais Page Opened")}
-    style={styles.card}>
-      <View style={styles.list}>
-        <Text style={styles.text}>{Title}</Text>
-        <Text style={styles.txt}> {Count}</Text>
-      </View>
-         </Card>
-      
-         <Card
-         //onPress={() => alert(" Failed Detais Page Opened")}
-    style={styles.card}>
-      <View style={styles.list}>
-        <Text style={styles.text}>{Title}</Text>
-        <Text style={styles.txt}> {Count}</Text>
-      </View>
-         </Card>
-
-         <Card
-         //onPress={() => alert(" Absents Detais Page Opened")}
-    style={styles.card}>
-      <View style={styles.list}>
-        <Text style={styles.text}>{Title}</Text>
-        <Text style={styles.txt}> {Count}</Text>
-      </View>
-         </Card>
-      */}         
+            <Text></Text>
   </ScrollView>
     );
 };
@@ -124,32 +76,42 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 10,
+    //paddingLeft :20,
+    //paddingRight :20,
     backgroundColor:"white"
   },
   list: {
     flex: 1,
     flexDirection: 'row',
-    padding: 50,
-    marginLeft :20
+    padding: 10,
+    marginLeft :17,
+    //marginRight :30,
+    alignItems:'center'
   },
   text: {
     flex: 1,
     fontSize: 20,
     fontWeight:'bold',
-    color:"white"
+    color:"white",
+    //marginBottom :5
+    //paddingRight :1,
+    //paddingLeft :1
     
   },
   card:{
-    margin:20,
+    margin:10,
     backgroundColor:"blue",
     borderRadius:15,
-    height : 140,
+    height : 130,
+    flexDirection:'column'
   },
   txt: {
     flex: 1,
     fontSize: 30,
     fontWeight: 'bold',
-    color: "red"
+    color: "red",
+    marginLeft :5
+    //paddingLeft :5
   }
 });
 

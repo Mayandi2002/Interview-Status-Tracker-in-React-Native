@@ -12,10 +12,6 @@ const CvvUpload = () => {
   const [Lastname,setLastname] = useState('');
   const [Email,setEmail ] = useState('');
   const [Mobileno,setMobileno]  = useState('');
-  //const [Phoneno,setPhoneno] = useState('');
-  //const [Linkdln,setLinkdln] = useState('');
-
-
   const [doorno,setdoorno] = useState('');
   const [Street,setStreet] = useState('');
   const [Pincode,setPincode] = useState('');
@@ -29,6 +25,8 @@ const CvvUpload = () => {
   const [date4, setDate4] = useState(new Date(Date.now()));
   const [isPickerShow5, setIsPickerShow5] = useState(false);
   const [date5, setDate5] = useState(new Date(Date.now()));
+  const [isPickerShow6, setIsPickerShow6] = useState(false);
+  const [date6, setDate6] = useState(new Date(Date.now()));
 
 
 
@@ -46,98 +44,63 @@ const CvvUpload = () => {
 
   const [TechSkill,setTechSkill] = useState('');
   const [Job,setJob] = useState('');
-  const [dob,setdob] = useState('');
+  const [Dob,setdob] = useState('');
 
   
   const showPicker2 = () => {
     setIsPickerShow2(true);
-    
-  };
+    };
   const showPicker3 = () => {
     setIsPickerShow3(true);
-    
-  };
-
+    };
   const showPicker4 = () => {
     setIsPickerShow4(true);
-    
-  };
+    };
   const showPicker5 = () => {
     setIsPickerShow5(true);
-    
-  };
+    };
+  const showPicker6 = () => {
+    setIsPickerShow6(true);
+    };
   
-  
-
   const onChange2 = (event, value) => {
     setDate2(value);
     if (Platform.OS === 'android') {
       setIsPickerShow2(false);
     }
   };
-  
   const onChange3 = (event, value) => {
     setDate3(value);
     if (Platform.OS === 'android') {
       setIsPickerShow3(false);
     }
   };
-
   const onChange4 = (event, value) => {
     setDate4(value);
     if (Platform.OS === 'android') {
       setIsPickerShow4(false);
     }
   };
-  
   const onChange5 = (event, value) => {
     setDate5(value);
     if (Platform.OS === 'android') {
       setIsPickerShow5(false);
     }
   };
+  const onChange6 = (event, value) => {
+    setDate6(value);
+    if (Platform.OS === 'android') {
+      setIsPickerShow6(false);
+    }
+  };
   
-  let
-	 company = []
-
-
-	let formData = {
-		  firstName: Firstname,
-		  lastName: Lastname,
-		  email: Email,
-		  phone: Mobileno,
-		
-    company: [{
-		  role: RolesandResponsible,
-		  name: Currentcompany,
-		  from: date2,
-		  to: date3,
-		},
-    {
-      role: RolesandResponsible,
-      name: Currentcompany,
-      from: date2,
-      to: date3,
-      }],
-
-		qualification: [{
-			collegeName :college,
-			degree : qualification,
-		}],
-		job: [{
-			job: Job
-		}],
-		  skill: TechSkill
-	  }
-
-
-  const ValidationEmail = (value) => {
+  {/*const ValidationEmail = (value) => {
     const regx = /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/;
     return regx.test(value)
-  }
+  }*/}
  
   const onRegisterPressed = () => {
-    if(Firstname == "") {
+   {/* if(Firstname == "") {
       alert("please enter firstname")
       return true
     }
@@ -154,21 +117,7 @@ const CvvUpload = () => {
       alert("please enter Mobileno")
       return true
     }
-    
-    //else if(Phoneno == "") {
-      //alert("please enter phoneno")
-      //return true   
-    //}
-    //else if(Linkdln == "") {
-      //alert("please enter Linkdln")
-      //return true   
-    //}
-
-    //else if(Firstname.length >9) {
-      //alert("Firstname allowed maximum 9 characters")
-      //return true
-    //}
-
+   
     else if(!ValidationEmail(Email)) {
       alert ("Invalid Email format")
       return true
@@ -177,25 +126,7 @@ const CvvUpload = () => {
       alert("Mobileno must 10 numbers")
       return true
     }
-    //else if(Phoneno.length = 10) {
-      //alert("Phoneno must 10 numbers")
-      //return true
-    //}
-
-    
-    //else if(Ressidental == "") {
-      //alert("please enter Ressidental")
-      //return true
-    //}
-    
-    //else if(Permanent == "") {
-      //alert("please enter Permanent")
-      //return true  
-    //} 
-  
-  
-    
-
+     
     else if(qualification == "") {
         alert("please enter qualificatin")
         return true
@@ -205,9 +136,7 @@ const CvvUpload = () => {
         return true  
       }
   
-
-    //
-    else if(RolesandResponsible == "") {
+      else if(RolesandResponsible == "") {
       alert("please enter Rolls and responsible")
       return true
     }
@@ -217,12 +146,6 @@ const CvvUpload = () => {
       return true
     }
     
-    //else if(RolesandResponsible2 == "") {
-      //alert("please enter Rolls and responsible")
-      //return true
-    //}
-
-    //
     else if(TechSkill == "") {
       alert("please enter Technology Skill")
       return true
@@ -230,77 +153,58 @@ const CvvUpload = () => {
     else if(Job == "") {
       alert("please enter Position Field")
       return true
-    }
+    }*/}
 
-    console.log('infun')
-    console.log(formData)
-    alert('Data Send Success')
-
-	axios.post('http://192.168.0.146:8080/candidate ', { 
+  console.log('Connecting Api')
+  axios.post('http://192.168.254.111:8080/candidate ', { 
 		
-    data: formData
-	  })
+    firstName: Firstname,
+		lastName: Lastname,
+		email: Email,
+		phone: Mobileno,
+    address: {
+      doorNo: doorno,
+      street: Street,
+      pincode: Pincode,
+      place: city,
+    },
+    company: [{
+		  roll: RolesandResponsible,
+		  name: Currentcompany,
+		  from: date2,
+		  to: date3,
+    },
+    {
+      roll:RolesandResponsible1,
+      name: Previouscompany1,
+		  from: date4,
+		  to: date5,
+    }],
+    qualification: [{
+			collegeName :college,
+			degree : qualification,
+		}],
+    job: Job,
+		dob: date6,
+		skill: [ 
+      TechSkill,
+    ]
+    })
   
     .then(({data}) => {
 		console.log(data)
+    alert(data.msg)
+    //alert(data.id)
 	  })
   
     .catch(err => {
 		console.log(err)
+    alert(err)
 	  })
+    console.log(Dob)
+  };
 
-	};
-
-  {/*const onAddProfilePressed = () => {
-    console.log('infun')
-         axios.post('http://192.168.1.100:8080/candidate ', {
-            
-            firstName: Firstname,
-            lastName: Lastname,
-            email: Email,
-            phone: Mobileno,
-            
-            company:[{ 
-              roll: RolesandResponsible,
-              name: Currentcompany,
-              from: date2,
-              to: date3,
-            
-            }],
-            
-              roll:RolesandResponsible1,
-              name: Previouscompany1,
-              from: date4,
-              to: date5,
-         
-            
-              address:{
-              doorNo:doorno,
-              street: Street,
-              pincode: Pincode,
-              place: city,
-            },
-
-          skill: TechSkill,
-          dob: dob,
-          job: Job,
-            
-          })
-          .then(({data}) => {
-              //alert('Login Successfully')
-            alert(data.msg);
-            console.log(data)
-          })
-          .catch(function (error) {
-              alert(error)
-            alert(error);
-          });
   
-    //MyStack.navigate('info1');
-    alert("Profile is Added");
-        
-  }; */}
-
 return (
   <ScrollView>
  <View style ={{alignItems: 'center', padding: 20, backgroundColor:"lightblue"}}>
@@ -645,8 +549,31 @@ return (
 <CustomInput
    placeholder="Date of Birth"
    placeholderTextColor="lightgrey"
-   value={dob}
+   value={Dob}
    setValue={setdob} />
+  
+   <View style={styles.pickedDateContainer}>
+        <Text style={styles.pickedDate}>{date6.toUTCString()}</Text>
+      </View>
+
+      {/* The button that used to trigger the date picker */}
+      {!isPickerShow6 && (
+        <View style={styles.btnContainer}>
+          <Button title="Show Picker" color="purple" onPress={showPicker6} />
+        </View>
+      )}
+
+      {/* The date picker */}
+      {isPickerShow6 && (
+        <DateTimePicker
+          value={date6}
+          mode={'date'}
+          display={Platform.OS === 'ios' ? 'spinner' : 'default'}
+          is24Hour={true}
+          onChange={onChange6}
+          style={styles.datePicker}
+        />
+      )}
 
 <Text></Text>
 <Text></Text>

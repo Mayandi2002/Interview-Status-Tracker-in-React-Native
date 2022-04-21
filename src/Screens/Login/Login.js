@@ -36,9 +36,9 @@ const Login = () => {
     const isValid = () =>{
       if(!isValidObjField(User)) 
         return updateError('Require All Fields',Seterrors);
-      if(!Username.trim() || Username.length > 5)
+      if(!Username.trim() || Username.length > 25)
         return updateError('Username is allowed maximum 5 characters',Seterrors);
-      if(!Password.trim() || Password.length < 8)
+      if(!Password.trim() || Password.length < 5)
         return updateError('Password is too short',Seterrors);
   
         return true;
@@ -55,24 +55,28 @@ const Login = () => {
 
     if(isValid()) {
       console.log(User)
-      alert("validation success")
+      //alert("validation success")
       
       console.log('infun')
-         axios.put('http://192.168.43.31:8080/login', {
+         axios.put('http://192.168.254.111:8080/login', {
             userName: Username,
             password: Password,
           })
-          .then(({data}) => {
+          .then(({data})=> {
               //alert('Login Successfully')
-            alert(data);
+            alert(data.msg)
             console.log(data)
+            if(data.msg === "employee"){
+              MyStack.navigate('Main');
+            }
           })
-          .catch(function (error) {
-              alert(error)
-              console.log(error);
-          });
+          .catch((err) => {
+              alert(err)
+              //alert(msg)
+              console.log(err);
+          })
         //alert("login success");
-    MyStack.navigate('Main');
+    //MyStack.navigate('Main');
         }
         }
 
@@ -99,6 +103,7 @@ const Login = () => {
     placeholderTextColor="lightgrey"
     Value={Username}
     onChangeText={(value) => handleOnchangeText(value,'Username')}
+    keyboardType='email-address'
     />
     <View style={{flexDirection:'row'}}>
     
@@ -110,15 +115,15 @@ const Login = () => {
     onChangeText={(value) => handleOnchangeText(value,'Password')}
     secureTextEntry={isSecureEntry}
     //secureTextEntry={true}
-
     />
-    <TouchableOpacity style={{padding:1,paddingTop :15,paddingRight :3}}
-                onPress={() => {
-                  setIsSecureEntry((prev) => !prev);
-                }}>
-                <Text>{isSecureEntry ? 'Show' : 'Hide'}</Text>
-              </TouchableOpacity>
-              </View>
+
+    <TouchableOpacity 
+      style={{padding:1,paddingTop :15,paddingRight :3}}
+      onPress={() => {
+      setIsSecureEntry((prev) => !prev);}}>
+        <Text>{isSecureEntry ? 'Show' : 'Hide'}</Text>
+    </TouchableOpacity>
+  </View>
 
     <Pressable
     style={({ pressed }) => [{ 

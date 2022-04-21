@@ -5,9 +5,9 @@ import { Card } from 'react-native-paper';
 import axios from 'axios';
 
 const Main = () => {
-  const MyStack = useNavigation();
+  //const MyStack = useNavigation();
   
-  const[Candidates] = useState ([
+  {/*const[Candidates] = useState ([
     {ID:'1',Appid:'A1',Name:'Mayandi',Degree:'B.Sc(CS)',Contact:'9087654321'},
     {ID:'2',Appid:'A2',Name:'Muppidathi',Degree:'B.Sc(CS)',Contact:'9087698421'},
     {ID:'3',Appid:'A3',Name:'Rakesh',Degree:'B.Sc(CS)',Contact:'9087655421'},
@@ -18,13 +18,14 @@ const Main = () => {
 
 const CandidatesData = () => {
 MyStack.navigate('CvvView');
-};
+};*/}
 
 const [cards,setCards] = useState([])
 useEffect(()=>{
-  axios.get("http://192.168.1.103:8080/candidate")
+  axios.get("http://192.168.254.111:8080/candidate")
   .then(({data}) => {
      setCards(data)
+     //console.log(data)
   })
   .catch(err => {
      console.log(err)
@@ -32,22 +33,32 @@ useEffect(()=>{
 }, [])
 
 return(
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       
-      {/*
       {cards.map((card, idx) => (
       <Card
       style={styles.card}
       key={idx}> 
       <View style={styles.list}>
-        <Text style={styles.text}>{card.title}</Text>
-        <Text style={styles.text}>{card.count}</Text>
-        <Text>hello</Text>
+        <Text style={styles.text}>ID</Text>
+        <Text style={styles.text}>{card.id}</Text>
+      </View>
+      <View style={styles.list}>
+        <Text style={styles.text}>Firstname</Text>
+        <Text style={styles.text}>{card.firstName}</Text>
+      </View>
+      <View style={styles.list}>
+        <Text style={styles.text}>Email</Text>
+        <Text style={styles.text}>{card.email}</Text>
+      </View>
+      <View style={styles.list}>
+        <Text style={styles.text}>Contact</Text>
+        <Text style={styles.text}>{card.phone}</Text>
       </View>
       </Card>))}
-      */}
+      <Text></Text>
 
-      <FlatList 
+      {/*<FlatList 
       data={Candidates}
       renderItem={({item})=>
     <Card
@@ -72,32 +83,33 @@ return(
     </Card>
     }
     keyExtractor={item=>item.ID}
-    />
+  />*/}
     
-    </View>
+    </ScrollView>
     );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 5,
+    padding: 1,
+    paddingTop :7,
     backgroundColor:"lightblue"
   },
   list: {
     flex: 1,
     flexDirection: 'row',
     padding: 5,
-    marginLeft :20
+    marginLeft :3
   },
   text: {
     flex: 1,
-    fontSize: 15,
+    fontSize: 13.5,
     fontWeight:'bold',
     color:"white"
   },
   card:{
-    margin:5,
+    margin:6,
     backgroundColor:"blue",
     borderRadius:15
   }
