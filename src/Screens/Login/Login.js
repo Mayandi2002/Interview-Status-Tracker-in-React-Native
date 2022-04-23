@@ -1,10 +1,11 @@
 import React, {useState} from 'react';
-import { Text,View,Image,StyleSheet,useWindowDimensions,TextInput,Pressable } from 'react-native';
+import { Text,View,Image,ImageBackground,StyleSheet,useWindowDimensions,TextInput,Pressable } from 'react-native';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
-import Logo from '../../../assets/images/Logo.png';
+import BGLogo from '../../../assets/images/Icanio2.png';
+import Logo from '../../../assets/images/Icanio.png';
 import axios from 'axios';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-
+import Icon from 'react-native-vector-icons/FontAwesome';
 //import { Icon } from 'react-native-paper/lib/typescript/components/Avatar/Avatar';
 //import { Icon } from 'react-native-paper/lib/typescript/components/List/List';
 
@@ -16,7 +17,7 @@ const updateError = (errors,stateUpdater) => {
 stateUpdater(errors);
 setTimeout(() => {
 stateUpdater('')
-},5000);
+},2000);
 }
 
 const Login = () => {
@@ -26,7 +27,9 @@ const Login = () => {
     Password:'',
     });
   
-    const[errors,Seterrors] = useState('')
+    const[errors,Seterrors] = useState('');
+    const[UserErr,SetUserErr] = useState('');
+    const[PassErr,SetPassErr] = useState('');
     const{Username,Password} = User
   
     const handleOnchangeText = (value,fieldname) =>{
@@ -37,9 +40,9 @@ const Login = () => {
       if(!isValidObjField(User)) 
         return updateError('Require All Fields',Seterrors);
       if(!Username.trim() || Username.length > 25)
-        return updateError('Username is allowed maximum 5 characters',Seterrors);
+        return updateError('Username is Allow only 25 Characters',SetUserErr);
       if(!Password.trim() || Password.length < 5)
-        return updateError('Password is too short',Seterrors);
+        return updateError('Password is too Short',SetPassErr);
   
         return true;
     };
@@ -58,7 +61,7 @@ const Login = () => {
       //alert("validation success")
       
       console.log('infun')
-         axios.put('http://192.168.254.111:8080/login', {
+         axios.put('http://192.168.0.137:8080/login', {
             userName: Username,
             password: Password,
           })
@@ -69,15 +72,19 @@ const Login = () => {
             if(data.msg === "employee"){
               MyStack.navigate('Main');
             }
+            if(data.msg === "admin"){
+              MyStack.navigate('Main');
+            }
           })
-          .catch((err) => {
-              alert(err)
+          .catch(({response}) => {
+              alert(response.data.msg)
               //alert(msg)
-              console.log(err);
+              console.log(response.data);
           })
         //alert("login success");
     //MyStack.navigate('Main');
         }
+        //MyStack.navigate('Main');
         }
 
         const registerpress = () => {
@@ -88,15 +95,28 @@ const Login = () => {
 
   return (
     <View style={styles.root}>
-    
+    <ImageBackground
+    style={{
+      marginLeft :280,
+      //marginBottom :10,
+
+      width :'95%',
+    maxWidth : 330,
+    maxHeight : 5,
+    height : height * 1.5}}
+    source={BGLogo}
+    resizeMode="contain" />
     <Image 
     source={Logo} 
     style={[styles.Logo, {height : height * 0.3}]}
     resizeMode="contain"
     />
     
-   {errors ? <Text style={{color:"red"}}>{errors}</Text>: null}
+    {errors ? <Text style={{color:"red",fontWeight:'bold',fontSize:15.5}}>{errors}</Text>: null}
+    <View style={{flexDirection:'row',paddingRight :20}}>
     
+    <Icon style={{padding:12}} name="user" color="blue" size={30} />
+   
     <TextInput
     style={styles.input}
     placeholder='Username'
@@ -104,9 +124,16 @@ const Login = () => {
     Value={Username}
     onChangeText={(value) => handleOnchangeText(value,'Username')}
     keyboardType='email-address'
+    autoCapitalize='none'
     />
-    <View style={{flexDirection:'row'}}>
+    </View>
+    {UserErr ? <Text style={{color:"red",fontWeight:'bold',fontSize:13,marginRight :50}}>{UserErr}</Text>: null}
+
+    {PassErr ? <Text style={{color:"red",fontWeight:'bold',fontSize:13,marginRight :140}}>{PassErr}</Text>: null}
     
+    <View style={{flexDirection:'row',paddingRight :20}}>
+    
+    <Icon style={{padding:12}} name="lock" color="mediumblue" size={30} />
     <TextInput
     style={styles.input2}
     placeholder='Password'
@@ -116,14 +143,16 @@ const Login = () => {
     secureTextEntry={isSecureEntry}
     //secureTextEntry={true}
     />
-
+  </View>
+  <View style={styles.show}>
     <TouchableOpacity 
-      style={{padding:1,paddingTop :15,paddingRight :3}}
+      style={{padding:5,paddingTop :5,paddingRight :5}}
       onPress={() => {
       setIsSecureEntry((prev) => !prev);}}>
-        <Text>{isSecureEntry ? 'Show' : 'Hide'}</Text>
+        <Text style={{color:"blue",fontWeight:'bold'}}>{isSecureEntry ? 'Show' : 'Hide'}</Text>
     </TouchableOpacity>
-  </View>
+    </View>
+  
 
     <Pressable
     style={({ pressed }) => [{ 
@@ -153,7 +182,7 @@ const styles = StyleSheet.create({
     root: {
       flex:1,
         alignItems: 'center',
-        padding: 15,
+        padding: 20,
         backgroundColor:"lightblue"
     },
     Logo: {
@@ -164,7 +193,7 @@ const styles = StyleSheet.create({
     input:{
       backgroundColor: 'white',
       color:"black",
-         width :'100%',
+         width :'97%',
 
          borderColor : 'black',
          borderWidth : 0.5,
@@ -172,13 +201,13 @@ const styles = StyleSheet.create({
          
          
          paddingHorizontal:5,
-         marginHorizontal:10,
+         marginHorizontal:1,
          marginVertical:5,
     },
     input2:{
       backgroundColor: 'white',
       color:"black",
-         width :'90%',
+         width :'97%',
 
          borderColor : 'black',
          borderWidth : 0.5,
@@ -186,14 +215,17 @@ const styles = StyleSheet.create({
          
          
          paddingHorizontal:5,
-         marginHorizontal:10,
+         marginHorizontal:1,
          marginVertical:5,
+    },
+    show:{
+      marginLeft :270
     },
 
     Btn1Style:{
       backgroundColor: 'blue',  
 
-        width : '90%',
+        width : '85%',
 
         padding: 15,
         marginVertical: 8,
@@ -210,7 +242,7 @@ const styles = StyleSheet.create({
     Btn2Style:{
       backgroundColor: 'mediumblue',  
 
-        width : '90%',
+        width : '85%',
 
         padding: 15,
         marginVertical: 8,

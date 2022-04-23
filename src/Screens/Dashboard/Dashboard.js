@@ -42,13 +42,15 @@ const Dashboard = () => {
   //const [Title,Count] = useState();
 
    useEffect(() => {
-      axios.get("http://192.168.254.111:8080/dashBoard")
+      axios.get("http://192.168.0.137:8080/dashBoard")
       .then(({data}) => {
          setCards(data)
          console.log(data)
+
       })
       .catch(err => {
          console.log(err)
+         //alert(err)
       })
    }, [])
   
@@ -78,7 +80,7 @@ const styles = StyleSheet.create({
     padding: 10,
     //paddingLeft :20,
     //paddingRight :20,
-    backgroundColor:"white"
+    backgroundColor:"lightblue"
   },
   list: {
     flex: 1,

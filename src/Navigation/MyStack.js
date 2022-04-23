@@ -8,6 +8,7 @@ import Main from '../Screens/Main/Main';
 import Home from '../Screens/Home/Home';
 import CvvView from '../Screens/CvvView/CvvView';
 import CvvUpload from '../Screens/CvvUpload/CvvUpload';
+import CvvUpdate from '../Screens/CvvUpload/CvvUpdate/CvvUpdate';
 import Dashboard from '../Screens/Dashboard/Dashboard';
 
 const Stack = createStackNavigator();
@@ -29,12 +30,16 @@ const MyStack = () => {
       <Stack.Navigator initialRouteName='Login'>
         <Stack.Screen name="Login" component={Login}
          options={{
-          title: 'Admin Login',
+          title: 'Login',
           headerTitleStyle: {
             color: '#fff',
+            fontWeight:'bold',
+            fontSize:20,
+            alignSelf:'center',
+            //justifyContent:'center'
           },
           headerStyle: {
-            backgroundColor: 'blue',
+            backgroundColor: 'blue'
           },
         }}
         />
@@ -43,6 +48,9 @@ const MyStack = () => {
           title: 'Candidates List',
           headerTitleStyle: {
             color: '#fff',
+            fontWeight:'bold',
+            fontSize:20,
+            alignItems:'center'
           },
           headerStyle: {
             backgroundColor: 'blue',
@@ -64,6 +72,17 @@ const MyStack = () => {
         <Stack.Screen name="CvvUpload" component={CvvUpload} 
          options={{
           title: 'CvvUpload',
+          headerTitleStyle: {
+            color: '#fff',
+          },
+          headerStyle: {
+            backgroundColor: 'royalblue',
+          },
+        }}
+        />
+        <Stack.Screen name="CvvUpdate" component={CvvUpdate} 
+         options={{
+          title: 'CvvUpdate',
           headerTitleStyle: {
             color: '#fff',
           },

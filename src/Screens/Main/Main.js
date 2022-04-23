@@ -1,11 +1,11 @@
 import React,{ useState,useEffect } from 'react';
-import { Button, DrawerLayoutAndroid, Text, StyleSheet, View,ScrollView, Pressable,FlatList } from 'react-native';
+import { Button, DrawerLayoutAndroid, Text, StyleSheet, View,ScrollView, Pressable,FlatList ,TouchableOpacity} from 'react-native';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { Card } from 'react-native-paper';
 import axios from 'axios';
 
 const Main = () => {
-  //const MyStack = useNavigation();
+  const MyStack = useNavigation();
   
   {/*const[Candidates] = useState ([
     {ID:'1',Appid:'A1',Name:'Mayandi',Degree:'B.Sc(CS)',Contact:'9087654321'},
@@ -22,24 +22,44 @@ MyStack.navigate('CvvView');
 
 const [cards,setCards] = useState([])
 useEffect(()=>{
-  axios.get("http://192.168.254.111:8080/candidate")
+  axios.get("http://192.168.0.137:8080/candidate")
   .then(({data}) => {
      setCards(data)
      //console.log(data)
   })
   .catch(err => {
      console.log(err)
+     alert(err)
   })
 }, [])
+
+const Delcandid=(id)=> {
+  //alert('delete is Pressed')
+  axios.delete(`http://192.168.0.137:8080/candidate?id=${id}`)
+  .then(({data}) => {
+     //setCards(data)
+     console.log(data.msg)
+     alert(data.msg)
+  })
+  .catch(({response}) => {
+     console.log(response.data)
+     alert(response.data.msg)
+  })
+}
 
 return(
     <ScrollView style={styles.container}>
       
       {cards.map((card, idx) => (
+        <TouchableOpacity activeOpacity={0.9} onPress={()=> MyStack.navigate('CvvView',{data:card})}>
       <Card
       style={styles.card}
       key={idx}> 
+      <Pressable
+      onPress={()=>Delcandid(card.id)}
+      style={{padding:10,backgroundColor:"white",marginRight :280,borderRadius:15}}><Text style={{color:"black"}}>Delete</Text></Pressable>
       <View style={styles.list}>
+        
         <Text style={styles.text}>ID</Text>
         <Text style={styles.text}>{card.id}</Text>
       </View>
@@ -55,7 +75,8 @@ return(
         <Text style={styles.text}>Contact</Text>
         <Text style={styles.text}>{card.phone}</Text>
       </View>
-      </Card>))}
+      </Card>
+      </TouchableOpacity>))}
       <Text></Text>
 
       {/*<FlatList 

@@ -1,12 +1,13 @@
 import React, { useState } from "react";
-import {View  , Text , Button , Pressable , ScrollView , Image, StyleSheet, TextInput, useWindowDimensions} from 'react-native';
+import {View  , Text , Button , ScrollView , Image, StyleSheet, TextInput, useWindowDimensions} from 'react-native';
 //import Logo from '../../../assets/images/Logo';
-import CustomInput from '../../componet/CustomInput/CustomInput';
+//import CustomInput from '../../componet/CustomInput/CustomInput';
+import CustomInput from "../../../componet/CustomInput/CustomInput";
 import DateTimePicker from '@react-native-community/datetimepicker';
 import {Picker} from '@react-native-picker/picker';
 import axios from "axios";
 
-const CvvUpload = () => {
+const CvvUpdate = () => {
   
   const [Firstname,setFirstname] = useState('');
   const [Lastname,setLastname] = useState('');
@@ -156,8 +157,7 @@ const CvvUpload = () => {
     }*/}
 
   console.log('Connecting Api')
-  //console.log(company);
-  axios.post('http://192.168.0.137:8080/candidate ', { 
+  axios.post('http://192.168.254.111:8080/candidate ', { 
 		
     firstName: Firstname,
 		lastName: Lastname,
@@ -178,14 +178,13 @@ const CvvUpload = () => {
     {
       roll:RolesandResponsible1,
       name: Previouscompany1,
-      from: date4,
-      to: date5,
+		  from: date4,
+		  to: date5,
     }],
-    
-     qualification: [{
+    qualification: [{
 			collegeName :college,
 			degree : qualification,
-    }],
+		}],
     job: Job,
 		dob: date6,
 		skill: [ 
@@ -199,9 +198,9 @@ const CvvUpload = () => {
     //alert(data.id)
 	  })
   
-    .catch(({response}) => {
-		console.log(response.data)
-    alert(response.data.msg)
+    .catch(err => {
+		console.log(err)
+    alert(err)
 	  })
     console.log(Dob)
   };
@@ -467,9 +466,8 @@ return (
    value={RolesandResponsible1}
    onChangeText={setRolesandResponsible1} />
 
-      <Text style={{fontSize: 20,color: 'blue',fontWeight:'bold'}}>Starting Date</Text>
+      <Text style={{fontSize: 20,color: 'blue',fontStyle: 'italic'}}>Starting Date</Text>
       {/* Display the selected date */}
-      <View style={{flexDirection:'row'}}>
       <View style={styles.pickedDateContainer}>
         <Text style={styles.pickedDate}>{date4.toUTCString()}</Text>
       </View>
@@ -477,10 +475,7 @@ return (
       {/* The button that used to trigger the date picker */}
       {!isPickerShow4 && (
         <View style={styles.btnContainer}>
-          <Pressable
-          onPress={showPicker6}
-          style={({ pressed }) => [{ 
-            opacity: pressed ? 0.8 : 1.0 },styles.dateBtn]} ><Text style={{color:"white"}}>Select Date</Text></Pressable>
+          <Button title="Show Picker" color="purple" onPress={showPicker4} />
         </View>
       )}
 
@@ -495,10 +490,8 @@ return (
           style={styles.datePicker}
         />
       )}
-      </View>
-       <Text style={{fontSize: 20,color: 'blue',fontWeight:'bold'}}>Ending Date</Text>
+       <Text style={{fontSize: 20,color: 'blue',fontStyle: 'italic'}}>Ending Date</Text>
       {/* Display the selected date */}
-      <View style={{flexDirection:'row'}}>
       <View style={styles.pickedDateContainer}>
         <Text style={styles.pickedDate}>{date5.toUTCString()}</Text>
       </View>
@@ -506,10 +499,7 @@ return (
       {/* The button that used to trigger the date picker */}
       {!isPickerShow5 && (
         <View style={styles.btnContainer}>
-          <Pressable
-          onPress={showPicker6}
-          style={({ pressed }) => [{ 
-            opacity: pressed ? 0.8 : 1.0 },styles.dateBtn]} ><Text style={{color:"white"}}>Select Date</Text></Pressable>
+          <Button title="Show Picker" color="purple" onPress={showPicker5} />
         </View>
       )}
 
@@ -523,16 +513,19 @@ return (
           onChange={onChange5}
           style={styles.datePicker}
         />
-        )}
-        </View>
+
+        
+      )
+      
+      }
 
 {/*<Text style={{fontSize: 25,fontWeight:'bold',color: 'gray', padding: 20}}>Skills</Text>*/}
        <Text style={{fontSize: 25,fontWeight:'bold',color: 'gray', padding: 20}}>Technology Skills</Text>
        <CustomInput
-        placeholder="Technology Skill"
-        placeholderTextColor="lightgrey"
-        value={TechSkill}
-        setValue={setTechSkill} />
+   placeholder="Technology Skill"
+   placeholderTextColor="lightgrey"
+   value={TechSkill}
+   setValue={setTechSkill} />
 
 <Text style={{fontSize: 25,fontWeight:'bold',color: 'gray', padding: 20}}>Apply Job Position</Text>
   
@@ -553,13 +546,13 @@ return (
          </Picker>
          
          
-<Text style={{fontSize: 25,fontWeight:'300',color: 'black', padding: 20}}>Date of Birth</Text>
-{/*<CustomInput
+<Text style={{fontSize: 25,fontWeight:'bold',color: 'gray', padding: 20}}>Date of Birth</Text>
+<CustomInput
    placeholder="Date of Birth"
    placeholderTextColor="lightgrey"
    value={Dob}
-  setValue={setdob} />*/}
-  <View style={{flexDirection:'row'}}>
+   setValue={setdob} />
+  
    <View style={styles.pickedDateContainer}>
         <Text style={styles.pickedDate}>{date6.toUTCString()}</Text>
       </View>
@@ -567,11 +560,7 @@ return (
       {/* The button that used to trigger the date picker */}
       {!isPickerShow6 && (
         <View style={styles.btnContainer}>
-          {/*<Pressable title="Show Picker" color="purple" onPress={showPicker6} />*/}
-          <Pressable
-          onPress={showPicker6}
-          style={({ pressed }) => [{ 
-            opacity: pressed ? 0.8 : 1.0 },styles.dateBtn]} ><Text style={{color:"white"}}>Select Date</Text></Pressable>
+          <Button title="Show Picker" color="purple" onPress={showPicker6} />
         </View>
       )}
 
@@ -586,7 +575,6 @@ return (
           style={styles.datePicker}
         />
       )}
-      </View>
 
 <Text></Text>
 <Text></Text>
@@ -615,31 +603,18 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     padding: 50,
   },
-  title: {
-    fontSize: 25,
-    fontWeight:'300',
-    color: 'black',
-    padding: 20
-  },
   pickedDateContainer: {
-    padding: 5,
-    backgroundColor: 'white',
-    borderRadius: 7,
+    padding: 10,
+    backgroundColor: '#eee',
+    borderRadius: 10,
   },
   pickedDate: {
     fontSize: 18,
     color: 'black',
-    //backgroundColor:"white"
 
   },
   btnContainer: {
-    padding: 2,
-  },
-
-  dateBtn: {
-    backgroundColor:"blue",
-    padding:8,
-    borderRadius:7
+    padding: 10,
   },
   // This only works on iOS
   datePicker: {
@@ -651,4 +626,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CvvUpload;
+export default CvvUpdate;

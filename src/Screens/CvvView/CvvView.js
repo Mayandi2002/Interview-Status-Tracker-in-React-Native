@@ -4,22 +4,24 @@ import { Card } from 'react-native-paper';
 import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
 
-const CvvView = () => {
-  
+const CvvView = ({route}) => {
+  //console.log(route.params.data);
+
   const MyStack = useNavigation();
 
   const Edit = () => {
   
    console.log("Edit is Pressed")
-   MyStack.navigate('CvvUpload');
+   MyStack.navigate('CvvUpdate');
 
   }
 
   const [cards,setCards] = useState([])
   
   useEffect(()=>{
-  axios.get("http://192.168.1.103:8080/personal")
+  axios.get(`http://192.168.0.137:8080/candidate/${route.params.data.id}`)
   .then(({data}) => {
+    console.log(data)
      setCards(data)
   })
   .catch(err => {
@@ -29,6 +31,18 @@ const CvvView = () => {
 
   return(
     <ScrollView style={styles.container}>
+     
+     {/*{cards.map((card,idx) => (
+        <Card
+        key={idx}
+      style={styles.card}> 
+      <View style={styles.cardview}>
+        <Text style={styles.text}>Name</Text>
+        <Text style={styles.data}>{card.id}</Text>
+      
+      </View>
+     </Card>))}*/}
+
       <Text style={styles.heading}>Basic Information</Text>
     
     <Card
@@ -37,7 +51,7 @@ const CvvView = () => {
       <View 
       style={styles.cardview}>      
         <Text style={styles.text}>Application ID</Text>
-        <Text style={styles.data}>A1</Text> 
+        <Text style={styles.data}>{cards.id}</Text> 
         <Pressable
         onPress={Edit} 
         style={styles.editbtn}>
@@ -53,7 +67,7 @@ const CvvView = () => {
       
       <View style={styles.cardview}>      
         <Text style={styles.text}>First Name</Text>
-        <Text style={styles.data}>    Mayandi</Text> 
+        <Text style={styles.data}>    {cards.firstName}</Text> 
       </View>
       
       <View style={styles.cardview}>      
