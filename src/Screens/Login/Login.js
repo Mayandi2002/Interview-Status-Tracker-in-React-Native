@@ -61,7 +61,7 @@ const Login = () => {
       //alert("validation success")
       
       console.log('infun')
-         axios.put('http://192.168.0.137:8080/login', {
+         axios.put('http://192.168.1.3:8080/login', {
             userName: Username,
             password: Password,
           })
@@ -87,10 +87,12 @@ const Login = () => {
         //MyStack.navigate('Main');
         }
 
-        const registerpress = () => {
-  //console.warn("regpress");
-  MyStack.navigate('CvvUpload');
-}
+        const candidregister = () => {
+            MyStack.navigate('CvvUpload');
+          }
+        const empregister = () => {
+          alert("employee register")
+        }
 
 
   return (
@@ -113,12 +115,13 @@ const Login = () => {
     />
     
     {errors ? <Text style={{color:"red",fontWeight:'bold',fontSize:15.5}}>{errors}</Text>: null}
-    <View style={{flexDirection:'row',paddingRight :20}}>
     
-    <Icon style={{padding:12}} name="user" color="blue" size={30} />
+    <View style={styles.input}>
+    
+    <Icon name="user" color="blue" size={25} />
    
     <TextInput
-    style={styles.input}
+    style={{flex:1,marginHorizontal:5,color:"black"}}
     placeholder='Username'
     placeholderTextColor="lightgrey"
     Value={Username}
@@ -129,13 +132,11 @@ const Login = () => {
     </View>
     {UserErr ? <Text style={{color:"red",fontWeight:'bold',fontSize:13,marginRight :50}}>{UserErr}</Text>: null}
 
-    {PassErr ? <Text style={{color:"red",fontWeight:'bold',fontSize:13,marginRight :140}}>{PassErr}</Text>: null}
     
-    <View style={{flexDirection:'row',paddingRight :20}}>
-    
-    <Icon style={{padding:12}} name="lock" color="mediumblue" size={30} />
+    <View style={styles.input2}>
+    <Icon name="lock" color="mediumblue" size={25} />
     <TextInput
-    style={styles.input2}
+    style={{flex:1,marginHorizontal:5,color:"black"}}
     placeholder='Password'
     placeholderTextColor="lightgrey"
     Value={Password}
@@ -143,8 +144,13 @@ const Login = () => {
     secureTextEntry={isSecureEntry}
     //secureTextEntry={true}
     />
-  </View>
-  <View style={styles.show}>
+    <Icon
+    onPress={()=>setIsSecureEntry(!isSecureEntry)}
+    name={isSecureEntry ? "eye-slash":"eye"} color="mediumblue" size={25} />
+    </View>
+
+    {PassErr ? <Text style={{color:"red",fontWeight:'bold',fontSize:13,marginRight :140}}>{PassErr}</Text>: null}
+  {/*<View style={styles.show}>
     <TouchableOpacity 
       style={{padding:5,paddingTop :5,paddingRight :5}}
       onPress={() => {
@@ -152,6 +158,12 @@ const Login = () => {
         <Text style={{color:"blue",fontWeight:'bold'}}>{isSecureEntry ? 'Show' : 'Hide'}</Text>
     </TouchableOpacity>
     </View>
+    <TextInput 
+    style={{backgroundColor:"white",padding:10,width :'90%',color:"black"}}
+    placeholder='hello....'
+    placeholderTextColor="grey" 
+    Icon={<Icon name='user' color="red" size={30} />}
+      />*/}
   
 
     <Pressable
@@ -170,8 +182,17 @@ const Login = () => {
       opacity: pressed ? 0.2 : 1.0 },
       styles.Btn2Style
     ]}
-    onPress={registerpress}>
+    onPress={candidregister}>
       <Text style={styles.BtnText}>Register Candidate</Text>
+    </Pressable>
+
+    <Pressable
+    style={({ pressed }) => [{ 
+      opacity: pressed ? 0.2 : 1.0 },
+      styles.Btn2Style
+    ]}
+    onPress={empregister}>
+      <Text style={styles.BtnText}>Create Employee</Text>
     </Pressable>
     </View>
   );
@@ -192,31 +213,32 @@ const styles = StyleSheet.create({
     },
     input:{
       backgroundColor: 'white',
-      color:"black",
-         width :'97%',
-
+      flexDirection:'row',
+         width :'90%',
+         alignItems:'center',
          borderColor : 'black',
          borderWidth : 0.5,
          borderRadius: 7,
          
          
-         paddingHorizontal:5,
-         marginHorizontal:1,
-         marginVertical:5,
+         paddingHorizontal:7,
+         //marginHorizontal:1,
+         //marginVertical:5,
     },
     input2:{
       backgroundColor: 'white',
-      color:"black",
-         width :'97%',
-
+      flexDirection:'row',
+      //color:"black",
+         width :'90%',
+         alignItems:'center',
          borderColor : 'black',
          borderWidth : 0.5,
          borderRadius: 7,
          
          
-         paddingHorizontal:5,
-         marginHorizontal:1,
-         marginVertical:5,
+         paddingHorizontal:7,
+         //marginHorizontal:1,
+         marginVertical:10,
     },
     show:{
       marginLeft :270

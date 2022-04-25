@@ -157,7 +157,7 @@ const CvvUpload = () => {
 
   console.log('Connecting Api')
   //console.log(company);
-  axios.post('http://192.168.0.137:8080/candidate ', { 
+  axios.post('http://192.168.1.3:8080/candidate ', { 
 		
     firstName: Firstname,
 		lastName: Lastname,
@@ -203,7 +203,7 @@ const CvvUpload = () => {
 		console.log(response.data)
     alert(response.data.msg)
 	  })
-    console.log(Dob)
+    //console.log(Dob)
   };
 
   
@@ -237,7 +237,9 @@ return (
   placeholderTextColor="lightgrey"
   value={Email}
   setValue={setEmail}
-  keyboardType='email-address' />
+  keyboardType='email-address'
+  autoCapitalize='none' 
+  />
 
 <CustomInput
   placeholder="Mobileno"

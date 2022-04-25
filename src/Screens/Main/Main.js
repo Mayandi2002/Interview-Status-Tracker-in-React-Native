@@ -22,7 +22,7 @@ MyStack.navigate('CvvView');
 
 const [cards,setCards] = useState([])
 useEffect(()=>{
-  axios.get("http://192.168.0.137:8080/candidate")
+  axios.get("http://192.168.1.3:8080/candidate?size=200&page=0")
   .then(({data}) => {
      setCards(data)
      //console.log(data)
@@ -35,17 +35,21 @@ useEffect(()=>{
 
 const Delcandid=(id)=> {
   //alert('delete is Pressed')
-  axios.delete(`http://192.168.0.137:8080/candidate?id=${id}`)
+  axios.delete(`http://192.168.1.3:8080/candidate?id=${id}`)
   .then(({data}) => {
      //setCards(data)
      console.log(data.msg)
      alert(data.msg)
+     //if(data.msg==="Candidate Detail Deleted"){}
+     
   })
   .catch(({response}) => {
      console.log(response.data)
      alert(response.data.msg)
   })
 }
+
+
 
 return(
     <ScrollView style={styles.container}>
@@ -57,7 +61,7 @@ return(
       key={idx}> 
       <Pressable
       onPress={()=>Delcandid(card.id)}
-      style={{padding:10,backgroundColor:"white",marginRight :280,borderRadius:15}}><Text style={{color:"black"}}>Delete</Text></Pressable>
+      style={{padding:5,backgroundColor:"white",marginLeft :290,margin:1,borderRadius:15}}><Text style={{color:"black"}}>Delete</Text></Pressable>
       <View style={styles.list}>
         
         <Text style={styles.text}>ID</Text>

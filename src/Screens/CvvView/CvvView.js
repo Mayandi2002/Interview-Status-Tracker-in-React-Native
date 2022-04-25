@@ -19,7 +19,7 @@ const CvvView = ({route}) => {
   const [cards,setCards] = useState([])
   
   useEffect(()=>{
-  axios.get(`http://192.168.0.137:8080/candidate/${route.params.data.id}`)
+  axios.get(`http://192.168.1.3:8080/candidate/${route.params.data.id}`)
   .then(({data}) => {
     console.log(data)
      setCards(data)
@@ -28,6 +28,8 @@ const CvvView = ({route}) => {
      console.log(err)
   })
 }, [])
+
+//{cards.map((card,id) => )}
 
   return(
     <ScrollView style={styles.container}>
@@ -47,22 +49,22 @@ const CvvView = ({route}) => {
     
     <Card
     style={styles.card}>
-      
-      <View 
-      style={styles.cardview}>      
-        <Text style={styles.text}>Application ID</Text>
-        <Text style={styles.data}>{cards.id}</Text> 
-        <Pressable
+      <Pressable
         onPress={Edit} 
         style={styles.editbtn}>
           <Text 
           style={{
             color:"black",
-            fontWeight:'500'
+            fontWeight:'bold'
             }}>
-            Edit
+            Update Details
           </Text>
         </Pressable>
+      <View 
+      style={styles.cardview}>      
+        <Text style={styles.text}>Application ID</Text>
+        <Text style={styles.data}>{cards.id}</Text> 
+        
       </View>
       
       <View style={styles.cardview}>      
@@ -72,45 +74,35 @@ const CvvView = ({route}) => {
       
       <View style={styles.cardview}>      
         <Text style={styles.text}>Last Name</Text>
-        <Text style={styles.data}>    Muppidathi</Text> 
+        <Text style={styles.data}>    {cards.lastName}</Text> 
       </View>
       
       <View style={styles.cardview}>      
         <Text style={styles.text}>Email</Text>
-        <Text style={styles.data}>              @mail</Text> 
+        <Text style={styles.data}>              {cards.email}</Text> 
       </View>
       
       <View style={styles.cardview}>      
         <Text style={styles.text}>Mobile No</Text>
-        <Text style={styles.data}>    9087654321</Text> 
+        <Text style={styles.data}>    {cards.phone}</Text> 
       </View>
 
       <View style={styles.cardview}>      
         <Text style={styles.text}>DOB</Text>
-        <Text style={styles.data}>               22.01.2002</Text> 
+        <Text style={styles.data}>               {cards.dob}</Text> 
       </View>
-      
-      {/*<View style={styles.cardview}>      
-        <Text style={styles.text}>Phone No</Text>
-        <Text style={styles.data}>044-8976554</Text> 
-      </View>
-      
-      <View style={styles.cardview}>      
-        <Text style={styles.text}>Linked In</Text>
-        <Text style={styles.data}>mayandilinked In</Text> 
-          </View>*/}
       
       </Card>
       
       {/*Address Information*/}
       <Text style={styles.heading}>Address Information</Text>
-
+    
     <Card
+    //key={id}
     style={styles.card}>
-
       <View style={styles.cardview}>      
         <Text style={styles.text}>Door No</Text>
-        <Text style={styles.data}>        40</Text> 
+        <Text style={styles.data}>        {cards.doorNo}</Text> 
       </View>
 
       <View style={styles.cardview}>      
@@ -137,12 +129,12 @@ const CvvView = ({route}) => {
 
       <View style={styles.cardview}>      
         <Text style={styles.text}>Qualification</Text>
-        <Text style={styles.data}>   B.Sc</Text> 
+        <Text style={styles.data}>   {cards.map}</Text> 
       </View>
       
       <View style={styles.cardview}>      
         <Text style={styles.text}>College Name</Text>
-        <Text style={styles.data}>Aditanar College</Text> 
+        <Text style={styles.data}>{cards.collegeName}</Text> 
       </View>
 
     </Card>
@@ -204,38 +196,7 @@ const CvvView = ({route}) => {
 
     </Card>
 
-    {/*<Text style={styles.heading}>Previous Company 2</Text>
     
-    <Card
-    style={styles.card}>
-
-      <View style={styles.cardview}>      
-        <Text style={styles.text}>Company Name</Text>
-        <Text style={styles.data}>Icanio</Text> 
-      </View>
-      
-      <View style={styles.cardview}>      
-        <Text style={styles.text}>Role/Position</Text>
-        <Text style={styles.data}>Developer</Text> 
-      </View>
-      
-      <View style={styles.cardview}>      
-        <Text style={styles.text}>Starting Date</Text>
-        <Text style={styles.data}>Sat,2 Apr 2022 09:10 AM</Text> 
-      </View>
-      
-      <View style={styles.cardview}>      
-        <Text style={styles.text}>Ending Date</Text>
-        <Text style={styles.data}>Sat,2 Apr 2022 09:10 AM</Text> 
-      </View>
-
-        </Card>*/}
-
-    {/*Educational Details */}
-
-    
-    {/* Skills Added*/}
-
     <Text style={styles.heading}>Skills and Apply Role</Text>
 
 <Card
@@ -243,16 +204,16 @@ const CvvView = ({route}) => {
 
       <View style={styles.cardview}>      
         <Text style={styles.text}>Technology Skills</Text>
-        <Text style={styles.data}>Fast Coding,</Text>
+        <Text style={styles.data}>{cards.skill}</Text>
          </View>
         
-         <View style={{flexDirection:'row-reverse'}}>
+         {/*<View style={{flexDirection:'row-reverse'}}>
         <Text style={styles.skill}>Easy Learn</Text>
-        </View>
+          </View>*/}
 
       <View style={styles.cardview}>      
         <Text style={styles.text}>Role/Position</Text>
-        <Text style={styles.data}>      Developer</Text> 
+        <Text style={styles.data}>      {cards.job}</Text> 
       </View>
 
     </Card>
@@ -278,11 +239,11 @@ const styles = StyleSheet.create({
   },
 
   editbtn: {
-    marginLeft :120,
-    backgroundColor:"white",
+    marginLeft :220,
+    backgroundColor:"#e8e8e8",
     padding:2,
-    borderRadius :5,
-    borderStyle:'solid'
+    borderRadius :7,
+    borderStyle:'solid',
   },
 
   cardview: {

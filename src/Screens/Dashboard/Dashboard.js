@@ -4,45 +4,11 @@ import { Text, StyleSheet, View, ScrollView, FlatList } from 'react-native';
 //import { FlatList } from 'react-native-gesture-handler';
 import { Card } from 'react-native-paper';
 const Dashboard = () => {
-  {/*const[Title] = useState('')
-  const[Count] = useState('')
-  const [Dash] = useState([
-    
-    axios.get('http://192.168.1.100:8080/dashboard',{
-      title: Title,
-      count: Count,
-  })
-    .then(({data}) => {
-      //alert('Login Successfully')
-    alert(data)
-    console.log(data)
-  })
-  .catch(function (error) {
-      alert(error)
-      console.log(error);
-  })
-    ]);
-
-  const getinfo = () => {
-    axios.get('http://192.168.1.100:8080/dashboard',{
-      title: Title,
-      count: Count,
-  })
-    .then(({data}) => {
-      //alert('Login Successfully')
-    alert(data)
-    console.log(data)
-  })
-  .catch(function (error) {
-      alert(error)
-      console.log(error);
-  });
-  }*/}
+  
   const [cards, setCards] = useState([])
-  //const [Title,Count] = useState();
 
    useEffect(() => {
-      axios.get("http://192.168.0.137:8080/dashBoard")
+      axios.get("http://192.168.1.3:8080/dashBoard")
       .then(({data}) => {
          setCards(data)
          console.log(data)

@@ -157,7 +157,7 @@ const CvvUpdate = () => {
     }*/}
 
   console.log('Connecting Api')
-  axios.post('http://192.168.254.111:8080/candidate ', { 
+  axios.post('http://192.168.1.3:8080/candidate ', { 
 		
     firstName: Firstname,
 		lastName: Lastname,
