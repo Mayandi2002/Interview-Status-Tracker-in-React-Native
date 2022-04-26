@@ -9,16 +9,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 //import { Icon } from 'react-native-paper/lib/typescript/components/Avatar/Avatar';
 //import { Icon } from 'react-native-paper/lib/typescript/components/List/List';
 
-const isValidObjField = (obj) => {
-  return Object.values(obj).every(value => value.trim())
-}
 
-const updateError = (errors,stateUpdater) => {
-stateUpdater(errors);
-setTimeout(() => {
-stateUpdater('')
-},2000);
-}
 
 const Login = () => {
 
@@ -32,11 +23,22 @@ const Login = () => {
     const[PassErr,SetPassErr] = useState('');
     const{Username,Password} = User
   
-    const handleOnchangeText = (value,fieldname) =>{
+    const handleOnchangeText = (value,fieldname) => {
       setUser({...User, [fieldname]: value});
     };
+
+    const isValidObjField = (obj) => {
+      return Object.values(obj).every(value => value.trim())
+    }
+    
+    const updateError = (errors,stateUpdater) => {
+    stateUpdater(errors);
+    setTimeout(() => {
+    stateUpdater('')
+    },2000);
+    }
   
-    const isValid = () =>{
+    const isValid = () => {
       if(!isValidObjField(User)) 
         return updateError('Require All Fields',Seterrors);
       if(!Username.trim() || Username.length > 25)
@@ -92,6 +94,7 @@ const Login = () => {
           }
         const empregister = () => {
           alert("employee register")
+            MyStack.navigate('RegEmp');
         }
 
 
@@ -119,7 +122,6 @@ const Login = () => {
     <View style={styles.input}>
     
     <Icon name="user" color="blue" size={25} />
-   
     <TextInput
     style={{flex:1,marginHorizontal:5,color:"black"}}
     placeholder='Username'
@@ -172,9 +174,11 @@ const Login = () => {
         styles.Btn1Style
       ]}
     onPress={loginpress}>
-    <Text style={styles.BtnText}>
+    
+    <Text style={styles.LoginBtntxt}>
     Login
     </Text>
+    <Icon style={{marginHorizontal:10}} name="arrow-right" color="white" size={15}/>
     </Pressable>
 
     <Pressable
@@ -245,12 +249,15 @@ const styles = StyleSheet.create({
     },
 
     Btn1Style:{
-      backgroundColor: 'blue',  
+      backgroundColor: 'blue', 
+      alignItems:"center",
+      flexDirection:'row', 
 
         width : '85%',
 
         padding: 15,
         marginVertical: 8,
+        
 
         alignItems: 'center',
         borderRadius: 5,
@@ -260,6 +267,15 @@ const styles = StyleSheet.create({
       fontWeight:'bold',
       fontSize:15,
       color:"white",
+      alignItems:"center",
+      
+    },
+    LoginBtntxt:{
+      paddingLeft :100,
+      fontWeight:'bold',
+      fontSize:15,
+      color:"white",
+      alignItems:"center",
     },
     Btn2Style:{
       backgroundColor: 'mediumblue',  

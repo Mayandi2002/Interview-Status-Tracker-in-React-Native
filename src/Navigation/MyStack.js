@@ -10,6 +10,7 @@ import CvvView from '../Screens/CvvView/CvvView';
 import CvvUpload from '../Screens/CvvUpload/CvvUpload';
 import CvvUpdate from '../Screens/CvvUpload/CvvUpdate/CvvUpdate';
 import Dashboard from '../Screens/Dashboard/Dashboard';
+import RegEmp from '../Screens/RegEmp/RegEmp';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -96,6 +97,20 @@ const MyStack = () => {
           title: 'Dash Board',
           headerTitleStyle: {
             color: '#fff',
+          },
+          headerStyle: {
+            backgroundColor: 'royalblue',
+          },
+        }}
+        />
+        <Stack.Screen name="RegEmp" component={RegEmp}
+        options={{
+          title: 'Create Employee',
+          headerTitleStyle: {
+            color: '#fff',
+            fontWeight:'bold',
+            fontSize:20,
+            alignItems:'center'
           },
           headerStyle: {
             backgroundColor: 'royalblue',
