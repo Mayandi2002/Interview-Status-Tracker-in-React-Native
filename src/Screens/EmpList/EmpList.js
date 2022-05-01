@@ -4,7 +4,7 @@ import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { Card } from 'react-native-paper';
 import axios from 'axios';
 
-const Main = () => {
+const EmpList = () => {
   const MyStack = useNavigation();
   
   {/*const[Candidates] = useState ([
@@ -22,7 +22,7 @@ MyStack.navigate('CvvView');
 
 const [cards,setCards] = useState([])
 useEffect(()=>{
-  axios.get("http://192.168.1.3:8080/candidate?size=200&page=0")
+  axios.get("http://192.168.1.3:8080/employee?size=200&page=0")
   .then(({data}) => {
     console.log(data)
      setCards(data)
@@ -35,7 +35,7 @@ useEffect(()=>{
 
 const Delcandid=(id)=> {
   //alert('delete is Pressed')
-  axios.delete(`http://192.168.1.3:8080/candidate?id=${id}`)
+  axios.delete(`http://192.168.1.3:8080/employee?id=${id}`)
   .then(({data}) => {
      //setCards(data)
      console.log(data)
@@ -55,7 +55,7 @@ return(
     <ScrollView style={styles.container}>
       
       {cards.map((card, idx) => (
-        <TouchableOpacity activeOpacity={0.9} onPress={()=> MyStack.navigate('CvvView',{data:card})}>
+        <TouchableOpacity activeOpacity={0.9} onPress={()=> MyStack.navigate('EmpView',{data:card})}>
       <Card
       style={styles.card}
       key={idx}> 
@@ -113,4 +113,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Main;
+export default EmpList;

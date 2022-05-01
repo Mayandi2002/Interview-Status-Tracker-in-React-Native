@@ -4,7 +4,7 @@ import { Card } from 'react-native-paper';
 import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
 
-const CvvView = ({route}) => {
+const EmpView = ({route}) => {
   //console.log(route.params.data);
 
   const MyStack = useNavigation();
@@ -19,7 +19,7 @@ const CvvView = ({route}) => {
   const [cards,setCards] = useState([])
 
   useEffect(()=>{
-  axios.get(`http://192.168.1.3:8080/candidate/${route.params.data.id}`)
+  axios.get(`http://192.168.1.3:8080/employee/${route.params.data.id}`)
   .then(({data}) => {
     console.log(data)
      setCards(data)
@@ -246,4 +246,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default CvvView;
+export default EmpView;

@@ -167,60 +167,7 @@ const CvvUpload = () => {
   
    
   const onRegisterPressed = () => {
-   {/* if(Firstname == "") {
-      alert("please enter firstname")
-      return true
-    }
-    
-    else if(Lastname == "") {
-      alert("please enter Lastname")
-      return true
-    }
-    else if(Email == "") {
-      alert("please enter email")
-      return true 
-    }
-    else if(Mobileno == "") {
-      alert("please enter Mobileno")
-      return true
-    }
-   
-    else if(!ValidationEmail(Email)) {
-      alert ("Invalid Email format")
-      return true
-    }
-    else if(Mobileno.length >10) {
-      alert("Mobileno must 10 numbers")
-      return true
-    }
-     
-    else if(qualification == "") {
-        alert("please enter qualificatin")
-        return true
-      }
-      else if(college == "") {
-        alert("please enter college")
-        return true  
-      }
-  
-      else if(RolesandResponsible == "") {
-      alert("please enter Rolls and responsible")
-      return true
-    }
-    
-    else if(RolesandResponsible1 == "") {
-      alert("please enter Rolls and responsible")
-      return true
-    }
-    
-    else if(TechSkill == "") {
-      alert("please enter Technology Skill")
-      return true
-    }
-    else if(Job == "") {
-      alert("please enter Position Field")
-      return true
-    }*/}
+
     if(!isValid()) {
 
   console.log('Connecting Api')

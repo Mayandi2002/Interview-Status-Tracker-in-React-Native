@@ -1,15 +1,11 @@
 import React, {useState} from 'react';
 import { Text,View,Image,ImageBackground,StyleSheet,useWindowDimensions,TextInput,Pressable } from 'react-native';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
+import { Picker } from '@react-native-picker/picker';
 import BGLogo from '../../../assets/images/Icanio2.png';
 import Logo from '../../../assets/images/Icanio.png';
 import axios from 'axios';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/FontAwesome';
-//import { Icon } from 'react-native-paper/lib/typescript/components/Avatar/Avatar';
-//import { Icon } from 'react-native-paper/lib/typescript/components/List/List';
-
-
 
 const Login = () => {
 
@@ -17,7 +13,7 @@ const Login = () => {
     Username:'',
     Password:'',
     });
-  
+    const[Position,SetPosition] = useState('');
     const[errors,Seterrors] = useState('');
     const[UserErr,SetUserErr] = useState('');
     const[PassErr,SetPassErr] = useState('');
@@ -66,6 +62,7 @@ const Login = () => {
          axios.put('http://192.168.1.3:8080/login', {
             userName: Username,
             password: Password,
+            position: Position,
           })
           .then(({data})=> {
               //alert('Login Successfully')
@@ -75,6 +72,9 @@ const Login = () => {
               MyStack.navigate('Main');
             }
             if(data.msg === "admin"){
+              MyStack.navigate('Main');
+            }
+            if(data.msg === "panel"){
               MyStack.navigate('Main');
             }
           })
@@ -152,21 +152,14 @@ const Login = () => {
     </View>
 
     {PassErr ? <Text style={{color:"red",fontWeight:'bold',fontSize:13,marginRight :140}}>{PassErr}</Text>: null}
-  {/*<View style={styles.show}>
-    <TouchableOpacity 
-      style={{padding:5,paddingTop :5,paddingRight :5}}
-      onPress={() => {
-      setIsSecureEntry((prev) => !prev);}}>
-        <Text style={{color:"blue",fontWeight:'bold'}}>{isSecureEntry ? 'Show' : 'Hide'}</Text>
-    </TouchableOpacity>
-    </View>
-    <TextInput 
-    style={{backgroundColor:"white",padding:10,width :'90%',color:"black"}}
-    placeholder='hello....'
-    placeholderTextColor="grey" 
-    Icon={<Icon name='user' color="red" size={30} />}
-      />*/}
-  
+    <Picker
+    style={{alignItems:'center',width :'88%',backgroundColor:"white",color:"black"}}
+    selectedValue = {Position} onValueChange = {SetPosition}>
+            <Picker.Item label = "Employee" value = "employee" />
+            <Picker.Item label = "Panel" value = "panel" />
+            <Picker.Item label = "Admin" value = "admin" />
+            <Picker.Item label = "HR" value = "hr" />
+         </Picker>  
 
     <Pressable
     style={({ pressed }) => [{ 

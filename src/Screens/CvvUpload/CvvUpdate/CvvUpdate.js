@@ -1,22 +1,93 @@
 import React, { useState } from "react";
-import {View  , Text , Button , ScrollView , Image, StyleSheet, TextInput, useWindowDimensions} from 'react-native';
+import {View  , Text , Button , Pressable , ScrollView , Image, StyleSheet, TextInput, useWindowDimensions} from 'react-native';
 //import Logo from '../../../assets/images/Logo';
-//import CustomInput from '../../componet/CustomInput/CustomInput';
-import CustomInput from "../../../componet/CustomInput/CustomInput";
+//import CustomInput from '../componet/CustomInput/CustomInput';
+import CustomInput from '../../../componet/CustomInput/CustomInput';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import {Picker} from '@react-native-picker/picker';
 import axios from "axios";
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 const CvvUpdate = () => {
   
-  const [Firstname,setFirstname] = useState('');
-  const [Lastname,setLastname] = useState('');
-  const [Email,setEmail ] = useState('');
-  const [Mobileno,setMobileno]  = useState('');
-  const [doorno,setdoorno] = useState('');
-  const [Street,setStreet] = useState('');
-  const [Pincode,setPincode] = useState('');
-  const [city,setcity] = useState('');
+  const[Form,SetForm] = useState({
+    Firstname:'',
+    Lastname:'',
+    Email:'',
+    Mobileno:'',
+    doorno:'',
+    Street:'',
+    Pincode:'',
+    city:'',
+    qualification:'',
+    college:'',
+    Currentcompany:'',
+    RolesandResponsible:'',
+    Previouscompany1:'',
+    RolesandResponsible1:'',
+    TechSkill:'',
+  });
+
+  const[Err,setErr] = useState('');
+  const[FnameErr,setFnameErr] = useState('');
+  const[LnameErr,setLnameErr] = useState('');
+  const[EmailErr,setEmailErr] = useState('');
+  
+  const{Firstname,Lastname,Email,Mobileno,
+        doorno,Street,Pincode,city,
+        qualification,college,
+        Currentcompany,RolesandResponsible,
+        Previouscompany1,RolesandResponsible1,
+        TechSkill} = Form
+  
+  const handleOnchangeText = (value,fieldname) => {
+    SetForm({...Form, [fieldname]: value});
+  };
+  
+  const isValidObjField = (obj) => {
+    return Object.values(obj).every(value => value.trim())
+  }
+  
+  const updateError = (Err,stateUpdater) => {
+  stateUpdater(Err);
+  setTimeout(() => {
+  stateUpdater('')
+  },2000);
+  }
+
+  const ValidationEmail = (value) => {
+    const regx = /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/;
+    return regx.test(value)
+  }
+
+
+  const isValid = () => {
+    if(!isValidObjField(Form)) {
+       updateError('Require All Fields',setErr);
+       return true; 
+      }
+    if(!ValidationEmail(Email)) {
+      updateError('Invalid Email',setEmailErr);
+       return true;
+    }
+    if(!Firstname.trim() || Firstname.length > 5) {
+       updateError('Username is Allow only 5 Characters',setFnameErr);
+       return true;
+    }
+    if(!Lastname.trim() || Lastname.length < 3) {
+      updateError('Password is too Short',setLnameErr);
+      return true;
+    }
+    };
+
+  //const [Firstname,setFirstname] = useState('');
+  //const [Lastname,setLastname] = useState('');
+  //const [Email,setEmail ] = useState('');
+  //const [Mobileno,setMobileno]  = useState('');
+  //const [doorno,setdoorno] = useState('');
+  //const [Street,setStreet] = useState('');
+  //const [Pincode,setPincode] = useState('');
+  //const [city,setcity] = useState('');
 
   const [isPickerShow2, setIsPickerShow2] = useState(false);
   const [date2, setDate2] = useState(new Date(Date.now()));
@@ -31,21 +102,21 @@ const CvvUpdate = () => {
 
 
 
-  const [qualification,setqualification] = useState('');
-  const [college,setcollege] = useState('');
+  //const [qualification,setqualification] = useState('');
+  //const [college,setcollege] = useState('');
   
 
-  const [Currentcompany,setCurrentcompany] = useState('');
-  const [RolesandResponsible,setRolesandResponsible] = useState('');
-  const [Previouscompany1,setPreviouscompany1] = useState('');
-  const [RolesandResponsible1,setRolesandResponsible1] = useState('');
+  //const [Currentcompany,setCurrentcompany] = useState('');
+  //const [RolesandResponsible,setRolesandResponsible] = useState('');
+  //const [Previouscompany1,setPreviouscompany1] = useState('');
+  //const [RolesandResponsible1,setRolesandResponsible1] = useState('');
   //const [Previouscompany2,setPreviouscompany2] = useState('');
   //const [RolesandResponsible2,setRolesandResponsible2] = useState('');
 
 
-  const [TechSkill,setTechSkill] = useState('');
+  //const [TechSkill,setTechSkill] = useState('');
   const [Job,setJob] = useState('');
-  const [Dob,setdob] = useState('');
+  //const [Dob,setdob] = useState('');
 
   
   const showPicker2 = () => {
@@ -95,68 +166,13 @@ const CvvUpdate = () => {
     }
   };
   
-  {/*const ValidationEmail = (value) => {
-    const regx = /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/;
-    return regx.test(value)
-  }*/}
- 
-  const onRegisterPressed = () => {
-   {/* if(Firstname == "") {
-      alert("please enter firstname")
-      return true
-    }
-    
-    else if(Lastname == "") {
-      alert("please enter Lastname")
-      return true
-    }
-    else if(Email == "") {
-      alert("please enter email")
-      return true 
-    }
-    else if(Mobileno == "") {
-      alert("please enter Mobileno")
-      return true
-    }
    
-    else if(!ValidationEmail(Email)) {
-      alert ("Invalid Email format")
-      return true
-    }
-    else if(Mobileno.length >10) {
-      alert("Mobileno must 10 numbers")
-      return true
-    }
-     
-    else if(qualification == "") {
-        alert("please enter qualificatin")
-        return true
-      }
-      else if(college == "") {
-        alert("please enter college")
-        return true  
-      }
-  
-      else if(RolesandResponsible == "") {
-      alert("please enter Rolls and responsible")
-      return true
-    }
-    
-    else if(RolesandResponsible1 == "") {
-      alert("please enter Rolls and responsible")
-      return true
-    }
-    
-    else if(TechSkill == "") {
-      alert("please enter Technology Skill")
-      return true
-    }
-    else if(Job == "") {
-      alert("please enter Position Field")
-      return true
-    }*/}
+  const onRegisterPressed = () => {
+
+    if(!isValid()) {
 
   console.log('Connecting Api')
+  //console.log(company);
   axios.post('http://192.168.1.3:8080/candidate ', { 
 		
     firstName: Firstname,
@@ -178,13 +194,14 @@ const CvvUpdate = () => {
     {
       roll:RolesandResponsible1,
       name: Previouscompany1,
-		  from: date4,
-		  to: date5,
+      from: date4,
+      to: date5,
     }],
-    qualification: [{
+    
+     qualification: [{
 			collegeName :college,
 			degree : qualification,
-		}],
+    }],
     job: Job,
 		dob: date6,
 		skill: [ 
@@ -198,11 +215,12 @@ const CvvUpdate = () => {
     //alert(data.id)
 	  })
   
-    .catch(err => {
-		console.log(err)
-    alert(err)
+    .catch(({response}) => {
+		console.log(response.data)
+    alert(response.data)
 	  })
-    console.log(Dob)
+    //console.log(Dob)
+  }
   };
 
   
@@ -223,26 +241,28 @@ return (
    placeholder="Firstname"
    placeholderTextColor="lightgrey"
    value={Firstname}
-   setValue={setFirstname} />
+   setValue={(value) => handleOnchangeText(value,'Firstname')} />
 
 <CustomInput
    placeholder="Lastname"
    placeholderTextColor="lightgrey"
    value={Lastname}
-   setValue={setLastname} />
+   setValue={(value)=>handleOnchangeText(value,'Lastname')} />
   
 <CustomInput
   placeholder="Email"
   placeholderTextColor="lightgrey"
   value={Email}
-  setValue={setEmail}
-  keyboardType='email-address' />
+  setValue={(value)=>handleOnchangeText(value,'Email')}
+  keyboardType='email-address'
+  autoCapitalize='none' 
+  />
 
 <CustomInput
   placeholder="Mobileno"
   placeholderTextColor="lightgrey"
   value={Mobileno}
-  setValue={setMobileno}
+  setValue={(value)=>handleOnchangeText(value,'Mobileno')}
   keyboardType='number-pad' />
 
       
@@ -262,7 +282,7 @@ return (
    placeholder="Door No"
    placeholderTextColor="lightgrey"
    value={doorno}
-   onChangeText={setdoorno}
+   onChangeText={(value)=>handleOnchangeText(value,'doorno')}
    keyboardType='number-pad' />   
    
    <TextInput style={{
@@ -278,7 +298,7 @@ return (
    placeholder="Street/Area"
    placeholderTextColor="lightgrey"
    value={Street}
-   onChangeText={setStreet} />
+   onChangeText={(value)=>handleOnchangeText(value,'Street')} />
    </View>
 
    <View style={{flex:1,flexDirection:'row'}}>
@@ -295,7 +315,7 @@ return (
    placeholder="Pincode"
    placeholderTextColor="lightgrey"
    value={Pincode}
-   onChangeText={setPincode}
+   onChangeText={(value)=>handleOnchangeText(value,'Pincode')}
    keyboardType='number-pad' />   
    
    <TextInput style={{
@@ -311,7 +331,7 @@ return (
    placeholder = "City"
    placeholderTextColor="lightgrey"
    value={city}
-   onChangeText={setcity} />
+   onChangeText={(value)=>handleOnchangeText(value,'city')} />
    </View>
    
   <Text style={{fontSize: 25, fontWeight:'bold', color: 'gray', padding: 10, margin:3}}>Qualification</Text>      
@@ -329,7 +349,7 @@ return (
    placeholder="Degree"
    placeholderTextColor="lightgrey"
    value={qualification}
-   onChangeText={setqualification}
+   onChangeText={(value)=>handleOnchangeText(value,'qualification')}
    //keyboardType='number-pad'
     />   
 
@@ -346,7 +366,7 @@ return (
    placeholder = "College Name"
    placeholderTextColor="lightgrey"
    value={college}
-    onChangeText={setcollege} 
+    onChangeText={(value)=>handleOnchangeText(value,'college')} 
    />
    </View>
   
@@ -364,7 +384,7 @@ return (
    placeholder="Company Name"
    placeholderTextColor="lightgrey"
    value={Currentcompany}
-   onChangeText={setCurrentcompany} />
+   onChangeText={(value)=>handleOnchangeText(value,'Currentcompany')} />
 
 <TextInput style={{
         backgroundColor: 'white',
@@ -379,7 +399,7 @@ return (
    placeholder="Role"
    placeholderTextColor="lightgrey"
    value={RolesandResponsible}
-   onChangeText={setRolesandResponsible} />
+   onChangeText={(value)=>handleOnchangeText(value,'RolesandResponsible')} />
 
 
 {/*<Text style={{fontSize: 25,fontWeight:'bold',color: 'gray', padding: 20}}>Previous Company1</Text>*/}
@@ -449,7 +469,7 @@ return (
    placeholder="Company Name"
    placeholderTextColor="lightgrey"
    value={Previouscompany1}
-   onChangeText={setPreviouscompany1} />
+   onChangeText={(value)=>handleOnchangeText(value,'Previouscompany1')} />
 
 <TextInput style={{
         backgroundColor: 'white',
@@ -464,10 +484,11 @@ return (
    placeholder="Role"
    placeholderTextColor="lightgrey"
    value={RolesandResponsible1}
-   onChangeText={setRolesandResponsible1} />
+   onChangeText={(value)=>handleOnchangeText(value,'RolesandResponsible1')} />
 
-      <Text style={{fontSize: 20,color: 'blue',fontStyle: 'italic'}}>Starting Date</Text>
+      <Text style={{fontSize: 20,color: 'blue',fontWeight:'bold'}}>Starting Date</Text>
       {/* Display the selected date */}
+      <View style={{flexDirection:'row'}}>
       <View style={styles.pickedDateContainer}>
         <Text style={styles.pickedDate}>{date4.toUTCString()}</Text>
       </View>
@@ -475,7 +496,10 @@ return (
       {/* The button that used to trigger the date picker */}
       {!isPickerShow4 && (
         <View style={styles.btnContainer}>
-          <Button title="Show Picker" color="purple" onPress={showPicker4} />
+          <Pressable
+          onPress={showPicker6}
+          style={({ pressed }) => [{ 
+            opacity: pressed ? 0.8 : 1.0 },styles.dateBtn]} ><Text style={{color:"white"}}>Select Date</Text></Pressable>
         </View>
       )}
 
@@ -490,8 +514,10 @@ return (
           style={styles.datePicker}
         />
       )}
-       <Text style={{fontSize: 20,color: 'blue',fontStyle: 'italic'}}>Ending Date</Text>
+      </View>
+       <Text style={{fontSize: 20,color: 'blue',fontWeight:'bold'}}>Ending Date</Text>
       {/* Display the selected date */}
+      <View style={{flexDirection:'row'}}>
       <View style={styles.pickedDateContainer}>
         <Text style={styles.pickedDate}>{date5.toUTCString()}</Text>
       </View>
@@ -499,7 +525,10 @@ return (
       {/* The button that used to trigger the date picker */}
       {!isPickerShow5 && (
         <View style={styles.btnContainer}>
-          <Button title="Show Picker" color="purple" onPress={showPicker5} />
+          <Pressable
+          onPress={showPicker6}
+          style={({ pressed }) => [{ 
+            opacity: pressed ? 0.8 : 1.0 },styles.dateBtn]} ><Text style={{color:"white"}}>Select Date</Text></Pressable>
         </View>
       )}
 
@@ -513,19 +542,16 @@ return (
           onChange={onChange5}
           style={styles.datePicker}
         />
-
-        
-      )
-      
-      }
+        )}
+        </View>
 
 {/*<Text style={{fontSize: 25,fontWeight:'bold',color: 'gray', padding: 20}}>Skills</Text>*/}
        <Text style={{fontSize: 25,fontWeight:'bold',color: 'gray', padding: 20}}>Technology Skills</Text>
        <CustomInput
-   placeholder="Technology Skill"
-   placeholderTextColor="lightgrey"
-   value={TechSkill}
-   setValue={setTechSkill} />
+        placeholder="Technology Skill"
+        placeholderTextColor="lightgrey"
+        value={TechSkill}
+        setValue={(value)=>handleOnchangeText(value,'TechSkill')} />
 
 <Text style={{fontSize: 25,fontWeight:'bold',color: 'gray', padding: 20}}>Apply Job Position</Text>
   
@@ -546,13 +572,13 @@ return (
          </Picker>
          
          
-<Text style={{fontSize: 25,fontWeight:'bold',color: 'gray', padding: 20}}>Date of Birth</Text>
-<CustomInput
+<Text style={{fontSize: 25,fontWeight:'300',color: 'black', padding: 20}}>Date of Birth</Text>
+{/*<CustomInput
    placeholder="Date of Birth"
    placeholderTextColor="lightgrey"
    value={Dob}
-   setValue={setdob} />
-  
+  setValue={setdob} />*/}
+  <View style={{flexDirection:'row'}}>
    <View style={styles.pickedDateContainer}>
         <Text style={styles.pickedDate}>{date6.toUTCString()}</Text>
       </View>
@@ -560,9 +586,17 @@ return (
       {/* The button that used to trigger the date picker */}
       {!isPickerShow6 && (
         <View style={styles.btnContainer}>
-          <Button title="Show Picker" color="purple" onPress={showPicker6} />
+          {/*<Pressable title="Show Picker" color="purple" onPress={showPicker6} />*/}
+          {/*<Pressable
+          onPress={showPicker6}
+          style={({ pressed }) => [{ 
+          opacity: pressed ? 0.8 : 1.0 },styles.dateBtn]} ><Text style={{color:"white"}}>Select Date</Text></Pressable>*/}
+          <Icon name="calendar" size={25} color="blue"
+          onPress={showPicker6}
+          style={({pressed}) => [{
+            opacity:pressed ? 0.2 : 1.0 }]} />      
         </View>
-      )}
+       )}
 
       {/* The date picker */}
       {isPickerShow6 && (
@@ -575,9 +609,14 @@ return (
           style={styles.datePicker}
         />
       )}
+      </View>
 
 <Text></Text>
 <Text></Text>
+{Err ? <Text style={{color:"red",fontWeight:'bold'}}>{Err}</Text>:null}
+{FnameErr ? <Text style={{color:"red",fontWeight:'bold'}}>{FnameErr}</Text>:null}
+{LnameErr ? <Text style={{color:"red",fontWeight:'bold'}}>{LnameErr}</Text>:null}
+{EmailErr ? <Text style={{color:"red",fontWeight:'bold'}}>{EmailErr}</Text>:null}
    <Button title="Register Candidate"
    onPress={onRegisterPressed} />
    
@@ -603,18 +642,31 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     padding: 50,
   },
+  title: {
+    fontSize: 25,
+    fontWeight:'300',
+    color: 'black',
+    padding: 20
+  },
   pickedDateContainer: {
-    padding: 10,
-    backgroundColor: '#eee',
-    borderRadius: 10,
+    padding: 5,
+    backgroundColor: 'white',
+    borderRadius: 7,
   },
   pickedDate: {
     fontSize: 18,
     color: 'black',
+    //backgroundColor:"white"
 
   },
   btnContainer: {
-    padding: 10,
+    padding: 2,
+  },
+
+  dateBtn: {
+    backgroundColor:"blue",
+    padding:8,
+    borderRadius:7
   },
   // This only works on iOS
   datePicker: {

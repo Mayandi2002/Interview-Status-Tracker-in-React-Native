@@ -11,6 +11,8 @@ import CvvUpload from '../Screens/CvvUpload/CvvUpload';
 import CvvUpdate from '../Screens/CvvUpload/CvvUpdate/CvvUpdate';
 import Dashboard from '../Screens/Dashboard/Dashboard';
 import RegEmp from '../Screens/RegEmp/RegEmp';
+import EmpList from '../Screens/EmpList/EmpList';
+import EmpView from '../Screens/EmpView/EmpView';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -21,6 +23,7 @@ const DrawerRoute = () => {
     <Drawer.Screen name="Candidates List" component={Main} />
     <Drawer.Screen name="Add Candidate" component={CvvUpload} />
     <Drawer.Screen name="Dashboard" component={Dashboard} />
+    <Drawer.Screen name="Employee List" component={EmpList} />
     </Drawer.Navigator>
     
   );
@@ -114,6 +117,17 @@ const MyStack = () => {
           },
           headerStyle: {
             backgroundColor: 'royalblue',
+          },
+        }}
+        />
+        <Stack.Screen name="EmpView" component={EmpView} 
+         options={{
+          title: 'Emp Details',
+          headerTitleStyle: {
+            color: 'white',
+          },
+          headerStyle: {
+            backgroundColor: 'green',
           },
         }}
         />
