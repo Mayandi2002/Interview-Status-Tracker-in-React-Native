@@ -1,5 +1,5 @@
 import React,{ useState,useEffect } from 'react';
-import { Button, DrawerLayoutAndroid, Text, StyleSheet, View,ScrollView, Pressable,FlatList ,TouchableOpacity} from 'react-native';
+import { Text, StyleSheet, View,ScrollView, Pressable,TouchableOpacity} from 'react-native';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { Card } from 'react-native-paper';
 import axios from 'axios';
@@ -29,19 +29,14 @@ useEffect(()=>{
   })
   .catch((err) => {
      console.log(err)
-     //alert(err)
   })
 }, [])
 
 const Delcandid=(id)=> {
-  //alert('delete is Pressed')
   axios.delete(`http://192.168.1.3:8080/candidate?id=${id}`)
   .then(({data}) => {
-     //setCards(data)
      console.log(data)
      alert(data.msg)
-     //if(data.msg==="Candidate Detail Deleted"){}
-     
   })
   .catch(({response}) => {
      console.log(response.data)
@@ -49,21 +44,22 @@ const Delcandid=(id)=> {
   })
 }
 
-
-
 return(
     <ScrollView style={styles.container}>
       
       {cards.map((card, idx) => (
-        <TouchableOpacity activeOpacity={0.9} onPress={()=> MyStack.navigate('CvvView',{data:card})}>
+        <TouchableOpacity activeOpacity={0.9} 
+          onPress={()=> MyStack.navigate('CvvView',{data:card})}>
       <Card
       style={styles.card}
-      key={idx}> 
+      key={idx}
+      > 
       <Pressable
       onPress={()=>Delcandid(card.id)}
-      style={{padding:5,backgroundColor:"white",marginLeft :290,margin:1,borderRadius:15}}><Text style={{color:"black"}}>Delete</Text></Pressable>
-      <View style={styles.list}>
+      style={{padding:5,backgroundColor:"white",marginLeft :290,margin:1,borderRadius:15}}>
         
+        <Text style={{color:"black"}}>Delete</Text></Pressable>
+      <View style={styles.list}>
         <Text style={styles.text}>ID</Text>
         <Text style={styles.text}>{card.id}</Text>
       </View>
@@ -102,7 +98,7 @@ const styles = StyleSheet.create({
   },
   text: {
     flex: 1,
-    fontSize: 13.5,
+    fontSize: 13,
     fontWeight:'bold',
     color:"white"
   },

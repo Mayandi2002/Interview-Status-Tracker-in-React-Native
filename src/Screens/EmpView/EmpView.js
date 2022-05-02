@@ -114,7 +114,7 @@ console.log(cards.qualification)
 
     <Text style={styles.heading}>Educational Information</Text>
     
-    {cards.qualification?.map((card,idx) => [
+    {cards.degree?.map((card,idx) => (
     <Card
     key={idx}
     style={styles.card}>
@@ -129,7 +129,7 @@ console.log(cards.qualification)
         <Text style={styles.data}>{card.collegeName}</Text> 
       </View>
 
-    </Card>])}
+    </Card>))}
 
 
     <Text style={styles.heading}>Professional Details</Text>
@@ -177,7 +177,7 @@ console.log(cards.qualification)
   
       <View style={styles.cardview}>      
         <Text style={styles.text}>Role/Position</Text>
-        <Text style={styles.data}>      {cards.job}</Text> 
+        <Text style={styles.data}>      {cards.department}</Text> 
       </View>
 
     </Card>

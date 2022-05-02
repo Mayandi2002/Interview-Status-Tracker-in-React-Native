@@ -1,5 +1,6 @@
-import React, {useState} from 'react';
-import { Text,View,Image,ImageBackground,StyleSheet,useWindowDimensions,TextInput,Pressable } from 'react-native';
+import React, { useState } from 'react';
+import { Text,View,Image,ImageBackground,StyleSheet,useWindowDimensions,
+         TextInput,Pressable } from 'react-native';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { Picker } from '@react-native-picker/picker';
 import BGLogo from '../../../assets/images/Icanio2.png';
@@ -45,8 +46,6 @@ const Login = () => {
         return true;
     };
 
-  //const [Username,setUsername] = useState('');
-  //const [Password,setPassword] = useState('');
   const [isSecureEntry, setIsSecureEntry] = useState(true);
     
   const {height} = useWindowDimensions();
@@ -95,6 +94,10 @@ const Login = () => {
         const empregister = () => {
           alert("employee register")
             MyStack.navigate('RegEmp');
+        }
+        const jobdesc = () => {
+          alert("job description")
+            MyStack.navigate('JobDesc')
         }
 
 
@@ -153,43 +156,46 @@ const Login = () => {
 
     {PassErr ? <Text style={{color:"red",fontWeight:'bold',fontSize:13,marginRight :140}}>{PassErr}</Text>: null}
     <Picker
-    style={{alignItems:'center',width :'88%',backgroundColor:"white",color:"black"}}
-    selectedValue = {Position} onValueChange = {SetPosition}>
-            <Picker.Item label = "Employee" value = "employee" />
-            <Picker.Item label = "Panel" value = "panel" />
-            <Picker.Item label = "Admin" value = "admin" />
-            <Picker.Item label = "HR" value = "hr" />
-         </Picker>  
+      style={{alignItems:'center',width :'88%',backgroundColor:"white",color:"black"}}
+       selectedValue = {Position} onValueChange = {SetPosition}>
+        <Picker.Item label = "Employee" value = "employee" />
+        <Picker.Item label = "Panel" value = "panel" />
+        <Picker.Item label = "Admin" value = "admin" />
+        <Picker.Item label = "HR" value = "hr" />
+    </Picker>  
 
     <Pressable
     style={({ pressed }) => [{ 
-        opacity: pressed ? 0.7 : 1.0 },
-        styles.Btn1Style
-      ]}
+     opacity: pressed ? 0.7 : 1.0 }, styles.Btn1Style]}
     onPress={loginpress}>
     
-    <Text style={styles.LoginBtntxt}>
-    Login
-    </Text>
+    <Text style={styles.LoginBtntxt}>Login</Text>
     <Icon style={{marginHorizontal:10}} name="arrow-right" color="white" size={15}/>
     </Pressable>
 
     <Pressable
     style={({ pressed }) => [{ 
-      opacity: pressed ? 0.2 : 1.0 },
-      styles.Btn2Style
-    ]}
+     opacity: pressed ? 0.7 : 1.0 }, styles.Btn2Style]}
     onPress={candidregister}>
       <Text style={styles.BtnText}>Register Candidate</Text>
     </Pressable>
 
     <Pressable
     style={({ pressed }) => [{ 
-      opacity: pressed ? 0.2 : 1.0 },
+      opacity: pressed ? 0.7 : 1.0 },
       styles.Btn2Style
     ]}
     onPress={empregister}>
       <Text style={styles.BtnText}>Create Employee</Text>
+    </Pressable>
+    <Pressable
+    style={({ pressed }) => [{ 
+      opacity: pressed ? 0.7 : 1.0 },
+      styles.Btn2Style
+    ]}
+
+    onPress={jobdesc}>
+      <Text style={styles.BtnText}>Job Description</Text>
     </Pressable>
     </View>
   );

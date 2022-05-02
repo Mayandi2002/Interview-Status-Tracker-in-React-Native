@@ -153,13 +153,16 @@ const RegEmp = () => {
 
   console.log('Connecting Api')
   //console.log(company);
-  axios.post('http://192.168.1.3:8080/employee ', { 
+  axios.post('http://192.168.1.3:8080/employee', { 
 		
     firstName: Firstname,
 		lastName: Lastname,
 		email: Email,
 		phone: Mobileno,
     gender: Gender,
+    role:   [
+      Role,
+    ],
     address: {
       doorNo: doorno,
       street: Street,
@@ -183,7 +186,7 @@ const RegEmp = () => {
 			collegeName :college,
 			degree : qualification,
     }],
-    job: Job,
+    department: Job,
 		dob: date6,
 		skill: [ 
       TechSkill,
@@ -193,17 +196,16 @@ const RegEmp = () => {
     .then(({data}) => {
 		console.log(data)
     alert(data.msg)
-    //alert(data.id)
 	  })
   
     .catch(({response}) => {
 		console.log(response.data)
-    alert(response.data)
+    alert(response.data.msg)
 	  })
-    //console.log(Dob)
+    
   }
   };
-
+//console.log(TechSkill)
   
 return (
   <ScrollView>

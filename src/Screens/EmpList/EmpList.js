@@ -76,8 +76,8 @@ return(
         <Text style={styles.text}>{card.email}</Text>
       </View>
       <View style={styles.list}>
-        <Text style={styles.text}>Contact</Text>
-        <Text style={styles.text}>{card.phone}</Text>
+        <Text style={styles.text}>Department</Text>
+        <Text style={styles.text}>{card.department}</Text>
       </View>
       </Card>
       </TouchableOpacity>))}

@@ -13,6 +13,7 @@ import Dashboard from '../Screens/Dashboard/Dashboard';
 import RegEmp from '../Screens/RegEmp/RegEmp';
 import EmpList from '../Screens/EmpList/EmpList';
 import EmpView from '../Screens/EmpView/EmpView';
+import JobDesc from '../Screens/JobDesc/JobDesc';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -64,12 +65,12 @@ const MyStack = () => {
         <Stack.Screen name="Candidate Register" component={Home} />
         <Stack.Screen name="CvvView" component={CvvView} 
          options={{
-          title: 'Cvv Details',
+          title: 'Candidate Details',
           headerTitleStyle: {
             color: 'white',
           },
           headerStyle: {
-            backgroundColor: 'green',
+            backgroundColor: 'mediumblue',
           },
         }}
         />
@@ -128,6 +129,20 @@ const MyStack = () => {
           },
           headerStyle: {
             backgroundColor: 'green',
+          },
+        }}
+        />
+        <Stack.Screen name="JobDesc" component={JobDesc}
+        options={{
+          title: 'Create Job Description',
+          headerTitleStyle: {
+            color: '#fff',
+            fontWeight:'bold',
+            fontSize:20,
+            alignItems:'center'
+          },
+          headerStyle: {
+            backgroundColor: 'royalblue',
           },
         }}
         />

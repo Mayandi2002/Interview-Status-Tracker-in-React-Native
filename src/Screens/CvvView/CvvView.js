@@ -29,28 +29,107 @@ const CvvView = ({route}) => {
   })
 }, [])
 
-console.log(cards.qualification)
+const hire = () => {
+  axios.post(`http:192.168.1.3:8080/candidate/hired/${route.params.data.id}`)
+  .then(({data}) => {
+    console.log(data)
+    alert(data.msg)
+  })
+  .catch(({response}) => {
+    console.log(response)
+  })
+  //alert("hire")
+}
+const reject = () => {
+  axios.post(`http:192.168.1.3:8080/candidate/rejected/${route.params.data.id}`)
+  .then(({data}) => {
+    console.log(data)
+    alert(data.msg)
+  })
+  .catch(({response}) => {
+    console.log(response)
+  })
+} 
+const waiting = () => {
+  axios.post(`http:192.168.1.3:8080/candidate/waitingList/${route.params.data.id}`)
+  .then(({data}) => {
+    console.log(data)
+    alert(data.msg)
+  })
+  .catch(({response}) => {
+    console.log(response)
+  })
+}
+const progress = () => {
+  axios.post(`http:192.168.1.3:8080/candidate/progress/${route.params.data.id}`)
+  .then(({data}) => {
+    console.log(data)
+    alert(data.msg)
+  })
+  .catch(({response}) => {
+    console.log(response)
+  })
+}
 
   return(
     <ScrollView style={styles.container}>
+                      <Text></Text>
+   <View style={{flex:1,flexDirection:'row',alignItems:'center'}}>
+      <Pressable
+        onPress={hire} 
+        style={styles.topbtn1}>
+          <Text 
+           style={{
+            color:"mediumblue",
+            fontWeight:'bold'}}>Hire to Job</Text>
+      </Pressable>
+        
+      <Pressable
+        onPress={waiting} 
+        style={styles.topbtn3}>
+          <Text 
+           style={{
+            color:"mediumblue",
+            fontWeight:'bold'}}>Waiting List</Text>
+      </Pressable>
+        
+      <Pressable
+        onPress={progress} 
+        style={styles.topbtn4}>
+          <Text 
+           style={{
+            color:"white",
+            fontWeight:'bold'}}>Progress</Text>
+      </Pressable>
+
+      <Pressable
+        onPress={reject} 
+        style={styles.topbtn2}>
+          <Text 
+          style={{
+            color:"white",
+            fontWeight:'bold'}}>Reject</Text>
+      </Pressable>
+    </View>
+                <Text></Text>
      
-      <Text style={styles.heading}>Basic Information</Text>
+      {/*<Text style={styles.heading}>Basic Information</Text>*/}
     
     <Card
     style={styles.card}>
+      <View style={{flex:1,flexDirection:'row',alignItems:'center',paddingBottom :7}}>
+    <Text style={styles.insideheading}>Basic Information</Text>
       <Pressable
         onPress={Edit} 
         style={styles.editbtn}>
           <Text 
           style={{
             color:"black",
-            fontWeight:'bold'
-            }}>
-            Update Details
-          </Text>
-        </Pressable>
-      <View 
-      style={styles.cardview}>      
+            fontWeight:'bold'}}>Update</Text>
+      </Pressable>
+      </View>
+       <View 
+         style={styles.cardview}>      
         <Text style={styles.text}>Application ID</Text>
         <Text style={styles.data}>{cards.id}</Text> 
         
@@ -83,13 +162,14 @@ console.log(cards.qualification)
       
       </Card>
       
-      {/*Address Information*/}
+      {/*
       <Text style={styles.heading}>Address Information</Text>
-    {/*//{cards.map((card,idx) => (*/}
+    */}
 
     <Card
     //key={idx}
     style={styles.card}>
+      <Text style={styles.heading}>Address Information</Text>
       <View style={styles.cardview}>      
         <Text style={styles.text}>Door No</Text>
         <Text style={styles.data}>        {cards?.address?.doorNo}</Text> 
@@ -112,13 +192,13 @@ console.log(cards.qualification)
 
     </Card>
 
-    <Text style={styles.heading}>Educational Information</Text>
+    
     
     {cards.qualification?.map((card,idx) => [
     <Card
     key={idx}
     style={styles.card}>
-     
+    <Text style={styles.heading}>Educational Information</Text> 
       <View style={styles.cardview}>      
         <Text style={styles.text}>Qualification</Text>
         <Text style={styles.data}>   {card.degree}</Text> 
@@ -132,13 +212,13 @@ console.log(cards.qualification)
     </Card>])}
 
 
-    <Text style={styles.heading}>Professional Details</Text>
-    <Text style={styles.heading}>Company 1</Text>
+    
+    {/*<Text style={styles.heading}>Company 1</Text>*/}
 
     {cards.company?.map((card,idx) => [
     <Card
     style={styles.card}>
-    
+    <Text style={styles.heading}>Professional Details</Text>
       <View style={styles.cardview}>      
         <Text style={styles.text}>Company Name</Text>
         <Text style={styles.data}>{card.name}</Text> 
@@ -162,13 +242,9 @@ console.log(cards.qualification)
 
     </Card>])}
  
-   
-    
-    <Text style={styles.heading}>Skills and Apply Role</Text>
-
-<Card
+  <Card
     style={styles.card}>
-
+        <Text style={styles.heading}>Skills and Apply Role</Text>
       <View style={styles.cardview}>      
         <Text style={styles.text}>Technology Skills</Text>
         <Text style={styles.data}>{cards.skill}</Text>
@@ -197,16 +273,78 @@ const styles = StyleSheet.create({
   
   heading: {
     textAlign:'center',
-    color:"royalblue",
-    fontWeight:'800',
-    fontSize:17
+    color:"white",
+    fontWeight:'bold',
+    fontSize:17.5,
+    textDecorationColor: "#e8e8e8",
+    textShadowColor: "black",
+    textShadowRadius: 3,
+    textDecorationLine: 'underline',
+    paddingBottom :7
+  },
+
+  insideheading: {
+    marginLeft :90,
+    textAlign:'center',
+    color:"white",
+    fontWeight:'bold',
+    fontSize:17.5,
+    textDecorationColor: "#e8e8e8",
+    textShadowColor: "black",
+    textShadowRadius: 3,
+    textDecorationLine: 'underline',
   },
 
   editbtn: {
-    marginLeft :220,
+    marginLeft :35,
     backgroundColor:"#e8e8e8",
-    padding:2,
+    padding:5,
+    borderRadius :5,
+    borderColor:"black",
+    borderWidth :0.6,
+    borderStyle:'solid',
+  },
+  
+  topbtn1: {
+    //alignItems:'center',
+    marginLeft :7,
+    backgroundColor:"#7cfc00",
+    padding:10,
     borderRadius :7,
+    borderColor:"black",
+    borderWidth :0.5,
+    borderStyle:'solid',
+  },
+  topbtn2: {
+    //alignItems:'center',
+    marginLeft :7,
+    backgroundColor:"red",
+    padding:10,
+    borderRadius :7,
+    borderColor:"black",
+    borderWidth :0.5,
+    borderStyle:'solid',
+  },
+  
+  topbtn3: {
+    //alignItems:'center',
+    marginLeft :7,
+    backgroundColor:"yellow",
+    padding:10,
+    borderRadius :7,
+    borderColor:"black",
+    borderWidth :0.5,
+    borderStyle:'solid',
+  },
+
+  topbtn4: {
+    //alignItems:'center',
+    marginLeft :7,
+    backgroundColor:"blue",
+    padding:10,
+    borderRadius :7,
+    borderColor:"black",
+    borderWidth :0.5,
     borderStyle:'solid',
   },
 
@@ -238,8 +376,8 @@ const styles = StyleSheet.create({
   
   card:{
     padding:10,
-    margin:5,
-    backgroundColor:"green",
+    margin:3,
+    backgroundColor:"mediumblue",
     borderRadius:15,
     borderStyle:'solid',
     borderWidth :0.5
