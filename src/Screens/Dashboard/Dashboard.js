@@ -7,18 +7,18 @@ const Dashboard = () => {
   
   const [cards, setCards] = useState([])
 
-   useEffect(() => {
-      axios.get("http://192.168.1.3:8080/dashBoard")
+    useEffect(() => {
+      axios.get("http://192.168.28.111:8080/dashBoard")
       .then(({data}) => {
-         setCards(data)
-         console.log(data)
+        setCards(data)
+        console.log(data)
 
       })
       .catch(err => {
-         console.log(err)
+        console.log(err)
          //alert(err)
       })
-   }, [])
+    }, [])
   
   return(
   <ScrollView style={styles.container}>

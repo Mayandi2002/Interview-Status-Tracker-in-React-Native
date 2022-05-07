@@ -11,21 +11,21 @@ const EmpView = ({route}) => {
 
   const Edit = () => {
   
-   console.log("Edit is Pressed")
-   MyStack.navigate('CvvUpdate');
+    console.log("Edit is Pressed")
+    MyStack.navigate('CvvUpdate');
 
   }
 
   const [cards,setCards] = useState([])
 
   useEffect(()=>{
-  axios.get(`http://192.168.1.3:8080/employee/${route.params.data.id}`)
+  axios.get(`http://192.168.1.4:8080/employee/${route.params.data.id}`)
   .then(({data}) => {
     console.log(data)
-     setCards(data)
+    setCards(data)
   })
   .catch(({response}) => {
-     console.log(response)
+    console.log(response)
   })
 }, [])
 
@@ -33,7 +33,7 @@ console.log(cards.qualification)
 
   return(
     <ScrollView style={styles.container}>
-     
+    
       <Text style={styles.heading}>Basic Information</Text>
     
     <Card
@@ -118,7 +118,7 @@ console.log(cards.qualification)
     <Card
     key={idx}
     style={styles.card}>
-     
+    
       <View style={styles.cardview}>      
         <Text style={styles.text}>Qualification</Text>
         <Text style={styles.data}>   {card.degree}</Text> 
@@ -161,8 +161,8 @@ console.log(cards.qualification)
       </View>
 
     </Card>])}
- 
-   
+
+  
     
     <Text style={styles.heading}>Skills and Apply Role</Text>
 
@@ -172,7 +172,7 @@ console.log(cards.qualification)
       <View style={styles.cardview}>      
         <Text style={styles.text}>Technology Skills</Text>
         <Text style={styles.data}>{cards.skill}</Text>
-         </View>
+      </View>
         
   
       <View style={styles.cardview}>      

@@ -1,5 +1,5 @@
 import React,{useState,useEffect} from 'react';
-import { Text, StyleSheet, View, Pressable,ScrollView } from 'react-native';
+import { Text, StyleSheet, View, Pressable,ScrollView,Alert } from 'react-native';
 import { Card } from 'react-native-paper';
 import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
@@ -11,75 +11,133 @@ const CvvView = ({route}) => {
 
   const Edit = () => {
   
-   console.log("Edit is Pressed")
-   MyStack.navigate('CvvUpdate');
+    console.log("Edit is Pressed")
+    MyStack.navigate('CvvUpdate');
 
   }
 
   const [cards,setCards] = useState([])
 
   useEffect(()=>{
-  axios.get(`http://192.168.1.3:8080/candidate/${route.params.data.id}`)
+  axios.get(`http://192.168.28.111:8080/candidate/${route.params.data.id}`)
   .then(({data}) => {
     console.log(data)
-     setCards(data)
+      setCards(data)
   })
   .catch(({response}) => {
-     console.log(response)
+      console.log(response)
   })
 }, [])
 
 const hire = () => {
-  axios.post(`http:192.168.1.3:8080/candidate/hired/${route.params.data.id}`)
-  .then(({data}) => {
-    console.log(data)
-    alert(data.msg)
-  })
-  .catch(({response}) => {
-    console.log(response)
-  })
-  //alert("hire")
+  Alert.alert(
+    "Alert!",
+    "Are you Sure Want to Hire this Candidate",
+    [
+      {
+        text: "Cancel",
+        onPress: () => console.log("Cancel Pressed"),
+        style: "cancel"
+      },
+      { 
+        text: "Confirm", 
+        onPress: () => axios.post(`http:192.168.28.111:8080/candidate/hired/${route.params.data.id}`)
+        .then(({data}) => {
+          console.log(data)
+          alert(data.msg)
+        })
+        .catch(({response}) => {
+          console.log(response)
+        })
+      }
+    ]
+  );
 }
+
 const reject = () => {
-  axios.post(`http:192.168.1.3:8080/candidate/rejected/${route.params.data.id}`)
-  .then(({data}) => {
-    console.log(data)
-    alert(data.msg)
-  })
-  .catch(({response}) => {
-    console.log(response)
-  })
+  Alert.alert(
+    "Alert!",
+    "Are you Sure Want to Reject this Candidate",
+    [
+      {
+        text: "Cancel",
+        onPress: () => console.log("Cancel Pressed"),
+        style: "cancel"
+      },
+      { 
+        text: "Confirm", 
+        onPress: () => axios.post(`http:192.168.28.111:8080/candidate/rejected/${route.params.data.id}`)
+        .then(({data}) => {
+          console.log(data)
+          alert(data.msg)
+        })
+        .catch(({response}) => {
+          console.log(response)
+        })
+      }
+    ]
+  );
 } 
+
 const waiting = () => {
-  axios.post(`http:192.168.1.3:8080/candidate/waitingList/${route.params.data.id}`)
-  .then(({data}) => {
-    console.log(data)
-    alert(data.msg)
-  })
-  .catch(({response}) => {
-    console.log(response)
-  })
+  Alert.alert(
+    "Alert!",
+    "Are you Sure Want to Wait this Candidate",
+    [
+      {
+        text: "Cancel",
+        onPress: () => console.log("Cancel Pressed"),
+        style: "cancel"
+      },
+      { 
+        text: "Confirm", 
+        onPress: () => axios.post(`http:192.168.28.111:8080/candidate/waitingList/${route.params.data.id}`)
+        .then(({data}) => {
+          console.log(data)
+          alert(data.msg)
+        })
+        .catch(({response}) => {
+          console.log(response)
+        })
+      }
+    ]
+  );
 }
+
 const progress = () => {
-  axios.post(`http:192.168.1.3:8080/candidate/progress/${route.params.data.id}`)
-  .then(({data}) => {
-    console.log(data)
-    alert(data.msg)
-  })
-  .catch(({response}) => {
-    console.log(response)
-  })
+  Alert.alert(
+    "Alert!",
+    "Are you Sure Want to Progress this Candidate",
+    [
+      {
+        text: "Cancel",
+        onPress: () => console.log("Cancel Pressed"),
+        style: "cancel"
+      },
+      { 
+        text: "Confirm", 
+        onPress: () => axios.post(`http:192.168.28.111:8080/candidate/progress/${route.params.data.id}`)
+        .then(({data}) => {
+          console.log(data)
+          alert(data.msg)
+        })
+        .catch(({response}) => {
+          console.log(response)
+        })
+      }
+    ]
+  );
 }
 
   return(
     <ScrollView style={styles.container}>
                       <Text></Text>
-   <View style={{flex:1,flexDirection:'row',alignItems:'center'}}>
+    <View style={{flex:1,flexDirection:'row',alignItems:'center'}}>
       <Pressable
         onPress={hire} 
         style={styles.topbtn1}>
           <Text 
-           style={{
+          style={{
             color:"mediumblue",
             fontWeight:'bold'}}>Hire to Job</Text>
       </Pressable>
@@ -88,7 +146,7 @@ const progress = () => {
         onPress={waiting} 
         style={styles.topbtn3}>
           <Text 
-           style={{
+          style={{
             color:"mediumblue",
             fontWeight:'bold'}}>Waiting List</Text>
       </Pressable>
@@ -97,7 +155,7 @@ const progress = () => {
         onPress={progress} 
         style={styles.topbtn4}>
           <Text 
-           style={{
+          style={{
             color:"white",
             fontWeight:'bold'}}>Progress</Text>
       </Pressable>
@@ -112,7 +170,7 @@ const progress = () => {
       </Pressable>
     </View>
                 <Text></Text>
-     
+    
       {/*<Text style={styles.heading}>Basic Information</Text>*/}
     
     <Card
@@ -128,8 +186,8 @@ const progress = () => {
             fontWeight:'bold'}}>Update</Text>
       </Pressable>
       </View>
-       <View 
-         style={styles.cardview}>      
+      <View 
+      style={styles.cardview}>      
         <Text style={styles.text}>Application ID</Text>
         <Text style={styles.data}>{cards.id}</Text> 
         
@@ -194,7 +252,7 @@ const progress = () => {
 
     
     
-    {cards.qualification?.map((card,idx) => [
+    {cards.qualification?.map((card,idx) => (
     <Card
     key={idx}
     style={styles.card}>
@@ -209,7 +267,7 @@ const progress = () => {
         <Text style={styles.data}>{card.collegeName}</Text> 
       </View>
 
-    </Card>])}
+    </Card>))}
 
 
     
@@ -241,14 +299,14 @@ const progress = () => {
       </View>
 
     </Card>])}
- 
+
   <Card
     style={styles.card}>
         <Text style={styles.heading}>Skills and Apply Role</Text>
       <View style={styles.cardview}>      
         <Text style={styles.text}>Technology Skills</Text>
         <Text style={styles.data}>{cards.skill}</Text>
-         </View>
+      </View>
         
   
       <View style={styles.cardview}>      

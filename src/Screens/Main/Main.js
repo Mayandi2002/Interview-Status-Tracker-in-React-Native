@@ -1,8 +1,10 @@
 import React,{ useState,useEffect } from 'react';
-import { Text, StyleSheet, View,ScrollView, Pressable,TouchableOpacity} from 'react-native';
+import { Text, StyleSheet, View,ScrollView, Pressable,TouchableOpacity,Alert } from 'react-native';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { Card } from 'react-native-paper';
 import axios from 'axios';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { event } from 'react-native-reanimated';
 
 const Main = () => {
   const MyStack = useNavigation();
@@ -22,26 +24,58 @@ MyStack.navigate('CvvView');
 
 const [cards,setCards] = useState([])
 useEffect(()=>{
-  axios.get("http://192.168.1.3:8080/candidate?size=200&page=0")
+  axios.get("http://192.168.28.111:8080/candidate?size=200&page=0")
   .then(({data}) => {
     console.log(data)
-     setCards(data)
+    setCards(data)
   })
   .catch((err) => {
-     console.log(err)
+    console.log(err)
   })
 }, [])
 
-const Delcandid=(id)=> {
-  axios.delete(`http://192.168.1.3:8080/candidate?id=${id}`)
-  .then(({data}) => {
-     console.log(data)
-     alert(data.msg)
-  })
-  .catch(({response}) => {
-     console.log(response.data)
-     alert(response.data.msg)
-  })
+{/*const ConfirmAlert = () => {
+  
+  Alert.alert(
+    "Alert Title",
+    "My Alert Msg",
+    [
+      {
+        text: "Cancel",
+        onPress: () => console.log("Cancel Pressed"),
+        style: "cancel"
+      },
+      { 
+        text: "OK", onPress: () => console.log("OK Pressed") 
+      }
+    ]
+  );
+}*/}
+
+const Delcandid = (id) => {
+  Alert.alert(
+    "Alert!",
+    "Are you Sure Want to Delete",
+    [
+      {
+        text: "Cancel",
+        onPress: () => console.log("Cancel Pressed"),
+        style: "cancel"
+      },
+      { 
+        text: "Confirm", 
+        onPress: () => axios.delete(`http://192.168.28.111:8080/candidate?id=${id}`)
+        .then(({data}) => {
+          console.log(data)
+          alert(data.msg)
+        })
+        .catch(({response}) => {
+          console.log(response.data)
+          alert(response.data.msg)
+        }) 
+      }
+    ]
+  );
 }
 
 return(
@@ -54,27 +88,43 @@ return(
       style={styles.card}
       key={idx}
       > 
-      <Pressable
-      onPress={()=>Delcandid(card.id)}
-      style={{padding:5,backgroundColor:"white",marginLeft :290,margin:1,borderRadius:15}}>
-        
-        <Text style={{color:"black"}}>Delete</Text></Pressable>
-      <View style={styles.list}>
+      
+      
+      {/*<View style={styles.list}>
         <Text style={styles.text}>ID</Text>
         <Text style={styles.text}>{card.id}</Text>
-      </View>
+      </View>*/}
+      <Pressable
+        onPress={()=>Delcandid(card.id)}
+        style={{
+          backgroundColor:"blue",borderColor:"white",
+          borderWidth :0.7,marginLeft :310,marginRight :10,marginTop :2,borderRadius:5}}>
+        <Icon name='delete' color="white" size={25} />
+      </Pressable>
       <View style={styles.list}>
         <Text style={styles.text}>Firstname</Text>
-        <Text style={styles.text}>{card.firstName}</Text>
+        <Text style={styles.datatxt}>{card.firstName}</Text>
+        {/*<Pressable
+        onPress={()=>Delcandid(card.id)}
+        style={{
+          backgroundColor:"blue",borderColor:"white",
+          borderWidth :0.7,borderRadius:5}}>
+        <Icon name='delete' color="white" size={25} />
+        </Pressable>*/}
       </View>
       <View style={styles.list}>
         <Text style={styles.text}>Email</Text>
-        <Text style={styles.text}>{card.email}</Text>
+        <Text style={styles.datatxt}>{card.email}</Text>
       </View>
       <View style={styles.list}>
         <Text style={styles.text}>Contact</Text>
-        <Text style={styles.text}>{card.phone}</Text>
+        <Text style={styles.datatxt}>{card.phone}</Text>
       </View>
+      <View style={styles.list}>
+        <Text style={styles.text}>Job/Position</Text>
+        <Text style={styles.datatxt}>{card.job}</Text>
+      </View>
+      <Text></Text>
       </Card>
       </TouchableOpacity>))}
       <Text></Text>
@@ -94,18 +144,27 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     padding: 5,
-    marginLeft :3
+    //marginLeft :5
   },
   text: {
     flex: 1,
+    fontSize: 14,
+    fontWeight:'bold',
+    color:"white",
+    marginLeft :10
+  },
+  datatxt: {
+    flex: 1,
     fontSize: 13,
     fontWeight:'bold',
-    color:"white"
+    color:"white",
+    marginRight :15
   },
   card:{
     margin:6,
     backgroundColor:"blue",
-    borderRadius:15
+    borderRadius:13,
+    borderStyle:'solid'
   }
 });
 

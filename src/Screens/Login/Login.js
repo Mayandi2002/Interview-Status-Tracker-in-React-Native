@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Text,View,Image,ImageBackground,StyleSheet,useWindowDimensions,
-         TextInput,Pressable } from 'react-native';
+        TextInput,Pressable,TouchableOpacity } from 'react-native';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { Picker } from '@react-native-picker/picker';
 import BGLogo from '../../../assets/images/Icanio2.png';
@@ -58,7 +58,7 @@ const Login = () => {
       //alert("validation success")
       
       console.log('infun')
-         axios.put('http://192.168.1.3:8080/login', {
+        axios.put('http://192.168.28.111:8080/login', {
             userName: Username,
             password: Password,
             position: Position,
@@ -107,7 +107,7 @@ const Login = () => {
     style={{
       marginLeft :280,
       //marginBottom :10,
-
+      
       width :'95%',
     maxWidth : 330,
     maxHeight : 5,
@@ -149,6 +149,7 @@ const Login = () => {
     secureTextEntry={isSecureEntry}
     //secureTextEntry={true}
     />
+    
     <Icon
     onPress={()=>setIsSecureEntry(!isSecureEntry)}
     name={isSecureEntry ? "eye-slash":"eye"} color="mediumblue" size={25} />
@@ -157,7 +158,7 @@ const Login = () => {
     {PassErr ? <Text style={{color:"red",fontWeight:'bold',fontSize:13,marginRight :140}}>{PassErr}</Text>: null}
     <Picker
       style={{alignItems:'center',width :'88%',backgroundColor:"white",color:"black"}}
-       selectedValue = {Position} onValueChange = {SetPosition}>
+      selectedValue = {Position} onValueChange = {SetPosition}>
         <Picker.Item label = "Employee" value = "employee" />
         <Picker.Item label = "Panel" value = "panel" />
         <Picker.Item label = "Admin" value = "admin" />
@@ -166,7 +167,7 @@ const Login = () => {
 
     <Pressable
     style={({ pressed }) => [{ 
-     opacity: pressed ? 0.7 : 1.0 }, styles.Btn1Style]}
+    opacity: pressed ? 0.7 : 1.0 }, styles.Btn1Style]}
     onPress={loginpress}>
     
     <Text style={styles.LoginBtntxt}>Login</Text>
@@ -175,7 +176,7 @@ const Login = () => {
 
     <Pressable
     style={({ pressed }) => [{ 
-     opacity: pressed ? 0.7 : 1.0 }, styles.Btn2Style]}
+    opacity: pressed ? 0.7 : 1.0 }, styles.Btn2Style]}
     onPress={candidregister}>
       <Text style={styles.BtnText}>Register Candidate</Text>
     </Pressable>
@@ -213,18 +214,18 @@ const styles = StyleSheet.create({
         width : '100%',
         maxWidth : 200,
         maxHeight : 150,
+        tintColor: "blue",
     },
+
     input:{
       backgroundColor: 'white',
       flexDirection:'row',
-         width :'90%',
-         alignItems:'center',
-         borderColor : 'black',
-         borderWidth : 0.5,
-         borderRadius: 7,
-         
-         
-         paddingHorizontal:7,
+        width :'90%',
+        alignItems:'center',
+        borderColor : 'black',
+        borderWidth : 0.5,
+        borderRadius: 7,
+        paddingHorizontal:7,
          //marginHorizontal:1,
          //marginVertical:5,
     },
@@ -232,16 +233,14 @@ const styles = StyleSheet.create({
       backgroundColor: 'white',
       flexDirection:'row',
       //color:"black",
-         width :'90%',
-         alignItems:'center',
-         borderColor : 'black',
-         borderWidth : 0.5,
-         borderRadius: 7,
-         
-         
-         paddingHorizontal:7,
-         //marginHorizontal:1,
-         marginVertical:10,
+        width :'90%',
+        alignItems:'center',
+        borderColor : 'black',
+        borderWidth : 0.5,
+        borderRadius: 7,
+        paddingHorizontal:7,
+        //marginHorizontal:1,
+        marginVertical:10,
     },
     show:{
       marginLeft :270

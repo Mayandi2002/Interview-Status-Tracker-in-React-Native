@@ -52,16 +52,16 @@ const JobDesc = () => {
         
           const isValid = () => {
             if(!isValidObjField(Form)) {
-               updateError('Require All Fields',setErr);
-               return true; 
+              updateError('Require All Fields',setErr);
+              return true; 
               }
             if(!ValidationEmail(Email)) {
               updateError('Invalid Email',setEmailErr);
-               return true;
+              return true;
             }
             if(!Firstname.trim() || Firstname.length > 5) {
-               updateError('Username is Allow only 5 Characters',setFnameErr);
-               return true;
+              updateError('Username is Allow only 5 Characters',setFnameErr);
+              return true;
             }
             if(!Lastname.trim() || Lastname.length < 3) {
               updateError('Password is too Short',setLnameErr);
@@ -77,32 +77,35 @@ const JobDesc = () => {
             }
             };
         const submit = () => {
-            alert("submit is pressed")
+          if(!isValid) {
 
+          
+            alert("submit is pressed")
+          }
         }
 
     return (
     <ScrollView style={{flex:1}}>
-       <View style ={{alignItems: 'center', padding: 20, backgroundColor:"lightblue"}}>
-       <Text style={{fontSize: 25,fontWeight:'bold',color: 'gray', padding: 2,margin:5}}>Position</Text>
-       <Picker
-    style={{alignItems:'center',width :'100%',backgroundColor:"white",color:"black"}}
-    selectedValue = {Role} onValueChange = {setRole} placeholder="React">
+      <View style ={{alignItems: 'center', padding: 20, backgroundColor:"lightblue"}}>
+      <Text style={{fontSize: 25,fontWeight:'bold',color: 'gray', padding: 2,margin:5}}>Position</Text>
+    <Picker
+      style={{alignItems:'center',width :'100%',backgroundColor:"white",color:"black"}}
+      selectedValue = {Role} onValueChange = {setRole} placeholder="React">
             <Picker.Item label = "React" value = "react" />
             <Picker.Item label = "Native" value = "native" />
             <Picker.Item label = "Springboot" value = "spring" />
             <Picker.Item label = "AWS" value = "aws" />
-         </Picker>
-         <Text style={{fontSize: 25,fontWeight:'bold',color: 'gray', padding: 2,margin:5}}>Experience</Text>
-         <Picker
-    style={{alignItems:'center',width :'100%',backgroundColor:"white",color:"black"}}
-    selectedValue = {Year} onValueChange = {setYear} placeholder="1-5">
+    </Picker>
+        <Text style={{fontSize: 25,fontWeight:'bold',color: 'gray', padding: 2,margin:5}}>Experience</Text>
+    <Picker
+      style={{alignItems:'center',width :'100%',backgroundColor:"white",color:"black"}}
+      selectedValue = {Year} onValueChange = {setYear} placeholder="1-5">
             <Picker.Item label = "1-5" value = "1-5" />
             <Picker.Item label = "5-8" value = "5-8" />
             <Picker.Item label = "8-10" value = "8-10" />
             <Picker.Item label = "10-15" value = "10-15" />
-         </Picker>
-         <Text style={{fontSize: 25,fontWeight:'bold',color: 'gray', padding: 2,margin:5}}>Recquired Skills</Text>
+        </Picker>
+        <Text style={{fontSize: 25,fontWeight:'bold',color: 'gray', padding: 2,margin:5}}>Recquired Skills</Text>
     <Picker
       style={{alignItems:'center',width :'100%',backgroundColor:"white",color:"black"}}
       selectedValue = {Skill} onValueChange = {setSkill} placeholder="React">
@@ -111,8 +114,9 @@ const JobDesc = () => {
             <Picker.Item label = "Springboot" value = "spring" />
             <Picker.Item label = "AWS" value = "aws" />
     </Picker>
-         <Text style={{fontSize: 25,fontWeight:'bold',color: 'gray', padding: 2,margin:5}}>Salary</Text>
-         <TextInput style={{
+    <Text style={{fontSize: 25,fontWeight:'bold',color: 'gray', padding: 2,margin:5}}>Salary</Text>
+    <TextInput 
+      style={{
         backgroundColor: 'white',
         color:"black",
         width : '100%',
@@ -122,12 +126,13 @@ const JobDesc = () => {
         borderRadius: 7,
         paddingHorizontal: 10,
         marginVertical: 5}}
-   placeholder="From"
-   placeholderTextColor="lightgrey"
-   keyboardType="numeric"
-   value={from}
-   onChangeText={(value)=>handleOnchangeText(value,'from')} />
-  <TextInput style={{
+      placeholder="From"
+      placeholderTextColor="lightgrey"
+      keyboardType="numeric"
+      value={from}
+      onChangeText={(value)=>handleOnchangeText(value,'from')} />
+  <TextInput 
+    style={{
         backgroundColor: 'white',
         color:"black",
         width : '100%',
@@ -142,8 +147,8 @@ const JobDesc = () => {
    keyboardType="numeric"
    value={to}
    onChangeText={(value)=>handleOnchangeText(value,'to')} />
- <Text style={{fontSize: 25,fontWeight:'bold',color: 'gray', padding: 2,margin:5}}>Job Location</Text>
- <Picker
+  <Text style={{fontSize: 25,fontWeight:'bold',color: 'gray', padding: 2,margin:5}}>Job Location</Text>
+  <Picker
     style={{alignItems:'center',width :'100%',backgroundColor:"white",color:"black"}}
     selectedValue = {Location} onValueChange = {setLocation} placeholder="tamilnadu">
             <Picker.Item label = "TamilNadu" value = "TamilNadu" />
@@ -152,17 +157,17 @@ const JobDesc = () => {
             <Picker.Item label = "Delhi" value = "Delhi" />
     </Picker>
         <Text style={{fontSize: 25,fontWeight:'bold',color: 'gray', padding: 2,margin:5}}>Panel Information</Text>
-<CustomInput
-   placeholder="Firstname"
-   placeholderTextColor="lightgrey"
-   value={Firstname}
-   setValue={(value) => handleOnchangeText(value,'Firstname')} />
+  <CustomInput
+    placeholder="Firstname"
+    placeholderTextColor="lightgrey"
+    value={Firstname}
+    setValue={(value) => handleOnchangeText(value,'Firstname')} />
 
   <CustomInput
-   placeholder="Lastname"
-   placeholderTextColor="lightgrey"
-   value={Lastname}
-   setValue={(value)=>handleOnchangeText(value,'Lastname')} />
+    placeholder="Lastname"
+    placeholderTextColor="lightgrey"
+    value={Lastname}
+    setValue={(value)=>handleOnchangeText(value,'Lastname')} />
 
 
 <CustomInput
@@ -203,33 +208,28 @@ const JobDesc = () => {
 {LnameErr ? <Text style={{color:"red",fontWeight:'bold'}}>{LnameErr}</Text>:null}
 {EmailErr ? <Text style={{color:"red",fontWeight:'bold'}}>{EmailErr}</Text>:null}
 
-<Pressable
- style={({ pressed }) => [{ 
+  <Pressable
+  style={({ pressed }) => [{ 
     opacity: pressed ? 0.2 : 1.0 },
     styles.BtnStyle
   ]}
-onPress={submit}>
+  onPress={submit}>
     <Text style={styles.BtnText}>Submit</Text>
     </Pressable>
-</View>
- </ScrollView>
+  </View>
+</ScrollView>
 );
 }
 const styles = StyleSheet.create({
     BtnStyle:{
         backgroundColor: 'blue', 
         alignItems:"center",
-        //flexDirection:'row', 
-  
-          width : '85%',
-  
-          padding: 15,
-          marginVertical: 8,
-          
-  
-          alignItems: 'center',
-          borderRadius: 5,
-          borderWidth : 0.5,
+        width : '85%',
+        padding: 15,
+        marginVertical: 8,
+        alignItems: 'center',
+        borderRadius: 5,
+        borderWidth : 0.5,
       },
       BtnText:{
         fontWeight:'bold',

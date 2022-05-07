@@ -22,30 +22,30 @@ MyStack.navigate('CvvView');
 
 const [cards,setCards] = useState([])
 useEffect(()=>{
-  axios.get("http://192.168.1.3:8080/employee?size=200&page=0")
+  axios.get("http://192.168.28.111:8080/employee?size=200&page=0")
   .then(({data}) => {
     console.log(data)
-     setCards(data)
+    setCards(data)
   })
   .catch((err) => {
-     console.log(err)
+    console.log(err)
      //alert(err)
   })
 }, [])
 
 const Delcandid=(id)=> {
   //alert('delete is Pressed')
-  axios.delete(`http://192.168.1.3:8080/employee?id=${id}`)
+  axios.delete(`http://192.168.28.111:8080/employee?id=${id}`)
   .then(({data}) => {
      //setCards(data)
-     console.log(data)
-     alert(data.msg)
+    console.log(data)
+    alert(data.msg)
      //if(data.msg==="Candidate Detail Deleted"){}
-     
+  
   })
   .catch(({response}) => {
-     console.log(response.data)
-     alert(response.data.msg)
+    console.log(response.data)
+    alert(response.data.msg)
   })
 }
 

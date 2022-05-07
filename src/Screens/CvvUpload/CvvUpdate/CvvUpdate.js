@@ -63,31 +63,22 @@ const CvvUpdate = () => {
 
   const isValid = () => {
     if(!isValidObjField(Form)) {
-       updateError('Require All Fields',setErr);
-       return true; 
+      updateError('Require All Fields',setErr);
+      return true; 
       }
     if(!ValidationEmail(Email)) {
       updateError('Invalid Email',setEmailErr);
-       return true;
+      return true;
     }
     if(!Firstname.trim() || Firstname.length > 5) {
-       updateError('Username is Allow only 5 Characters',setFnameErr);
-       return true;
+      updateError('Username is Allow only 5 Characters',setFnameErr);
+      return true;
     }
     if(!Lastname.trim() || Lastname.length < 3) {
       updateError('Password is too Short',setLnameErr);
       return true;
     }
     };
-
-  //const [Firstname,setFirstname] = useState('');
-  //const [Lastname,setLastname] = useState('');
-  //const [Email,setEmail ] = useState('');
-  //const [Mobileno,setMobileno]  = useState('');
-  //const [doorno,setdoorno] = useState('');
-  //const [Street,setStreet] = useState('');
-  //const [Pincode,setPincode] = useState('');
-  //const [city,setcity] = useState('');
 
   const [isPickerShow2, setIsPickerShow2] = useState(false);
   const [date2, setDate2] = useState(new Date(Date.now()));
@@ -100,25 +91,8 @@ const CvvUpdate = () => {
   const [isPickerShow6, setIsPickerShow6] = useState(false);
   const [date6, setDate6] = useState(new Date(Date.now()));
 
-
-
-  //const [qualification,setqualification] = useState('');
-  //const [college,setcollege] = useState('');
-  
-
-  //const [Currentcompany,setCurrentcompany] = useState('');
-  //const [RolesandResponsible,setRolesandResponsible] = useState('');
-  //const [Previouscompany1,setPreviouscompany1] = useState('');
-  //const [RolesandResponsible1,setRolesandResponsible1] = useState('');
-  //const [Previouscompany2,setPreviouscompany2] = useState('');
-  //const [RolesandResponsible2,setRolesandResponsible2] = useState('');
-
-
-  //const [TechSkill,setTechSkill] = useState('');
   const [Job,setJob] = useState('');
-  //const [Dob,setdob] = useState('');
 
-  
   const showPicker2 = () => {
     setIsPickerShow2(true);
     };
@@ -166,14 +140,14 @@ const CvvUpdate = () => {
     }
   };
   
-   
+  
   const onRegisterPressed = () => {
 
     if(!isValid()) {
 
   console.log('Connecting Api')
   //console.log(company);
-  axios.post('http://192.168.1.3:8080/candidate ', { 
+  axios.post('http://192.168.1.4:8080/candidate ', { 
 		
     firstName: Firstname,
 		lastName: Lastname,
@@ -186,7 +160,7 @@ const CvvUpdate = () => {
       place: city,
     },
     company: [{
-		  roll: RolesandResponsible,
+	    roll: RolesandResponsible,
 		  name: Currentcompany,
 		  from: date2,
 		  to: date3,
@@ -198,7 +172,7 @@ const CvvUpdate = () => {
       to: date5,
     }],
     
-     qualification: [{
+    qualification: [{
 			collegeName :college,
 			degree : qualification,
     }],
@@ -226,8 +200,8 @@ const CvvUpdate = () => {
   
 return (
   <ScrollView>
- <View style ={{alignItems: 'center', padding: 20, backgroundColor:"lightblue"}}>
- {/*<Image 
+  <View style ={{alignItems: 'center', padding: 20, backgroundColor:"lightblue"}}>
+  {/*<Image 
     source={Logo} 
     style={{width : '50%',
     maxWidth :200,
@@ -235,19 +209,19 @@ return (
     resizeMode="contain" 
 />*/}
 
-   <Text style={{fontSize: 25,fontWeight:'bold',color: 'gray', padding: 2,margin:5}}>Basic Information</Text>
+    <Text style={{fontSize: 25,fontWeight:'bold',color: 'gray', padding: 2,margin:5}}>Basic Information</Text>
 
-<CustomInput
-   placeholder="Firstname"
-   placeholderTextColor="lightgrey"
-   value={Firstname}
-   setValue={(value) => handleOnchangeText(value,'Firstname')} />
+    <CustomInput
+      placeholder="Firstname"
+      placeholderTextColor="lightgrey"
+      value={Firstname}
+      setValue={(value) => handleOnchangeText(value,'Firstname')} />
 
-<CustomInput
-   placeholder="Lastname"
-   placeholderTextColor="lightgrey"
-   value={Lastname}
-   setValue={(value)=>handleOnchangeText(value,'Lastname')} />
+    <CustomInput
+      placeholder="Lastname"
+      placeholderTextColor="lightgrey"
+      value={Lastname}
+      setValue={(value)=>handleOnchangeText(value,'Lastname')} />
   
 <CustomInput
   placeholder="Email"
@@ -266,43 +240,45 @@ return (
   keyboardType='number-pad' />
 
       
-<Text style={{fontSize: 25,fontWeight:'bold',color: 'gray', padding: 10,margin:3}}>Address Information</Text>      
- 
- <View style={{flex:1,flexDirection:'row'}}>
- <TextInput style={{
-        backgroundColor: 'white',
-        width : '25%',
-        //borderColor: '#e8e8e8',
-        color: "black",
-        borderColor: 'black',
-        borderWidth : 1,
-        borderRadius: 7,
-        paddingHorizontal: 10,
-        marginVertical: 5}} 
-   placeholder="Door No"
-   placeholderTextColor="lightgrey"
-   value={doorno}
-   onChangeText={(value)=>handleOnchangeText(value,'doorno')}
-   keyboardType='number-pad' />   
-   
-   <TextInput style={{
-        backgroundColor: 'white',
-        color: "black",
-        width : '75%',
-        //borderColor: '#e8e8e8',
-        borderColor: 'black',
-        borderWidth : 1,
-        borderRadius: 7,
-        paddingHorizontal: 10,
-        marginVertical: 5}} 
-   placeholder="Street/Area"
-   placeholderTextColor="lightgrey"
-   value={Street}
-   onChangeText={(value)=>handleOnchangeText(value,'Street')} />
-   </View>
+  <Text style={{fontSize: 25,fontWeight:'bold',color: 'gray', padding: 10,margin:3}}>Address Information</Text>      
 
-   <View style={{flex:1,flexDirection:'row'}}>
-<TextInput style={{
+    <View style={{flex:1,flexDirection:'row'}}>
+  <TextInput 
+    style={{
+        backgroundColor: 'white',
+        width : '25%',
+        //borderColor: '#e8e8e8',
+        color: "black",
+        borderColor: 'black',
+        borderWidth : 1,
+        borderRadius: 7,
+        paddingHorizontal: 10,
+        marginVertical: 5}} 
+    placeholder="Door No"
+    placeholderTextColor="lightgrey"
+    value={doorno}
+    onChangeText={(value)=>handleOnchangeText(value,'doorno')}
+    keyboardType='number-pad' />   
+  
+    <TextInput style={{
+        backgroundColor: 'white',
+        color: "black",
+        width : '75%',
+        //borderColor: '#e8e8e8',
+        borderColor: 'black',
+        borderWidth : 1,
+        borderRadius: 7,
+        paddingHorizontal: 10,
+        marginVertical: 5}} 
+    placeholder="Street/Area"
+    placeholderTextColor="lightgrey"
+    value={Street}
+    onChangeText={(value)=>handleOnchangeText(value,'Street')} />
+    </View>
+
+  <View style={{flex:1,flexDirection:'row'}}>
+      <TextInput 
+      style={{
         backgroundColor: 'white',
         color:"black",
         width : '25%',
@@ -312,13 +288,14 @@ return (
         borderRadius: 7,
         paddingHorizontal: 10,
         marginVertical: 5}} 
-   placeholder="Pincode"
-   placeholderTextColor="lightgrey"
-   value={Pincode}
-   onChangeText={(value)=>handleOnchangeText(value,'Pincode')}
-   keyboardType='number-pad' />   
-   
-   <TextInput style={{
+      placeholder="Pincode"
+      placeholderTextColor="lightgrey"
+      value={Pincode}
+      onChangeText={(value)=>handleOnchangeText(value,'Pincode')}
+      keyboardType='number-pad' />   
+  
+    <TextInput 
+      style={{
         backgroundColor: 'white',
         color:"black",
         width : '75%',
@@ -328,15 +305,16 @@ return (
         borderRadius: 7,
         paddingHorizontal: 10,
         marginVertical: 5}} 
-   placeholder = "City"
-   placeholderTextColor="lightgrey"
-   value={city}
-   onChangeText={(value)=>handleOnchangeText(value,'city')} />
-   </View>
-   
+      placeholder = "City"
+      placeholderTextColor="lightgrey"
+      value={city}
+      onChangeText={(value)=>handleOnchangeText(value,'city')} />
+  </View>
+  
   <Text style={{fontSize: 25, fontWeight:'bold', color: 'gray', padding: 10, margin:3}}>Qualification</Text>      
-  <View style={{flex:1,flexDirection:'row'}}>
-<TextInput style={{
+    <View style={{flex:1,flexDirection:'row'}}>
+  <TextInput 
+    style={{
         backgroundColor: 'white',
         color:"black",
         width : '25%',
@@ -346,14 +324,14 @@ return (
         borderRadius: 7,
         paddingHorizontal: 10,
         marginVertical: 5}} 
-   placeholder="Degree"
-   placeholderTextColor="lightgrey"
-   value={qualification}
-   onChangeText={(value)=>handleOnchangeText(value,'qualification')}
+    placeholder="Degree"
+    placeholderTextColor="lightgrey"
+    value={qualification}
+    onChangeText={(value)=>handleOnchangeText(value,'qualification')}
    //keyboardType='number-pad'
     />   
 
-   <TextInput 
+    <TextInput 
       style={{
         backgroundColor: 'white',
         color:"black",
@@ -363,15 +341,16 @@ return (
         borderRadius: 7,
         paddingHorizontal: 10,
         marginVertical: 5}} 
-   placeholder = "College Name"
-   placeholderTextColor="lightgrey"
-   value={college}
-    onChangeText={(value)=>handleOnchangeText(value,'college')} 
-   />
-   </View>
+      placeholder = "College Name"
+      placeholderTextColor="lightgrey"
+      value={college}
+      onChangeText={(value)=>handleOnchangeText(value,'college')} 
+    />
+    </View>
   
     <Text style={{fontSize: 25,fontWeight:'bold',color: 'gray', padding: 20}}>Experience Detail</Text>
-  <TextInput style={{
+  <TextInput 
+    style={{
         backgroundColor: 'white',
         color:"black",
         width : '100%',
@@ -381,12 +360,13 @@ return (
         borderRadius: 7,
         paddingHorizontal: 10,
         marginVertical: 5}}
-   placeholder="Company Name"
-   placeholderTextColor="lightgrey"
-   value={Currentcompany}
-   onChangeText={(value)=>handleOnchangeText(value,'Currentcompany')} />
+    placeholder="Company Name"
+    placeholderTextColor="lightgrey"
+    value={Currentcompany}
+    onChangeText={(value)=>handleOnchangeText(value,'Currentcompany')} />
 
-<TextInput style={{
+    <TextInput 
+      style={{
         backgroundColor: 'white',
         color:"black",
         width : '100%',
@@ -396,10 +376,10 @@ return (
         borderRadius: 7,
         paddingHorizontal: 10,
         marginVertical: 5}}
-   placeholder="Role"
-   placeholderTextColor="lightgrey"
-   value={RolesandResponsible}
-   onChangeText={(value)=>handleOnchangeText(value,'RolesandResponsible')} />
+      placeholder="Role"
+      placeholderTextColor="lightgrey"
+      value={RolesandResponsible}
+      onChangeText={(value)=>handleOnchangeText(value,'RolesandResponsible')} />
 
 
 {/*<Text style={{fontSize: 25,fontWeight:'bold',color: 'gray', padding: 20}}>Previous Company1</Text>*/}
@@ -428,7 +408,7 @@ return (
           style={styles.datePicker}
         />
       )}
-       <Text style={{fontSize: 20,color: 'blue',fontStyle: 'italic'}}>Ending Date</Text>
+        <Text style={{fontSize: 20,color: 'blue',fontStyle: 'italic'}}>Ending Date</Text>
       {/* Display the selected date */}
       <View style={styles.pickedDateContainer}>
         <Text style={styles.pickedDate}>{date3.toUTCString()}</Text>
@@ -456,7 +436,8 @@ return (
 <Text style={{fontSize: 25,fontWeight:'bold',color: 'gray', padding: 10}}>Previous Company1</Text>
       <Text></Text>
       
-  <TextInput style={{
+  <TextInput 
+    style={{
         backgroundColor: 'white',
         color:"black",
         width : '100%',
@@ -466,12 +447,13 @@ return (
         borderRadius: 7,
         paddingHorizontal: 10,
         marginVertical: 5}}
-   placeholder="Company Name"
-   placeholderTextColor="lightgrey"
-   value={Previouscompany1}
-   onChangeText={(value)=>handleOnchangeText(value,'Previouscompany1')} />
+    placeholder="Company Name"
+    placeholderTextColor="lightgrey"
+    value={Previouscompany1}
+    onChangeText={(value)=>handleOnchangeText(value,'Previouscompany1')} />
 
-<TextInput style={{
+<TextInput 
+    style={{
         backgroundColor: 'white',
         color:"black",
         width : '100%',
@@ -481,10 +463,10 @@ return (
         borderRadius: 7,
         paddingHorizontal: 10,
         marginVertical: 5}}
-   placeholder="Role"
-   placeholderTextColor="lightgrey"
-   value={RolesandResponsible1}
-   onChangeText={(value)=>handleOnchangeText(value,'RolesandResponsible1')} />
+    placeholder="Role"
+    placeholderTextColor="lightgrey"
+    value={RolesandResponsible1}
+    onChangeText={(value)=>handleOnchangeText(value,'RolesandResponsible1')} />
 
       <Text style={{fontSize: 20,color: 'blue',fontWeight:'bold'}}>Starting Date</Text>
       {/* Display the selected date */}
@@ -515,7 +497,7 @@ return (
         />
       )}
       </View>
-       <Text style={{fontSize: 20,color: 'blue',fontWeight:'bold'}}>Ending Date</Text>
+      <Text style={{fontSize: 20,color: 'blue',fontWeight:'bold'}}>Ending Date</Text>
       {/* Display the selected date */}
       <View style={{flexDirection:'row'}}>
       <View style={styles.pickedDateContainer}>
@@ -546,8 +528,8 @@ return (
         </View>
 
 {/*<Text style={{fontSize: 25,fontWeight:'bold',color: 'gray', padding: 20}}>Skills</Text>*/}
-       <Text style={{fontSize: 25,fontWeight:'bold',color: 'gray', padding: 20}}>Technology Skills</Text>
-       <CustomInput
+        <Text style={{fontSize: 25,fontWeight:'bold',color: 'gray', padding: 20}}>Technology Skills</Text>
+        <CustomInput
         placeholder="Technology Skill"
         placeholderTextColor="lightgrey"
         value={TechSkill}
@@ -555,23 +537,23 @@ return (
 
 <Text style={{fontSize: 25,fontWeight:'bold',color: 'gray', padding: 20}}>Apply Job Position</Text>
   
- {/* <CustomInput
-   placeholder="Job"
-   placeholderTextColor="lightgrey"
-   value={Job}
-   setValue={setJob} />
+  {/* <CustomInput
+    placeholder="Job"
+    placeholderTextColor="lightgrey"
+    value={Job}
+    setValue={setJob} />
     */}
   
     <Picker
-    style={{alignItems:'center',width :'100%',backgroundColor:"white",color:"black"}}
-    selectedValue = {Job} onValueChange = {setJob}>
+      style={{alignItems:'center',width :'100%',backgroundColor:"white",color:"black"}}
+      selectedValue = {Job} onValueChange = {setJob}>
             <Picker.Item label = "React" value = "react" />
             <Picker.Item label = "Native" value = "native" />
             <Picker.Item label = "Springboot" value = "spring" />
             <Picker.Item label = "AWS" value = "aws" />
-         </Picker>
-         
-         
+      </Picker>
+        
+        
 <Text style={{fontSize: 25,fontWeight:'300',color: 'black', padding: 20}}>Date of Birth</Text>
 {/*<CustomInput
    placeholder="Date of Birth"
@@ -579,7 +561,7 @@ return (
    value={Dob}
   setValue={setdob} />*/}
   <View style={{flexDirection:'row'}}>
-   <View style={styles.pickedDateContainer}>
+    <View style={styles.pickedDateContainer}>
         <Text style={styles.pickedDate}>{date6.toUTCString()}</Text>
       </View>
 
@@ -596,7 +578,7 @@ return (
           style={({pressed}) => [{
             opacity:pressed ? 0.2 : 1.0 }]} />      
         </View>
-       )}
+        )}
 
       {/* The date picker */}
       {isPickerShow6 && (
@@ -617,20 +599,20 @@ return (
 {FnameErr ? <Text style={{color:"red",fontWeight:'bold'}}>{FnameErr}</Text>:null}
 {LnameErr ? <Text style={{color:"red",fontWeight:'bold'}}>{LnameErr}</Text>:null}
 {EmailErr ? <Text style={{color:"red",fontWeight:'bold'}}>{EmailErr}</Text>:null}
-   <Button title="Register Candidate"
-   onPress={onRegisterPressed} />
-   
+    <Button title="Register Candidate"
+    onPress={onRegisterPressed} />
+  
 
 <Text></Text>
 <Text></Text>
 
 {/*<Button title="Add Profile"
-   onPress={onAddProfilePressed}/>
+  onPress={onAddProfilePressed}/>
   */} 
- </View>
- </ScrollView>
-);
-};
+  </View>
+  </ScrollView>
+  );
+  };
 
 const styles = StyleSheet.create({
   container: {
