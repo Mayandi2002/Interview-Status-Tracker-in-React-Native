@@ -24,7 +24,7 @@ MyStack.navigate('CvvView');
 
 const [cards,setCards] = useState([])
 useEffect(()=>{
-  axios.get("http://192.168.28.111:8080/candidate?size=200&page=0")
+  axios.get("http://35.154.117.105:8080/candidate?size=200&page=0")
   .then(({data}) => {
     console.log(data)
     setCards(data)
@@ -64,7 +64,7 @@ const Delcandid = (id) => {
       },
       { 
         text: "Confirm", 
-        onPress: () => axios.delete(`http://192.168.28.111:8080/candidate?id=${id}`)
+        onPress: () => axios.delete(`http://35.154.117.105:8080/candidate?id=${id}`)
         .then(({data}) => {
           console.log(data)
           alert(data.msg)

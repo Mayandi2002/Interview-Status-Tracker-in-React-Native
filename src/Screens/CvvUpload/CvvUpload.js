@@ -175,7 +175,7 @@
 		if(!isValid()) {
 		
 	console.log('Connecting Api')
-	axios.post('http://192.168.28.111:8080/candidate ', { 
+	axios.post('http://35.154.117.105:8080/candidate ', { 
 		
 	firstName: Firstname,
 		lastName: Lastname,
@@ -219,7 +219,7 @@
 
 	.catch(({response}) => {
 		console.log(response.data)
-	alert(response.data.error)
+	alert(response.data.msg)
 		})
 	//console.log(Dob)
 	}

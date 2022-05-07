@@ -19,7 +19,7 @@ const CvvView = ({route}) => {
   const [cards,setCards] = useState([])
 
   useEffect(()=>{
-  axios.get(`http://192.168.28.111:8080/candidate/${route.params.data.id}`)
+  axios.get(`http://35.154.117.105:8080/candidate/${route.params.data.id}`)
   .then(({data}) => {
     console.log(data)
       setCards(data)
@@ -41,7 +41,7 @@ const hire = () => {
       },
       { 
         text: "Confirm", 
-        onPress: () => axios.post(`http:192.168.28.111:8080/candidate/hired/${route.params.data.id}`)
+        onPress: () => axios.post(`http://35.154.117.105:8080/candidate/hired/${route.params.data.id}`)
         .then(({data}) => {
           console.log(data)
           alert(data.msg)
@@ -66,7 +66,7 @@ const reject = () => {
       },
       { 
         text: "Confirm", 
-        onPress: () => axios.post(`http:192.168.28.111:8080/candidate/rejected/${route.params.data.id}`)
+        onPress: () => axios.post(`http://35.154.117.105:8080/candidate/rejected/${route.params.data.id}`)
         .then(({data}) => {
           console.log(data)
           alert(data.msg)
@@ -91,7 +91,7 @@ const waiting = () => {
       },
       { 
         text: "Confirm", 
-        onPress: () => axios.post(`http:192.168.28.111:8080/candidate/waitingList/${route.params.data.id}`)
+        onPress: () => axios.post(`http://35.154.117.105:8080/candidate/waitingList/${route.params.data.id}`)
         .then(({data}) => {
           console.log(data)
           alert(data.msg)
@@ -116,7 +116,7 @@ const progress = () => {
       },
       { 
         text: "Confirm", 
-        onPress: () => axios.post(`http:192.168.28.111:8080/candidate/progress/${route.params.data.id}`)
+        onPress: () => axios.post(`http://35.154.117.105:8080/candidate/progress/${route.params.data.id}`)
         .then(({data}) => {
           console.log(data)
           alert(data.msg)

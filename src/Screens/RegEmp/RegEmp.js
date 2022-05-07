@@ -153,7 +153,7 @@ const RegEmp = () => {
 
   console.log('Connecting Api')
   //console.log(company);
-  axios.post('http://192.168.1.4:8080/employee', { 
+  axios.post('http://35.154.117.105:8080/employee', { 
 		
     firstName: Firstname,
 		lastName: Lastname,

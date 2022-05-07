@@ -147,7 +147,7 @@ const CvvUpdate = () => {
 
   console.log('Connecting Api')
   //console.log(company);
-  axios.post('http://192.168.1.4:8080/candidate ', { 
+  axios.post('http://35.154.117.105:8080/candidate ', { 
 		
     firstName: Firstname,
 		lastName: Lastname,
