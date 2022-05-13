@@ -1,27 +1,19 @@
 import React, { useState } from 'react';
 import { View  , Text , Button , Pressable , ScrollView , Image, StyleSheet,
-        TextInput, useWindowDimensions } from 'react-native';
+        TextInput, useWindowDimensions,ToastAndroid } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
-import CustomInput from "../../componet/CustomInput/CustomInput";
-//import axios from "axios";
+//import CustomInput from "../../componet/CustomInput/CustomInput";
+import axios from "axios";
 //import Icon from 'react-native-vector-icons/FontAwesome';
 
 const JobDesc = () => {
   const[Form,SetForm] = useState({
-      Firstname:'',
-      Lastname:'',
-      Email:'',
-      Mobileno:'',
-      PhoneNo:'',
-      from:'',
-      to:'',
+      From:'',
+      To:'',
     });
     const[Err,setErr] = useState('');
-    const[FnameErr,setFnameErr] = useState('');
-    const[LnameErr,setLnameErr] = useState('');
-    const[EmailErr,setEmailErr] = useState('');
 
-    const{Firstname,Lastname,Email,Mobileno,PhoneNo,from,to} = Form
+    const{From,To} = Form
 
         const handleOnchangeText = (value,fieldname) => {
             SetForm({...Form, [fieldname]: value});
@@ -37,17 +29,12 @@ const JobDesc = () => {
           stateUpdater('')
           },2000);
           }
-          const [Role,setRole] = useState('');
+          const [Position,setPosition] = useState('');
           const [Year,setYear] = useState('');
           const [Skill,setSkill] = useState('');
           const [Location,setLocation] = useState('');
-          const [Role1,setRole1] = useState('');
+          const [Qualification,setQualifiaction] = useState('');
 
-        
-          const ValidationEmail = (value) => {
-            const regx = /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/;
-            return regx.test(value)
-          }
         
         
           const isValid = () => {
@@ -55,32 +42,30 @@ const JobDesc = () => {
               updateError('Require All Fields',setErr);
               return true; 
               }
-            if(!ValidationEmail(Email)) {
-              updateError('Invalid Email',setEmailErr);
-              return true;
-            }
-            if(!Firstname.trim() || Firstname.length > 5) {
-              updateError('Username is Allow only 5 Characters',setFnameErr);
-              return true;
-            }
-            if(!Lastname.trim() || Lastname.length < 3) {
-              updateError('Password is too Short',setLnameErr);
-              return true;
-            }
-            if(!Mobileno.trim() || Mobileno.length > 10) {
-              updateError('Please Enter Corrct MobileNo',setMobilenoErr);
-              return true;
-            }
-            if(!PhoneNo.trim() || PhoneNo.length > 10 ) {
-              updateError('Please Enter Corrct PhoneNo',setPhoneNoErr);
-              return true;
-            }
             };
-        const submit = () => {
-          if(!isValid) {
 
+        const submit = () => {
+          if(isValid) {
+          console.log("api connection")
+          axios.post('http://35.154.117.105:8080/jobDescription',{
+            position:Position,
+            experience:Year,
+            skill:[Skill],
+            salary:{from:From,to:To},
+            location:[Location],
+            qualification:[Qualification]
+          })
+            .then(({data})=>{
+              //alert(data.msg)
+              ToastAndroid.show(data.msg,ToastAndroid.SHORT);
+              console.log(data);
+            })
+            .catch(({response})=>{
+              console.log(response.data)
+            })
           
-            alert("submit is pressed")
+          
+            
           }
         }
 
@@ -90,7 +75,7 @@ const JobDesc = () => {
       <Text style={{fontSize: 25,fontWeight:'bold',color: 'gray', padding: 2,margin:5}}>Position</Text>
     <Picker
       style={{alignItems:'center',width :'100%',backgroundColor:"white",color:"black"}}
-      selectedValue = {Role} onValueChange = {setRole} placeholder="React">
+      selectedValue = {Position} onValueChange = {setPosition} placeholder="React">
             <Picker.Item label = "React" value = "react" />
             <Picker.Item label = "Native" value = "native" />
             <Picker.Item label = "Springboot" value = "spring" />
@@ -129,8 +114,8 @@ const JobDesc = () => {
       placeholder="From"
       placeholderTextColor="lightgrey"
       keyboardType="numeric"
-      value={from}
-      onChangeText={(value)=>handleOnchangeText(value,'from')} />
+      value={From}
+      onChangeText={(value)=>handleOnchangeText(value,'From')} />
   <TextInput 
     style={{
         backgroundColor: 'white',
@@ -145,8 +130,8 @@ const JobDesc = () => {
    placeholder="To"
    placeholderTextColor="lightgrey"
    keyboardType="numeric"
-   value={to}
-   onChangeText={(value)=>handleOnchangeText(value,'to')} />
+   value={To}
+   onChangeText={(value)=>handleOnchangeText(value,'To')} />
   <Text style={{fontSize: 25,fontWeight:'bold',color: 'gray', padding: 2,margin:5}}>Job Location</Text>
   <Picker
     style={{alignItems:'center',width :'100%',backgroundColor:"white",color:"black"}}
@@ -156,58 +141,24 @@ const JobDesc = () => {
             <Picker.Item label = "Kerala" value = "Kerala" />
             <Picker.Item label = "Delhi" value = "Delhi" />
     </Picker>
-        <Text style={{fontSize: 25,fontWeight:'bold',color: 'gray', padding: 2,margin:5}}>Panel Information</Text>
-  <CustomInput
-    placeholder="Firstname"
-    placeholderTextColor="lightgrey"
-    value={Firstname}
-    setValue={(value) => handleOnchangeText(value,'Firstname')} />
-
-  <CustomInput
-    placeholder="Lastname"
-    placeholderTextColor="lightgrey"
-    value={Lastname}
-    setValue={(value)=>handleOnchangeText(value,'Lastname')} />
-
-
-<CustomInput
-  placeholder="Email"
-  placeholderTextColor="lightgrey"
-  value={Email}
-  setValue={(value)=>handleOnchangeText(value,'Email')}
-  keyboardType='email-address'
-  autoCapitalize='none' 
-  />
-
-<CustomInput
-  placeholder="Mobileno"
-  placeholderTextColor="lightgrey"
-  value={Mobileno}
-  setValue={(value)=>handleOnchangeText(value,'Mobileno')}
-  keyboardType='number-pad' />
-
-<CustomInput
-  placeholder="PhoneNo"
-  placeholderTextColor="lightgrey"
-  value={PhoneNo}
-  setValue={(value)=>handleOnchangeText(value,'PhoneNo')}
-  keyboardType='number-pad' /> 
+         
   <Text style={{fontSize: 25,fontWeight:'bold',color: 'gray', padding: 2,margin:5}}>Role</Text> 
-  <Picker
-  style={{alignItems:'center',width :'100%',backgroundColor:"white",color:"black"}}
-  selectedValue = {Role1} onValueChange = {setRole1} placeholder="Role">
-          <Picker.Item label = "React" value = "react" />
-          <Picker.Item label = "Native" value = "native" />
-          <Picker.Item label = "Springboot" value = "spring" />
-          <Picker.Item label = "AWS" value = "aws" />
-      </Picker>    
-      <Text></Text>
+  <TextInput 
+      style={{
+        backgroundColor: 'white',
+        color:"black",
+        width : '100%',
+        borderColor: 'black',
+        borderWidth : 1,
+        borderRadius: 7,
+        paddingHorizontal: 10,
+        marginVertical: 5}}
+      placeholder="Qualification"
+      placeholderTextColor="lightgrey"
+      value={Qualification}
+      onChangeText={setQualifiaction} />
 <Text></Text>
 {Err ? <Text style={{color:"red",fontWeight:'bold'}}>{Err}</Text>:null}
-{FnameErr ? <Text style={{color:"red",fontWeight:'bold'}}>{FnameErr}</Text>:null}
-{LnameErr ? <Text style={{color:"red",fontWeight:'bold'}}>{LnameErr}</Text>:null}
-{EmailErr ? <Text style={{color:"red",fontWeight:'bold'}}>{EmailErr}</Text>:null}
-
   <Pressable
   style={({ pressed }) => [{ 
     opacity: pressed ? 0.2 : 1.0 },

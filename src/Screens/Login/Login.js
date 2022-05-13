@@ -1,6 +1,6 @@
 import React, { useState,useEffect } from 'react';
 import { Text,View,Image,ImageBackground,StyleSheet,useWindowDimensions,
-        TextInput,Pressable,TouchableOpacity } from 'react-native';
+        TextInput,Pressable,TouchableOpacity,ToastAndroid } from 'react-native';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { Picker } from '@react-native-picker/picker';
 import BGLogo from '../../../assets/images/Icanio2.png';
@@ -78,7 +78,9 @@ const Login = () => {
           })
           .then(({data})=> {
               //alert('Login Successfully')
-            alert(data.msg)
+            //alert(data.msg)
+            ToastAndroid.show("Login Successfully",ToastAndroid.SHORT);
+            ToastAndroid.show(data.msg,ToastAndroid.SHORT);
             console.log(data)
             if(data.msg === "Employee"){
               MyStack.navigate('Main');
@@ -91,8 +93,9 @@ const Login = () => {
             }
           })
           .catch(({response}) => {
-              alert(response.data.msg)
+              //alert(response.data.msg)
               //alert(msg)
+              ToastAndroid.show(response.data.msg,ToastAndroid.SHORT);
               console.log(response.data);
           })
         //alert("login success");
@@ -105,11 +108,12 @@ const Login = () => {
             MyStack.navigate('CvvUpload');
           }
         const empregister = () => {
-          alert("employee register")
+          //alert("employee register")
+          ToastAndroid.show("Create Employee",ToastAndroid.SHORT);
             MyStack.navigate('RegEmp');
         }
         const jobdesc = () => {
-          alert("job description")
+          //alert("job description")
             MyStack.navigate('JobDesc')
         }
 
