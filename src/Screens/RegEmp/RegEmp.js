@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import {View  , Text , Button , Pressable , ScrollView , Image, StyleSheet, TextInput, useWindowDimensions} from 'react-native';
 import CustomInput from '../../componet/CustomInput/CustomInput';
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -73,12 +73,12 @@ const RegEmp = () => {
       updateError('Invalid Email',setEmailErr);
        return true;
     }
-    if(!Firstname.trim() || Firstname.length > 5) {
-       updateError('Username is Allow only 5 Characters',setFnameErr);
+    if(!Firstname.trim() || Firstname.length > 25) {
+       updateError('Firstname is Allow only 25 Characters',setFnameErr);
        return true;
     }
-    if(!Lastname.trim() || Lastname.length < 3) {
-      updateError('Password is too Short',setLnameErr);
+    if(!Lastname.trim() || Lastname.length > 25) {
+      updateError('Lastname is too Short',setLnameErr);
       return true;
     }
     if(!Mobileno.trim() || Mobileno.length > 10) {
@@ -145,6 +145,18 @@ const RegEmp = () => {
       setIsPickerShow6(false);
     }
   };
+
+  const [Drop,setDrop] = useState([])
+  useEffect(()=>{
+    axios.get("http://35.154.117.105:8080/dropDown/position")
+    .then(({data}) => {
+    console.log(data)
+    setDrop(data)
+    })
+    .catch((err) => {
+    console.log(err)
+    })
+  }, [])
   
    
   const onRegisterPressed = () => {
@@ -298,9 +310,9 @@ return (
   <Picker
     style={{alignItems:'center',width :'97%',backgroundColor:"white",color:"black",marginTop :5}}
     selectedValue = {Role} onValueChange = {SetRole}>
-            <Picker.Item label = "Employee" value = "employee" />
-            <Picker.Item label = "Panel" value = "panel" />
-            <Picker.Item label = "Admin" value = "admin" />
+      {Drop?.data?.map((dropdata,idx) => (
+            <Picker.Item 
+           key={idx} label = {dropdata} value = {dropdata} />))}
          </Picker>       
 
       

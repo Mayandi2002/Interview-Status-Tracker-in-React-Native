@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { Text,View,Image,ImageBackground,StyleSheet,useWindowDimensions,
         TextInput,Pressable,TouchableOpacity } from 'react-native';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
@@ -7,6 +7,7 @@ import BGLogo from '../../../assets/images/Icanio2.png';
 import Logo from '../../../assets/images/Icanio.png';
 import axios from 'axios';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { ScaleFromCenterAndroidSpec } from '@react-navigation/stack/lib/typescript/src/TransitionConfigs/TransitionSpecs';
 
 const Login = () => {
 
@@ -51,13 +52,25 @@ const Login = () => {
   const {height} = useWindowDimensions();
   const MyStack = useNavigation();
   
+  const [Drop,setDrop] = useState([])
+  useEffect(()=>{
+    axios.get("http://35.154.117.105:8080/dropDown/position")
+    .then(({data}) => {
+    console.log(data)
+    setDrop(data)
+    })
+    .catch((err) => {
+    console.log(err)
+    })
+  }, [])
+  
   const loginpress = () => {
 
     if(isValid()) {
       console.log(User)
       //alert("validation success")
       
-      console.log('infun')
+      console.log('Connecting Api')
         axios.put('http://35.154.117.105:8080/login', {
             userName: Username,
             password: Password,
@@ -67,13 +80,13 @@ const Login = () => {
               //alert('Login Successfully')
             alert(data.msg)
             console.log(data)
-            if(data.msg === "employee"){
+            if(data.msg === "Employee"){
               MyStack.navigate('Main');
             }
-            if(data.msg === "admin"){
+            if(data.msg === "Developer"){
               MyStack.navigate('Main');
             }
-            if(data.msg === "panel"){
+            if(data.msg === "Hr"){
               MyStack.navigate('Main');
             }
           })
@@ -100,7 +113,8 @@ const Login = () => {
             MyStack.navigate('JobDesc')
         }
 
-
+//console.log(Drop.data)
+//console.log(Position)
   return (
     <View style={styles.root}>
     <ImageBackground
@@ -158,11 +172,11 @@ const Login = () => {
     {PassErr ? <Text style={{color:"red",fontWeight:'bold',fontSize:13,marginRight :140}}>{PassErr}</Text>: null}
     <Picker
       style={{alignItems:'center',width :'88%',backgroundColor:"white",color:"black"}}
-      selectedValue = {Position} onValueChange = {SetPosition}>
-        <Picker.Item label = "Employee" value = "employee" />
-        <Picker.Item label = "Panel" value = "panel" />
-        <Picker.Item label = "Admin" value = "admin" />
-        <Picker.Item label = "HR" value = "hr" />
+      selectedValue = {Position} onValueChange = {SetPosition} >
+        {Drop?.data?.map((dropdata,idx) => (
+        <Picker.Item 
+        key={idx}
+        label = {dropdata} value = {dropdata} />))}
     </Picker>  
 
     <Pressable
