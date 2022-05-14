@@ -24,6 +24,8 @@ const DrawerRoute = () => {
     <Drawer.Screen name="Candidates List" component={Main} />
     <Drawer.Screen name="Add Candidate" component={CvvUpload} />
     <Drawer.Screen name="Dashboard" component={Dashboard} />
+    <Drawer.Screen name="Create Employee" component={RegEmp} />
+    <Drawer.Screen name="Add Job Description" component={JobDesc} />
     <Drawer.Screen name="Employee List" component={EmpList} />
     </Drawer.Navigator>
     

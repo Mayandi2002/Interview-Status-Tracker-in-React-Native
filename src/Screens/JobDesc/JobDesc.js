@@ -1,21 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { View  , Text , Button , Pressable , ScrollView , Image, StyleSheet,
-        TextInput, useWindowDimensions,ToastAndroid } from 'react-native';
+         TextInput, useWindowDimensions,ToastAndroid } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 //import CustomInput from "../../componet/CustomInput/CustomInput";
 import axios from "axios";
 //import Icon from 'react-native-vector-icons/FontAwesome';
 
-const JobDesc = () => {
-  const[Form,SetForm] = useState({
+  const JobDesc = () => {
+    
+    const[Form,SetForm] = useState({
       From:'',
       To:'',
     });
-    const[Err,setErr] = useState('');
 
-    const{From,To} = Form
+      const[Err,setErr] = useState('');
 
-        const handleOnchangeText = (value,fieldname) => {
+      const{From,To} = Form
+
+          const handleOnchangeText = (value,fieldname) => {
             SetForm({...Form, [fieldname]: value});
           };
           
@@ -44,7 +46,67 @@ const JobDesc = () => {
               }
             };
 
-        const submit = () => {
+            const [Pos,setPos] = useState([])
+            useEffect(()=>{
+              axios.get('http://35.154.117.105:8080/dropDown/position')
+              .then(({data}) => {
+                console.log(data)
+                setPos(data)
+                })
+                .catch((err) => {
+                console.log(err)
+                })
+              }, [])
+
+            const [Exp,setExp] = useState([])
+            useEffect(()=>{
+              axios.get('http://35.154.117.105:8080/dropDown/experience')
+              .then(({data}) => {
+                console.log(data)
+                setExp(data)
+                })
+                .catch((err) => {
+                console.log(err)
+                })
+              }, [])
+
+              const [SKILL,setSKILL] = useState([])
+            useEffect(()=>{
+              axios.get('http://35.154.117.105:8080/dropDown/skill')
+              .then(({data}) => {
+                console.log(data)
+                setSKILL(data)
+                })
+                .catch((err) => {
+                console.log(err)
+                })
+              }, [])
+
+              const [Loc,setLoc] = useState([])
+            useEffect(()=>{
+              axios.get('http://35.154.117.105:8080/dropDown/location')
+              .then(({data}) => {
+                console.log(data)
+                setLoc(data)
+                })
+                .catch((err) => {
+                console.log(err)
+                })
+              }, [])
+
+              const [Quali,setQuali] = useState([])
+            useEffect(()=>{
+              axios.get('http://35.154.117.105:8080/dropDown/qualification')
+              .then(({data}) => {
+                console.log(data)
+                setQuali(data)
+                })
+                .catch((err) => {
+                console.log(err)
+                })
+              }, [])
+
+      const submit = () => {
           if(isValid) {
           console.log("api connection")
           axios.post('http://35.154.117.105:8080/jobDescription',{
@@ -63,102 +125,89 @@ const JobDesc = () => {
             .catch(({response})=>{
               console.log(response.data)
             })
-          
-          
-            
           }
         }
 
     return (
+    
     <ScrollView style={{flex:1}}>
-      <View style ={{alignItems: 'center', padding: 20, backgroundColor:"lightblue"}}>
-      <Text style={{fontSize: 25,fontWeight:'bold',color: 'gray', padding: 2,margin:5}}>Position</Text>
+      
+    <View style ={styles.container}>
+      
+      <Text style={styles.heading}>Position</Text>
+   
     <Picker
-      style={{alignItems:'center',width :'100%',backgroundColor:"white",color:"black"}}
-      selectedValue = {Position} onValueChange = {setPosition} placeholder="React">
-            <Picker.Item label = "React" value = "react" />
-            <Picker.Item label = "Native" value = "native" />
-            <Picker.Item label = "Springboot" value = "spring" />
-            <Picker.Item label = "AWS" value = "aws" />
+      style={styles.pick}
+        mode="dropdown"
+        selectedValue = {Position} 
+        onValueChange = {setPosition} >
+        {Pos?.data?.map((dropPos,idx) => (
+            <Picker.Item key={idx} label = {dropPos} value = {dropPos} />))}
     </Picker>
-        <Text style={{fontSize: 25,fontWeight:'bold',color: 'gray', padding: 2,margin:5}}>Experience</Text>
+        
+        <Text style={styles.heading}>Experience</Text>
+    
     <Picker
-      style={{alignItems:'center',width :'100%',backgroundColor:"white",color:"black"}}
-      selectedValue = {Year} onValueChange = {setYear} placeholder="1-5">
-            <Picker.Item label = "1-5" value = "1-5" />
-            <Picker.Item label = "5-8" value = "5-8" />
-            <Picker.Item label = "8-10" value = "8-10" />
-            <Picker.Item label = "10-15" value = "10-15" />
+      style={styles.pick}
+      mode="dropdown"
+      selectedValue = {Year} 
+      onValueChange = {setYear}>
+        {Exp?.data?.map((dropExp,idx)=>(
+            <Picker.Item key={idx} label = {dropExp} value = {dropExp} />))}
         </Picker>
-        <Text style={{fontSize: 25,fontWeight:'bold',color: 'gray', padding: 2,margin:5}}>Recquired Skills</Text>
+        
+        <Text style={styles.heading}>Recquired Skills</Text>
+    
     <Picker
-      style={{alignItems:'center',width :'100%',backgroundColor:"white",color:"black"}}
-      selectedValue = {Skill} onValueChange = {setSkill} placeholder="React">
-            <Picker.Item label = "React" value = "react" />
-            <Picker.Item label = "Native" value = "native" />
-            <Picker.Item label = "Springboot" value = "spring" />
-            <Picker.Item label = "AWS" value = "aws" />
+      style={styles.pick}
+      mode="dropdown"
+      selectedValue = {Skill} 
+      onValueChange = {setSkill}>
+        {SKILL?.data?.map((dropSkill,idx) => (
+          <Picker.Item key={idx} label = {dropSkill} value = {dropSkill} />))}
+        
     </Picker>
-    <Text style={{fontSize: 25,fontWeight:'bold',color: 'gray', padding: 2,margin:5}}>Salary</Text>
+    
+    <Text style={styles.heading}>Salary</Text>
+    
     <TextInput 
-      style={{
-        backgroundColor: 'white',
-        color:"black",
-        width : '100%',
-        borderColor: 'black',
-        //borderColor: '#e8e8e8',
-        borderWidth : 1,
-        borderRadius: 7,
-        paddingHorizontal: 10,
-        marginVertical: 5}}
+      style={styles.input}
       placeholder="From"
       placeholderTextColor="lightgrey"
       keyboardType="numeric"
       value={From}
       onChangeText={(value)=>handleOnchangeText(value,'From')} />
   <TextInput 
-    style={{
-        backgroundColor: 'white',
-        color:"black",
-        width : '100%',
-        borderColor: 'black',
-        //borderColor: '#e8e8e8',
-        borderWidth : 1,
-        borderRadius: 7,
-        paddingHorizontal: 10,
-        marginVertical: 5}}
+    style={styles.input}
    placeholder="To"
    placeholderTextColor="lightgrey"
    keyboardType="numeric"
    value={To}
    onChangeText={(value)=>handleOnchangeText(value,'To')} />
-  <Text style={{fontSize: 25,fontWeight:'bold',color: 'gray', padding: 2,margin:5}}>Job Location</Text>
+  <Text style={styles.heading}>Job Location</Text>
+  
   <Picker
-    style={{alignItems:'center',width :'100%',backgroundColor:"white",color:"black"}}
-    selectedValue = {Location} onValueChange = {setLocation} placeholder="tamilnadu">
-            <Picker.Item label = "TamilNadu" value = "TamilNadu" />
-            <Picker.Item label = "Bangalore" value = "Bangalore" />
-            <Picker.Item label = "Kerala" value = "Kerala" />
-            <Picker.Item label = "Delhi" value = "Delhi" />
-    </Picker>
+    style={styles.pick}
+    mode="dropdown"
+    selectedValue = {Location} 
+    onValueChange = {setLocation}>
+      {Loc?.data?.map((dropLoc,idx)=>(
+        <Picker.Item key={idx} label = {dropLoc} value = {dropLoc} />))}
+  </Picker>
          
-  <Text style={{fontSize: 25,fontWeight:'bold',color: 'gray', padding: 2,margin:5}}>Role</Text> 
-  <TextInput 
-      style={{
-        backgroundColor: 'white',
-        color:"black",
-        width : '100%',
-        borderColor: 'black',
-        borderWidth : 1,
-        borderRadius: 7,
-        paddingHorizontal: 10,
-        marginVertical: 5}}
-      placeholder="Qualification"
-      placeholderTextColor="lightgrey"
-      value={Qualification}
-      onChangeText={setQualifiaction} />
-<Text></Text>
-{Err ? <Text style={{color:"red",fontWeight:'bold'}}>{Err}</Text>:null}
+  <Text style={styles.heading}>Qualification</Text> 
+      
+      <Picker
+       style={styles.pick}
+       mode="dropdown"
+       selectedValue = {Qualification} 
+       onValueChange = {setQualifiaction}>
+        { Quali?.data?.map((dropQuali,idx) => (
+        <Picker.Item key={idx} label = {dropQuali} value = {dropQuali} />))}
+      </Picker>
+
+  <Text></Text>
+    {Err ? <Text style={{color:"red",fontWeight:'bold'}}>{Err}</Text>:null}
   <Pressable
   style={({ pressed }) => [{ 
     opacity: pressed ? 0.2 : 1.0 },
@@ -172,12 +221,17 @@ const JobDesc = () => {
 );
 }
 const styles = StyleSheet.create({
+    container:{
+        alignItems: 'center', 
+        padding: 15, 
+        backgroundColor:"lightblue"
+      },
     BtnStyle:{
         backgroundColor: 'blue', 
         alignItems:"center",
         width : '85%',
         padding: 15,
-        marginVertical: 8,
+        marginVertical: 3,
         alignItems: 'center',
         borderRadius: 5,
         borderWidth : 0.5,
@@ -188,6 +242,30 @@ const styles = StyleSheet.create({
         color:"white",
         alignItems:"center",
         
+      },
+      heading: {
+        fontSize: 25,
+        fontWeight:'bold',
+        color: 'gray',
+        padding: 1,
+        //margin:1,
+      },
+      pick:{
+        alignItems:'center',
+        width :'100%',
+        backgroundColor:"white",
+        color:"black",
+      },
+      input:{
+        backgroundColor: 'white',
+        color:"black",
+        width : '100%',
+        borderColor: 'black',
+        //borderColor: '#e8e8e8',
+        borderWidth : 1,
+        borderRadius: 7,
+        paddingHorizontal: 10,
+        marginVertical: 3
       }
 })
 

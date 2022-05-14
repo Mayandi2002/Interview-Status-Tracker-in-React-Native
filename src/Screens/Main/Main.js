@@ -8,19 +8,6 @@ import { event } from 'react-native-reanimated';
 
 const Main = () => {
   const MyStack = useNavigation();
-  
-  {/*const[Candidates] = useState ([
-    {ID:'1',Appid:'A1',Name:'Mayandi',Degree:'B.Sc(CS)',Contact:'9087654321'},
-    {ID:'2',Appid:'A2',Name:'Muppidathi',Degree:'B.Sc(CS)',Contact:'9087698421'},
-    {ID:'3',Appid:'A3',Name:'Rakesh',Degree:'B.Sc(CS)',Contact:'9087655421'},
-    {ID:'4',Appid:'A4',Name:'Kuthalinagm',Degree:'B.Sc(CS)',Contact:'98777654321'},
-    {ID:'5',Appid:'A5',Name:'Jp',Degree:'B.Sc(CS)',Contact:'9087687321'},
-    {ID:'6',Appid:'A6',Name:'Seelan',Degree:'B.Sc(CS)',Contact:'9034654321'}
-  ]);
-
-const CandidatesData = () => {
-MyStack.navigate('CvvView');
-};*/}
 
 const [cards,setCards] = useState([])
 useEffect(()=>{
@@ -33,24 +20,6 @@ useEffect(()=>{
     console.log(err)
   })
 }, [])
-
-{/*const ConfirmAlert = () => {
-  
-  Alert.alert(
-    "Alert Title",
-    "My Alert Msg",
-    [
-      {
-        text: "Cancel",
-        onPress: () => console.log("Cancel Pressed"),
-        style: "cancel"
-      },
-      { 
-        text: "OK", onPress: () => console.log("OK Pressed") 
-      }
-    ]
-  );
-}*/}
 
 const Delcandid = (id) => {
   Alert.alert(
@@ -85,32 +54,20 @@ return(
         <TouchableOpacity activeOpacity={0.9} 
           onPress={()=> MyStack.navigate('CvvView',{data:card})}>
       <Card
-      style={styles.card}
-      key={idx}
-      > 
+        style={styles.card}
+        key={idx}> 
       
-      
-      {/*<View style={styles.list}>
-        <Text style={styles.text}>ID</Text>
-        <Text style={styles.text}>{card.id}</Text>
-      </View>*/}
       <Pressable
         onPress={()=>Delcandid(card.id)}
         style={{
           backgroundColor:"blue",borderColor:"white",
-          borderWidth :0.7,marginLeft :310,marginRight :10,marginTop :2,borderRadius:5}}>
+          borderWidth :0.7,marginLeft :310,marginRight :10,
+          marginTop :2,borderRadius:5 }}>
         <Icon name='delete' color="white" size={25} />
       </Pressable>
       <View style={styles.list}>
         <Text style={styles.text}>Firstname</Text>
         <Text style={styles.datatxt}>{card.firstName}</Text>
-        {/*<Pressable
-        onPress={()=>Delcandid(card.id)}
-        style={{
-          backgroundColor:"blue",borderColor:"white",
-          borderWidth :0.7,borderRadius:5}}>
-        <Icon name='delete' color="white" size={25} />
-        </Pressable>*/}
       </View>
       <View style={styles.list}>
         <Text style={styles.text}>Email</Text>

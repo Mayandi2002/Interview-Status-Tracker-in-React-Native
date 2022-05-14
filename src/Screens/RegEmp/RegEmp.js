@@ -146,19 +146,21 @@ const RegEmp = () => {
     }
   };
 
-  const [Drop,setDrop] = useState([])
+  const [Pos,setPos] = useState([])
   useEffect(()=>{
-    axios.get("http://35.154.117.105:8080/dropDown/position")
+    axios.get("http://35.154.117.105:8080/dropDown/role")
     .then(({data}) => {
     console.log(data)
-    setDrop(data)
+    setPos(data)
     })
     .catch((err) => {
     console.log(err)
     })
   }, [])
+
   
-   
+  
+   //console.log(Role)
   const onRegisterPressed = () => {
    
     if(!isValid()) {
@@ -310,7 +312,7 @@ return (
   <Picker
     style={{alignItems:'center',width :'97%',backgroundColor:"white",color:"black",marginTop :5}}
     selectedValue = {Role} onValueChange = {SetRole}>
-      {Drop?.data?.map((dropdata,idx) => (
+      {Pos?.data?.map((dropdata,idx) => (
             <Picker.Item 
            key={idx} label = {dropdata} value = {dropdata} />))}
          </Picker>       
@@ -547,7 +549,7 @@ return (
       {!isPickerShow4 && (
         <View style={styles.btnContainer}>
           <Pressable
-          onPress={showPicker6}
+          onPress={showPicker4}
           style={({ pressed }) => [{ 
             opacity: pressed ? 0.8 : 1.0 },styles.dateBtn]} ><Text style={{color:"white"}}>Select Date</Text></Pressable>
         </View>
@@ -576,7 +578,7 @@ return (
       {!isPickerShow5 && (
         <View style={styles.btnContainer}>
           <Pressable
-          onPress={showPicker6}
+          onPress={showPicker5}
           style={({ pressed }) => [{ 
             opacity: pressed ? 0.8 : 1.0 },styles.dateBtn]} ><Text style={{color:"white"}}>Select Date</Text></Pressable>
         </View>

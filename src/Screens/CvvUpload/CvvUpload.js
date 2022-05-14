@@ -330,6 +330,7 @@
 		borderWidth : 1,
 		borderRadius: 7,
 		paddingHorizontal: 10,
+		marginHorizontal:2,
 		marginVertical: 5}} 
 	placeholder="Door No"
 	placeholderTextColor="lightgrey"
@@ -363,6 +364,7 @@
 		borderWidth : 1,
 		borderRadius: 7,
 		paddingHorizontal: 10,
+		marginHorizontal:2,
 		marginVertical: 5}} 
 	placeholder="Pincode"
 	placeholderTextColor="lightgrey"
@@ -400,6 +402,7 @@
 				borderColor:"black",
 				borderRadius: 7,
 				paddingHorizontal: 10,
+				marginHorizontal:2,
 				marginVertical: 5}} 
 			placeholder="Degree"
 			placeholderTextColor="lightgrey"
@@ -431,7 +434,7 @@
 		style={{alignItems:'center',color:"white",fontWeight:"bold"}}>Add</Text>
 	</Pressable>
 	<Pressable
-	style={{backgroundColor:"red",padding:10,marginLeft :7,borderRadius:7}}
+	style={{backgroundColor:"mediumblue",padding:10,marginLeft :7,borderRadius:7}}
 	onPress={deletequalificationform}>
 		<Text style={{alignItems:'center',color:"white",fontWeight:"bold"}}>Clear</Text>
 	</Pressable>
@@ -471,8 +474,9 @@
 
 	{/*<Text style={{fontSize: 25,fontWeight:'bold',color: 'gray', padding: 20}}>Previous Company1</Text>*/}
 		
-		<Text style={{fontSize: 20,color: 'blue',fontStyle: 'italic'}}>Starting Date</Text>
+		<Text style={{fontSize:20,color:'blue',fontWeight:'bold'}}>Starting Date</Text>
 		{/* Display the selected date */}
+		<View style={{flexDirection:'row'}}>
 		<View style={styles.pickedDateContainer}>
 		<Text style={styles.pickedDate}>{date2.toUTCString()}</Text>
 		</View>
@@ -480,7 +484,7 @@
 		{/* The button that used to trigger the date picker */}
 		{!isPickerShow2 && (
 		<View style={styles.btnContainer}>
-			<Button title="Show Picker" color="purple" onPress={showPicker2} />
+			<Button title="Select" color="blue" onPress={showPicker2} />
 		</View>
 		)}
 
@@ -495,8 +499,10 @@
 			style={styles.datePicker}
 		/>
 		)}
-		<Text style={{fontSize: 20,color: 'blue',fontStyle: 'italic'}}>Ending Date</Text>
+		</View>
+		<Text style={{fontSize:20,color:'blue',fontWeight:'bold'}}>Ending Date</Text>
 		{/* Display the selected date */}
+		<View style={{flexDirection:'row'}}>
 		<View style={styles.pickedDateContainer}>
 		<Text style={styles.pickedDate}>{date3.toUTCString()}</Text>
 		</View>
@@ -504,7 +510,7 @@
 		{/* The button that used to trigger the date picker */}
 		{!isPickerShow3 && (
 		<View style={styles.btnContainer}>
-			<Button title="Show Picker" color="purple" onPress={showPicker3} />
+			<Button title="Select" color="blue" onPress={showPicker3} />
 		</View>
 		)}
 
@@ -519,11 +525,12 @@
 			style={styles.datePicker}
 		/>
 		)}
-
-	<Text style={{fontSize: 25,fontWeight:'bold',color: 'gray', padding: 10}}>Previous Company1</Text>
-		<Text></Text>
+	</View>
+	<Text></Text>
+	<Text style={{fontSize: 25,fontWeight:'bold',color: 'gray', padding: 5}}>Previous Company1</Text>
 		
-	<TextInput style={{
+ <TextInput 
+	style={{
 		backgroundColor: 'white',
 		color:"black",
 		width : '100%',
@@ -538,7 +545,8 @@
 	value={Previouscompany1}
 	onChangeText={(value)=>handleOnchangeText(value,'Previouscompany1')} />
 
-	<TextInput style={{
+	<TextInput 
+	  style={{
 		backgroundColor: 'white',
 		color:"black",
 		width : '100%',
@@ -548,10 +556,10 @@
 		borderRadius: 7,
 		paddingHorizontal: 10,
 		marginVertical: 5}}
-	placeholder="Role"
-	placeholderTextColor="lightgrey"
-	value={RolesandResponsible1}
-	onChangeText={(value)=>handleOnchangeText(value,'RolesandResponsible1')} />
+	  placeholder="Role"
+	  placeholderTextColor="lightgrey"
+	  value={RolesandResponsible1}
+	  onChangeText={(value)=>handleOnchangeText(value,'RolesandResponsible1')} />
 
 		<Text style={{fontSize: 20,color: 'blue',fontWeight:'bold'}}>Starting Date</Text>
 		{/* Display the selected date */}
@@ -564,9 +572,10 @@
 		{!isPickerShow4 && (
 		<View style={styles.btnContainer}>
 			<Pressable
-			onPress={showPicker6}
+			onPress={showPicker4}
 			style={({ pressed }) => [{ 
-			opacity: pressed ? 0.8 : 1.0 },styles.dateBtn]} ><Text style={{color:"white"}}>Select Date</Text></Pressable>
+			opacity: pressed ? 0.8 : 1.0 },styles.dateBtn]} >
+				<Text style={{color:"white"}}>SELECT</Text></Pressable>
 		</View>
 		)}
 
@@ -593,9 +602,10 @@
 		{!isPickerShow5 && (
 		<View style={styles.btnContainer}>
 			<Pressable
-			onPress={showPicker6}
+			onPress={showPicker5}
 			style={({ pressed }) => [{ 
-			opacity: pressed ? 0.8 : 1.0 },styles.dateBtn]} ><Text style={{color:"white"}}>Select Date</Text></Pressable>
+			opacity: pressed ? 0.8 : 1.0 },styles.dateBtn]} >
+				<Text style={{color:"white"}}>SELECT</Text></Pressable>
 		</View>
 		)}
 
@@ -622,35 +632,37 @@
 
 	<Text style={{fontSize: 25,fontWeight:'bold',color: 'gray', padding: 20}}>Apply Job Position</Text>
 
-	{/* <CustomInput
-	placeholder="Job"
-	placeholderTextColor="lightgrey"
-	value={Job}
-	setValue={setJob} />
-	*/}
+	
 
 	<Picker
-	style={{alignItems:'center',width :'100%',backgroundColor:"white",color:"black"}}
-	selectedValue = {Job} onValueChange = {setJob}>
+		style={{alignItems:'center',width :'100%',backgroundColor:"white",color:"black"}}
+		selectedValue = {Job} onValueChange = {setJob}>
 			<Picker.Item label = "React" value = "react" />
 			<Picker.Item label = "Native" value = "native" />
 			<Picker.Item label = "Springboot" value = "spring" />
 			<Picker.Item label = "AWS" value = "aws" />
-			</Picker>
-			
-			
-
-	<Text></Text>
+	</Picker>
+	
 	<Text></Text>
 	{Err ? <Text style={{color:"red",fontWeight:'bold'}}>{Err}</Text>:null}
 	{FnameErr ? <Text style={{color:"red",fontWeight:'bold'}}>{FnameErr}</Text>:null}
 	{LnameErr ? <Text style={{color:"red",fontWeight:'bold'}}>{LnameErr}</Text>:null}
 	{EmailErr ? <Text style={{color:"red",fontWeight:'bold'}}>{EmailErr}</Text>:null}
-	<Button title="Register Candidate"
-	onPress={onRegisterPressed} />
+	
+	<Pressable 
+		onPress={onRegisterPressed}
+		style={{
+		backgroundColor: 'blue', 
+		alignItems:"center", 
+		width : '60%',
+		padding: 15,
+		marginVertical: 15,
+		alignItems: 'center',
+		borderRadius: 5,
+		borderWidth : 0.5,}}>
+			<Text style={{color:"white",fontWeight:'bold',fontSize:15}}>Submit</Text>
+	</Pressable>
 
-
-	<Text></Text>
 	<Text></Text>
 
 	{/*<Button title="Add Profile"
@@ -696,7 +708,7 @@
 	dateBtn: {
 	backgroundColor:"blue",
 	padding:8,
-	borderRadius:7
+	//borderRadius:3
 	},
 	// This only works on iOS
 	datePicker: {
