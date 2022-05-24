@@ -1,5 +1,5 @@
 import React,{useState,useEffect} from 'react';
-import { Text, StyleSheet, View, Pressable,ScrollView,Alert } from 'react-native';
+import { Text, StyleSheet, View, Pressable, ScrollView, Alert, ToastAndroid } from 'react-native';
 import { Card } from 'react-native-paper';
 import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
@@ -19,7 +19,7 @@ const CvvView = ({route}) => {
   const [cards,setCards] = useState([])
 
   useEffect(()=>{
-  axios.get(`http://35.154.117.105:8080/candidate/${route.params.data.id}`)
+  axios.get(`http://192.168.1.3:8080/candidate/${route.params.data.id}`)
   .then(({data}) => {
     console.log(data)
       setCards(data)
@@ -41,13 +41,15 @@ const hire = () => {
       },
       { 
         text: "Confirm", 
-        onPress: () => axios.post(`http://35.154.117.105:8080/candidate/hired/${route.params.data.id}`)
+        onPress: () => axios.post(`http://192.168.1.3:8080/candidate/${route.params.data.id}/hired`)
         .then(({data}) => {
-          console.log(data)
-          alert(data.msg)
+          console.log(data.msg)
+          //alert(data.msg)
+          ToastAndroid.show(data.msg,ToastAndroid.LONG)
         })
         .catch(({response}) => {
-          console.log(response)
+          console.log(response.data)
+          alert(response.msg)
         })
       }
     ]
@@ -66,10 +68,11 @@ const reject = () => {
       },
       { 
         text: "Confirm", 
-        onPress: () => axios.post(`http://35.154.117.105:8080/candidate/rejected/${route.params.data.id}`)
+        onPress: () => axios.post(`http://192.168.1.3:8080/candidate/${route.params.data.id}/rejected`)
         .then(({data}) => {
           console.log(data)
-          alert(data.msg)
+          //alert(data.msg)
+          ToastAndroid.show(data.msg,ToastAndroid.LONG)
         })
         .catch(({response}) => {
           console.log(response)
@@ -91,10 +94,11 @@ const waiting = () => {
       },
       { 
         text: "Confirm", 
-        onPress: () => axios.post(`http://35.154.117.105:8080/candidate/waitingList/${route.params.data.id}`)
+        onPress: () => axios.post(`http://192.168.1.3:8080/candidate/${route.params.data.id}/waitingList`)
         .then(({data}) => {
           console.log(data)
-          alert(data.msg)
+          //alert(data.msg)
+          ToastAndroid.show(data.msg,ToastAndroid.LONG)
         })
         .catch(({response}) => {
           console.log(response)
@@ -116,10 +120,12 @@ const progress = () => {
       },
       { 
         text: "Confirm", 
-        onPress: () => axios.post(`http://35.154.117.105:8080/candidate/progress/${route.params.data.id}`)
+        onPress: () => axios.post(`http://192.168.1.3:8080/candidate/${route.params.data.id}/progress`)
         .then(({data}) => {
           console.log(data)
-          alert(data.msg)
+          //alert(data.msg)
+          ToastAndroid.show(data.msg,ToastAndroid.SHORT)
+
         })
         .catch(({response}) => {
           console.log(response)
@@ -138,7 +144,7 @@ const progress = () => {
         style={styles.topbtn1}>
           <Text 
           style={{
-            color:"mediumblue",
+            color:"#006400",
             fontWeight:'bold'}}>Hire to Job</Text>
       </Pressable>
         
@@ -147,7 +153,7 @@ const progress = () => {
         style={styles.topbtn3}>
           <Text 
           style={{
-            color:"mediumblue",
+            color:"orange",
             fontWeight:'bold'}}>Waiting List</Text>
       </Pressable>
         
@@ -156,7 +162,7 @@ const progress = () => {
         style={styles.topbtn4}>
           <Text 
           style={{
-            color:"white",
+            color:"blue",
             fontWeight:'bold'}}>Progress</Text>
       </Pressable>
 
@@ -165,7 +171,7 @@ const progress = () => {
         style={styles.topbtn2}>
           <Text 
           style={{
-            color:"white",
+            color:"red",
             fontWeight:'bold'}}>Reject</Text>
       </Pressable>
     </View>
@@ -186,12 +192,12 @@ const progress = () => {
             fontWeight:'bold'}}>Update</Text>
       </Pressable>
       </View>
-      <View 
+      {/*<View 
       style={styles.cardview}>      
         <Text style={styles.text}>Application ID</Text>
         <Text style={styles.data}>{cards.id}</Text> 
         
-      </View>
+          </View>*/}
       
       <View style={styles.cardview}>      
         <Text style={styles.text}>First Name</Text>
@@ -336,8 +342,8 @@ const styles = StyleSheet.create({
     fontSize:17.5,
     textDecorationColor: "#e8e8e8",
     textShadowColor: "black",
-    textShadowRadius: 3,
-    textDecorationLine: 'underline',
+    textShadowRadius: 5,
+    //textDecorationLine: 'underline',
     paddingBottom :7
   },
 
@@ -349,8 +355,8 @@ const styles = StyleSheet.create({
     fontSize:17.5,
     textDecorationColor: "#e8e8e8",
     textShadowColor: "black",
-    textShadowRadius: 3,
-    textDecorationLine: 'underline',
+    textShadowRadius: 5,
+    //textDecorationLine: 'underline',
   },
 
   editbtn: {
@@ -366,7 +372,7 @@ const styles = StyleSheet.create({
   topbtn1: {
     //alignItems:'center',
     marginLeft :7,
-    backgroundColor:"#7cfc00",
+    backgroundColor:"#adff2f",
     padding:10,
     borderRadius :7,
     borderColor:"black",
@@ -376,7 +382,7 @@ const styles = StyleSheet.create({
   topbtn2: {
     //alignItems:'center',
     marginLeft :7,
-    backgroundColor:"red",
+    backgroundColor:"#ffa07a",
     padding:10,
     borderRadius :7,
     borderColor:"black",
@@ -387,7 +393,7 @@ const styles = StyleSheet.create({
   topbtn3: {
     //alignItems:'center',
     marginLeft :7,
-    backgroundColor:"yellow",
+    backgroundColor:"#f0e68c",
     padding:10,
     borderRadius :7,
     borderColor:"black",
@@ -398,7 +404,7 @@ const styles = StyleSheet.create({
   topbtn4: {
     //alignItems:'center',
     marginLeft :7,
-    backgroundColor:"blue",
+    backgroundColor:"#6495ed",
     padding:10,
     borderRadius :7,
     borderColor:"black",

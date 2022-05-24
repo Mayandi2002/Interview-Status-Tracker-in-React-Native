@@ -8,7 +8,7 @@ const Dashboard = () => {
   const [cards, setCards] = useState([])
 
     useEffect(() => {
-      axios.get("http://35.154.117.105:8080/dashBoard")
+      axios.get("http://192.168.1.3:8080/dashBoard")
       .then(({data}) => {
         setCards(data)
         console.log(data)

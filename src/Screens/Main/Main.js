@@ -11,7 +11,7 @@ const Main = () => {
 
 const [cards,setCards] = useState([])
 useEffect(()=>{
-  axios.get("http://35.154.117.105:8080/candidate?size=200&page=0")
+  axios.get("http://192.168.1.3:8080/candidate?size=200&page=0")
   .then(({data}) => {
     console.log(data)
     setCards(data)
@@ -33,7 +33,7 @@ const Delcandid = (id) => {
       },
       { 
         text: "Confirm", 
-        onPress: () => axios.delete(`http://35.154.117.105:8080/candidate?id=${id}`)
+        onPress: () => axios.delete(`http://192.168.1.3:8080/candidate/${id}`)
         .then(({data}) => {
           console.log(data)
           alert(data.msg)
@@ -52,13 +52,13 @@ return(
       
       {cards.map((card, idx) => (
         <TouchableOpacity activeOpacity={0.9} 
-          onPress={()=> MyStack.navigate('CvvView',{data:card})}>
+          onPress={() => MyStack.navigate('CvvView',{data:card})}>
       <Card
         style={styles.card}
         key={idx}> 
       
       <Pressable
-        onPress={()=>Delcandid(card.id)}
+        onPress={() => Delcandid(card.id)}
         style={{
           backgroundColor:"blue",borderColor:"white",
           borderWidth :0.7,marginLeft :310,marginRight :10,
@@ -70,16 +70,16 @@ return(
         <Text style={styles.datatxt}>{card.firstName}</Text>
       </View>
       <View style={styles.list}>
-        <Text style={styles.text}>Email</Text>
-        <Text style={styles.datatxt}>{card.email}</Text>
-      </View>
-      <View style={styles.list}>
         <Text style={styles.text}>Contact</Text>
         <Text style={styles.datatxt}>{card.phone}</Text>
       </View>
       <View style={styles.list}>
         <Text style={styles.text}>Job/Position</Text>
         <Text style={styles.datatxt}>{card.job}</Text>
+      </View>
+      <View style={styles.list}>
+        <Text style={styles.text}>Status</Text>
+        <Text style={styles.datatxt}>{card.status}</Text>
       </View>
       <Text></Text>
       </Card>

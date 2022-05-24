@@ -7,7 +7,7 @@ import BGLogo from '../../../assets/images/Icanio2.png';
 import Logo from '../../../assets/images/Icanio.png';
 import axios from 'axios';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { Card } from 'react-native-paper';
+//import { Card } from 'react-native-paper';
 const Login = () => {
 
   const[User,setUser] = useState({
@@ -52,7 +52,7 @@ const Login = () => {
   
   const [Drop,setDrop] = useState([])
   useEffect(()=>{
-    axios.get("http://35.154.117.105:8080/dropDown/role")
+    axios.get("http://192.168.1.3:8080/dropDown/role")
     .then(({data}) => {
     console.log(data)
     setDrop(data)
@@ -68,7 +68,7 @@ const Login = () => {
       console.log(User)
       
       console.log('Connecting Api')
-        axios.put('http://35.154.117.105:8080/login', {
+        axios.put('http://192.168.1.3:8080/login', {
             userName: Username,
             password: Password,
             position: Position,
@@ -110,16 +110,14 @@ const Login = () => {
     
     <View style={styles.input}>
     
-    <Icon name="user" color="blue" size={25} />
+    <Icon name="user" color="mediumblue" size={25} />
     <TextInput
     style={{flex:1,marginHorizontal:5,color:"black"}}
     placeholder='Username'
     placeholderTextColor="lightgrey"
     Value={Username}
     onChangeText={(value) => handleOnchangeText(value,'Username')}
-    keyboardType='email-address'
-    autoCapitalize='none'
-    />
+    keyboardType='email-address' />
     </View>
    
     {UserErr ? <Text style={{color:"red",fontWeight:'bold',fontSize:13,marginRight :50}}>
@@ -143,13 +141,16 @@ const Login = () => {
 
     {PassErr ? <Text style={{color:"red",fontWeight:'bold',fontSize:13,marginRight :140}}>{PassErr}</Text>: null}
     <Picker
-      style={{alignItems:'center',width :'85%',backgroundColor:"white",color:"black"}} 
+      style={styles.pickstyl} 
       mode="dropdown"
-      selectedValue = {Position} onValueChange = {SetPosition} >
+      selectedValue = {Position}
+      onValueChange = {SetPosition}>
+        
         {Drop?.data?.map((dropdata,idx) => (
         <Picker.Item 
         key={idx}
-        label = {dropdata} value = {dropdata} />))}
+        label = {dropdata} 
+        value = {dropdata} />))}
     </Picker>  
 
     <Pressable
@@ -159,6 +160,27 @@ const Login = () => {
     
     <Text style={styles.LoginBtntxt}>Login</Text>
     <Icon style={{marginHorizontal:10}} name="arrow-right" color="white" size={15}/>
+    </Pressable>
+    
+    <Pressable
+    style={({ pressed }) => [{ 
+    opacity: pressed ? 0.7 : 1.0 }, styles.Btn1Style]}
+    onPress={()=>MyStack.navigate('CvvUpload')}>
+    <Text style={styles.LoginBtntxt}>Candidate Register</Text>
+    </Pressable>
+    
+    <Pressable
+    style={({ pressed }) => [{ 
+    opacity: pressed ? 0.7 : 1.0 }, styles.Btn1Style]}
+    onPress={()=>MyStack.navigate('RegEmp')}>
+    <Text style={styles.LoginBtntxt}>Create Employee</Text>
+    </Pressable>
+
+    <Pressable
+    style={({ pressed }) => [{ 
+    opacity: pressed ? 0.7 : 1.0 }, styles.Btn1Style]}
+    onPress={()=>MyStack.navigate('JobDesc')}>
+    <Text style={styles.LoginBtntxt}>Job Description</Text>
     </Pressable>
     </View>
   );
@@ -176,7 +198,7 @@ const styles = StyleSheet.create({
       width : '100%',
       maxWidth : 200,
       maxHeight : 150,
-      //tintColor: "blue",
+      tintColor: "mediumblue",
       //marginVertical:10,
     },
     BGImg: { 
@@ -192,7 +214,7 @@ const styles = StyleSheet.create({
       width :'90%',
       alignItems:'center',
       borderColor : 'black',
-      borderWidth : 0.5,
+      borderWidth : 0.4,
       borderRadius: 7,
       paddingHorizontal:7,
          //marginHorizontal:1,
@@ -205,7 +227,7 @@ const styles = StyleSheet.create({
       width :'90%',
       alignItems:'center',
       borderColor : 'black',
-      borderWidth : 0.5,
+      borderWidth : 0.4,
       borderRadius: 7,
       paddingHorizontal:7,
       //marginHorizontal:1,
@@ -216,13 +238,20 @@ const styles = StyleSheet.create({
       marginLeft :270
     },
 
+    pickstyl:{
+      alignItems:'center',
+      width :'85%',
+      backgroundColor:"white",
+      color:"black"
+    },
+
     Btn1Style:{
-      backgroundColor: 'blue', 
+      backgroundColor: 'mediumblue', 
       alignItems:"center",
       flexDirection:'row', 
       width : '83%',
       padding: 15,
-      marginVertical: 15,
+      marginVertical: 5,
       alignItems: 'center',
       borderRadius: 5,
       borderWidth : 0.5,

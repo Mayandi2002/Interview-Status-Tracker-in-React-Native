@@ -37,16 +37,16 @@ const MyStack = () => {
       <Stack.Navigator initialRouteName='Login'>
         <Stack.Screen name="Login" component={Login}
          options={{
-          title: 'Login',
+          title: 'Log In',
           headerTitleStyle: {
-            color: '#fff',
+            color: 'blue',
             fontWeight:'bold',
             fontSize:20,
             alignSelf:'center',
             //justifyContent:'center'
           },
           headerStyle: {
-            backgroundColor: 'blue'
+            backgroundColor: 'lightblue'
           },
         }}
         />

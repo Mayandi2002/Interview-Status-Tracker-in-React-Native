@@ -19,7 +19,7 @@ const EmpView = ({route}) => {
   const [cards,setCards] = useState([])
 
   useEffect(()=>{
-  axios.get(`http://35.154.117.105:8080/employee/${route.params.data.id}`)
+  axios.get(`http://192.168.1.3:8080/employee/${route.params.data.id}`)
   .then(({data}) => {
     console.log(data)
     setCards(data)
@@ -29,7 +29,7 @@ const EmpView = ({route}) => {
   })
 }, [])
 
-console.log(cards.qualification)
+//console.log(cards.qualification)
 
   return(
     <ScrollView style={styles.container}>

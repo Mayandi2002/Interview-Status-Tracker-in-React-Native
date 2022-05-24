@@ -148,7 +148,7 @@ const RegEmp = () => {
 
   const [Pos,setPos] = useState([])
   useEffect(()=>{
-    axios.get("http://35.154.117.105:8080/dropDown/role")
+    axios.get("http://192.168.1.3:8080/dropDown/role")
     .then(({data}) => {
     console.log(data)
     setPos(data)
@@ -167,7 +167,7 @@ const RegEmp = () => {
 
   console.log('Connecting Api')
   //console.log(company);
-  axios.post('http://35.154.117.105:8080/employee', { 
+  axios.post('http://192.168.1.3:8080/employee', { 
 		
     firstName: Firstname,
 		lastName: Lastname,
