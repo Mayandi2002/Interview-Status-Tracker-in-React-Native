@@ -8,6 +8,7 @@ import Logo from '../../../assets/images/Icanio.png';
 import axios from 'axios';
 import Icon from 'react-native-vector-icons/FontAwesome';
 //import { Card } from 'react-native-paper';
+
 const Login = () => {
 
   const[User,setUser] = useState({
@@ -36,13 +37,18 @@ const Login = () => {
     }
   
     const isValid = () => {
-      if(!isValidObjField(User)) 
-        return updateError('Require All Fields',Seterrors);
-      if(!Username.trim() || Username.length > 25)
-        return updateError('Username is Allow only 25 Characters',SetUserErr);
-      if(!Password.trim() || Password.length < 5)
-        return updateError('Password is too Short',SetPassErr);
+      if(!isValidObjField(User)) {
+        updateError('Require All Fields',Seterrors);
         return true;
+      }
+      if(!Username.trim() || Username.length > 30) {
+        updateError('Username is too Long',SetUserErr);
+        return true;
+      }
+      if(!Password.trim() || Password.length < 5){
+        updateError('Password is too Short',SetPassErr);
+        return true;
+      }    
     };
 
   const [isSecureEntry, setIsSecureEntry] = useState(true);
@@ -64,7 +70,7 @@ const Login = () => {
   
   const loginpress = () => {
 
-    if(isValid()) {
+    if(!isValid()) {
       console.log(User)
       
       console.log('Connecting Api')
@@ -78,20 +84,20 @@ const Login = () => {
             ToastAndroid.show(data.msg,ToastAndroid.SHORT);
             console.log(data)
             if(data.msg === "employee"){
-              MyStack.navigate('Main');
+              MyStack.navigate('EmpList2');
             }
             if(data.msg === "admin"){
               MyStack.navigate('Main');
             }
-            if(data.msg === "hr"){
-              MyStack.navigate('Main');
+            if(data.msg === "panel"){
+              MyStack.navigate('Main2');
             }
           })
           .catch(({response}) => {
               ToastAndroid.show(response.data.msg,ToastAndroid.SHORT);
               console.log(response.data);
           })
-        }
+        }       
       }
 
   return (
@@ -109,7 +115,6 @@ const Login = () => {
     {errors ? <Text style={{color:"red",fontWeight:'bold',fontSize:15.5}}>{errors}</Text>: null}
     
     <View style={styles.input}>
-    
     <Icon name="user" color="mediumblue" size={25} />
     <TextInput
     style={{flex:1,marginHorizontal:5,color:"black"}}
@@ -120,7 +125,7 @@ const Login = () => {
     keyboardType='email-address' />
     </View>
    
-    {UserErr ? <Text style={{color:"red",fontWeight:'bold',fontSize:13,marginRight :50}}>
+    {UserErr ? <Text style={{color:"red",fontWeight:'bold',fontSize:13,marginRight :150}}>
       {UserErr}</Text>: null}
 
     
@@ -162,6 +167,7 @@ const Login = () => {
     <Icon style={{marginHorizontal:10}} name="arrow-right" color="white" size={15}/>
     </Pressable>
     
+    {/* 
     <Pressable
     style={({ pressed }) => [{ 
     opacity: pressed ? 0.7 : 1.0 }, styles.Btn1Style]}
@@ -181,7 +187,7 @@ const Login = () => {
     opacity: pressed ? 0.7 : 1.0 }, styles.Btn1Style]}
     onPress={()=>MyStack.navigate('JobDesc')}>
     <Text style={styles.LoginBtntxt}>Job Description</Text>
-    </Pressable>
+    </Pressable>*/}
     </View>
   );
   
@@ -217,20 +223,16 @@ const styles = StyleSheet.create({
       borderWidth : 0.4,
       borderRadius: 7,
       paddingHorizontal:7,
-         //marginHorizontal:1,
-         //marginVertical:5,
     },
     input2:{
       backgroundColor: 'white',
       flexDirection:'row',
-      //color:"black",
       width :'90%',
       alignItems:'center',
       borderColor : 'black',
       borderWidth : 0.4,
       borderRadius: 7,
       paddingHorizontal:7,
-      //marginHorizontal:1,
       marginVertical:10,
     },
     
@@ -251,7 +253,7 @@ const styles = StyleSheet.create({
       flexDirection:'row', 
       width : '83%',
       padding: 15,
-      marginVertical: 5,
+      marginVertical: 20,
       alignItems: 'center',
       borderRadius: 5,
       borderWidth : 0.5,

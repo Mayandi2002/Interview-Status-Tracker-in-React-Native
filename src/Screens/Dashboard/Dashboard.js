@@ -1,12 +1,14 @@
 import axios from 'axios';
-import React,{ useState,useEffect } from 'react';
-import { Text, StyleSheet, View, ScrollView, FlatList } from 'react-native';
-//import { FlatList } from 'react-native-gesture-handler';
+import React,{ useState, useEffect } from 'react';
+import { Text, StyleSheet, View, ScrollView, TouchableOpacity,
+        RefreshControl, FlatList } from 'react-native';
 import { Card } from 'react-native-paper';
+import { useNavigation } from '@react-navigation/native';
+
 const Dashboard = () => {
+  const MyStack = useNavigation();
   
   const [cards, setCards] = useState([])
-
     useEffect(() => {
       axios.get("http://192.168.1.3:8080/dashBoard")
       .then(({data}) => {
@@ -16,25 +18,44 @@ const Dashboard = () => {
       })
       .catch(err => {
         console.log(err)
-         //alert(err)
       })
     }, [])
   
+  const [refreshing, setRefreshing] = React.useState(false);
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    axios.get('http://192.168.1.3:8080/dashBoard')
+    .then(({data}) => {
+      console.log(data)
+      setCards(data)
+      setRefreshing(false);
+    }) 
+    .catch((err) => {
+      console.log(err)
+    })
+    
+  }, [refreshing]);
+
+  
   return(
-  <ScrollView style={styles.container}>
+  <ScrollView style={styles.container}
+  refreshControl={
+    <RefreshControl
+      refreshing={refreshing}
+      onRefresh={onRefresh}/>}>
       
-      {/*<Text style={{fontSize: 30,fontWeight: 'bold',color: "red",textAlign: 'center',padding: 20}}>DashBoard</Text>*/}
-      
-      {cards.map((card, idx) => (
+    {cards.map((card, idx) => (
+      <TouchableOpacity activeOpacity={0.9} key={idx}
+      onPress={() => MyStack.navigate('Candidate Status',{data:card})}>
       <Card
-      style={styles.card}
-      key={idx}> 
+        style={styles.card}> 
       <View style={styles.list}>
         <Text style={styles.text}>{card.title}</Text>
         <Text style={styles.txt}>{card.count}</Text>
-      
       </View>
-      </Card>))}
+      </Card>
+      </TouchableOpacity>))}
             <Text></Text>
   </ScrollView>
     );
@@ -44,16 +65,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 10,
-    //paddingLeft :20,
-    //paddingRight :20,
     backgroundColor:"lightblue"
   },
   list: {
     flex: 1,
     flexDirection: 'row',
-    padding: 10,
-    marginLeft :17,
-    //marginRight :30,
+    //padding: 10,
+    marginLeft :35,
     alignItems:'center'
   },
   text: {
@@ -61,25 +79,22 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight:'bold',
     color:"white",
-    //marginBottom :5
-    //paddingRight :1,
-    //paddingLeft :1
-    
   },
-  card:{
+  card: {
     margin:10,
     backgroundColor:"blue",
     borderRadius:15,
-    height : 130,
+    height :105,
     flexDirection:'column'
   },
   txt: {
     flex: 1,
+    textAlign:'center',
     fontSize: 30,
+    shadowColor:"black",
+    shadowRadius:10,
     fontWeight: 'bold',
     color: "red",
-    marginLeft :5
-    //paddingLeft :5
   }
 });
 

@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { View  , Text , Button , Pressable , ScrollView ,
-   		StyleSheet, TextInput, useWindowDimensions} from 'react-native';
+   		 StyleSheet, TextInput, useWindowDimensions} from 'react-native';
 import CustomInput from '../../componet/CustomInput/CustomInput';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import {Picker} from '@react-native-picker/picker';
+import { Picker } from '@react-native-picker/picker';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import axios from "axios";
 
 const CvvUpload = () => {
@@ -26,7 +27,7 @@ const[Form,SetForm] = useState({
 
 const[qualification,setqualification] = useState([])
 const[college,setcollege] = useState([])
-
+const[Job,setJob] = useState('');
 const[components,setComponents] = useState([1])
 
 const[Err,setErr] = useState('');
@@ -58,7 +59,6 @@ const regx = /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/;
 return regx.test(value)
 }
 
-
 const isValid = () => {
 if(!isValidObjField(Form)) {
   updateError('Require All Fields',setErr);
@@ -88,9 +88,6 @@ const [isPickerShow5, setIsPickerShow5] = useState(false);
 const [date5, setDate5] = useState(new Date(Date.now()));
 const [isPickerShow6, setIsPickerShow6] = useState(false);
 const [date6, setDate6] = useState(new Date(Date.now()));
-
-const [Job,setJob] = useState('');
-
 
 const showPicker2 = () => {
 setIsPickerShow2(true);
@@ -139,13 +136,10 @@ if (Platform.OS === 'android') {
 }
 };
 
-
 const onRegisterPressed = () => {
-
   if(!isValid()) {
   console.log('Connecting Api')
   axios.post('http://192.168.1.3:8080/candidate ', { 
-  
   firstName: Firstname,
   lastName: Lastname,
   email: Email,
@@ -178,7 +172,7 @@ const onRegisterPressed = () => {
       TechSkill,
     ]
   })
-
+  
   .then(({data}) => {
     console.log(data)
     alert(data.msg)
@@ -241,7 +235,7 @@ return (
     setValue={(value)=>handleOnchangeText(value,'Mobileno')}
     keyboardType='number-pad' />
 
-  <Text style={{fontSize: 17,color:'grey'}}>Date Of Birth</Text>
+  <Text style={{fontSize: 16,fontWeight:'bold',color:'grey'}}>Date of Birth</Text>
   <View style={{flexDirection:'row'}}>
 <View style={styles.pickedDateContainer}>
   <Text style={styles.pickedDate}>{date6.toUTCString()}</Text>
@@ -250,9 +244,12 @@ return (
   {/* The button that used to trigger the date picker */}
   {!isPickerShow6 && (
   <View style={styles.btnContainer}>
-    <Button title="SELECT"
-      onPress={showPicker6}
-      color="blue" />      
+    <Icon 
+      name="calendar" 
+      color="blue" 
+      size={30} 
+      onPress={showPicker6} 
+      style={{paddingTop :5}} />     
   </View>
   )}
   {isPickerShow6 && (
@@ -345,7 +342,7 @@ return (
     value={RolesandResponsible}
     setValue={(value)=>handleOnchangeText(value,'RolesandResponsible')} />
   
-  <Text style={{fontSize:17,color:'grey'}}>Starting Date</Text>
+  <Text style={{fontSize:16,fontWeight:'bold',color:'grey'}}>Starting Date</Text>
   {/* Display the selected date */}
   <View style={{flexDirection:'row'}}>
   <View style={styles.pickedDateContainer}>
@@ -353,7 +350,12 @@ return (
   </View>
   {!isPickerShow2 && (
   <View style={styles.btnContainer}>
-    <Button title="Select" color="blue" onPress={showPicker2} />
+    <Icon 
+      name="calendar" 
+      color="blue" 
+      size={30} 
+      onPress={showPicker2} 
+      style={{paddingTop :5}} />
   </View>)}
   {isPickerShow2 && (
   <DateTimePicker
@@ -364,7 +366,7 @@ return (
     onChange={onChange2}
     style={styles.datePicker} />)}
   </View>
-  <Text style={{fontSize:17,color:'grey'}}>Ending Date</Text>
+  <Text style={{fontSize:16,fontWeight:'bold',color:'grey'}}>Ending Date</Text>
   {/* Display the selected date */}
 <View style={{flexDirection:'row'}}>
   <View style={styles.pickedDateContainer}>
@@ -373,7 +375,12 @@ return (
 
   {!isPickerShow3 && (
   <View style={styles.btnContainer}>
-    <Button title="Select" color="blue" onPress={showPicker3} />
+    <Icon 
+      name="calendar" 
+      color="blue" 
+      size={30} 
+      onPress={showPicker3} 
+      style={{paddingTop :5}} />
   </View>)}
   {isPickerShow3 && (
   <DateTimePicker
@@ -398,7 +405,7 @@ return (
     value={RolesandResponsible1}
     setValue={(value)=>handleOnchangeText(value,'RolesandResponsible1')} />
 
-  <Text style={{fontSize: 17,color: 'grey'}}>Starting Date</Text>
+  <Text style={{fontSize: 16,fontWeight:'bold',color: 'grey'}}>Starting Date</Text>
   {/* Display the selected date */}
 <View style={{flexDirection:'row'}}>
   <View style={styles.pickedDateContainer}>
@@ -406,10 +413,12 @@ return (
   </View>
   {!isPickerShow4 && (
   <View style={styles.btnContainer}>
-    <Button
-      title="SELECT"
-      color="blue"
-      onPress={showPicker4} />
+    <Icon 
+      name="calendar" 
+      color="blue" 
+      size={30} 
+      onPress={showPicker4} 
+      style={{paddingTop :5}} />
   </View>)}
   {isPickerShow4 && (
   <DateTimePicker
@@ -420,7 +429,7 @@ return (
     onChange={onChange4}
     style={styles.datePicker}/>)}
 </View>
-  <Text style={{fontSize: 17,color: 'grey'}}>Ending Date</Text>
+  <Text style={{fontSize: 16,fontWeight:'bold',color: 'grey'}}>Ending Date</Text>
   {/* Display the selected date */}
 <View style={{flexDirection:'row'}}>
   <View style={styles.pickedDateContainer}>
@@ -429,10 +438,12 @@ return (
   
   {!isPickerShow5 && (
   <View style={styles.btnContainer}>
-    <Button
-      title="SELECT"
-      color="blue"
-      onPress={showPicker5} />
+    <Icon 
+      name="calendar" 
+      color="blue" 
+      size={30} 
+      onPress={showPicker4} 
+      style={{paddingTop :5}} />
   </View>)}
   {isPickerShow5 && (
   <DateTimePicker
@@ -499,7 +510,7 @@ container: {
   backgroundColor:"lightblue"
 },
 heading: {
-  fontSize: 25,
+  fontSize: 20,
   fontWeight:'bold',
   color: 'gray',
   padding: 2,
@@ -529,8 +540,12 @@ RightInput: {
   marginVertical: 5
 },
 pickedDateContainer: {
-  padding: 5,
+  padding: 11.5,
+  paddingLeft :15,
+  paddingRight :18,
   backgroundColor: 'white',
+  borderColor:"black",
+  borderWidth :0.5,
   borderRadius: 7,
 },
 pickedDate: {

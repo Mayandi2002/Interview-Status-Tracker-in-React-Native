@@ -4,39 +4,30 @@ import {createDrawerNavigator} from '@react-navigation/drawer';
 import 'react-native-gesture-handler';
 import Login from '../Screens/Login/Login';
 import Main from '../Screens/Main/Main';
+import Main2 from '../Screens/Main2/Main2';
 //import Set from '../Screens/Dashboard/Dashboard';
 import Home from '../Screens/Home/Home';
 import CvvView from '../Screens/CvvView/CvvView';
+import CvvView2 from '../Screens/CvvView2/CvvView2';
 import CvvUpload from '../Screens/CvvUpload/CvvUpload';
 import CvvUpdate from '../Screens/CvvUpload/CvvUpdate/CvvUpdate';
 import Dashboard from '../Screens/Dashboard/Dashboard';
 import RegEmp from '../Screens/RegEmp/RegEmp';
 import EmpList from '../Screens/EmpList/EmpList';
+import EmpList2 from '../Screens/EmpList2/EmpList2';
 import EmpView from '../Screens/EmpView/EmpView';
+import EmpView2 from '../Screens/EmpView2/EmpView2';
 import JobDesc from '../Screens/JobDesc/JobDesc';
-
+import CandidateStatus from '../Screens/CandidateStatus/CandidateStatus';
+import DrawerRoute from '../DrawerRoute/DrawerRoute';
+import DrawerRoute2 from '../DrawerRoute2/DrawerRoute2';
 const Stack = createStackNavigator();
-const Drawer = createDrawerNavigator();
-
-const DrawerRoute = () => {
-  return(
-    <Drawer.Navigator initialRouteName='Candidates List'>
-    <Drawer.Screen name="Candidates List" component={Main} />
-    <Drawer.Screen name="Add Candidate" component={CvvUpload} />
-    <Drawer.Screen name="Dashboard" component={Dashboard} />
-    <Drawer.Screen name="Create Employee" component={RegEmp} />
-    <Drawer.Screen name="Add Job Description" component={JobDesc} />
-    <Drawer.Screen name="Employee List" component={EmpList} />
-    </Drawer.Navigator>
-    
-  );
-};
 
 const MyStack = () => {
   return (
       <Stack.Navigator initialRouteName='Login'>
         <Stack.Screen name="Login" component={Login}
-         options={{
+        options={{
           title: 'Log In',
           headerTitleStyle: {
             color: 'blue',
@@ -64,8 +55,33 @@ const MyStack = () => {
           },
         }}
         />
+        <Stack.Screen name="Main2" component={DrawerRoute2}
+        options={{
+          title: 'Candidates List',
+          headerTitleStyle: {
+            color: '#fff',
+            fontWeight:'bold',
+            fontSize:20,
+            alignItems:'center'
+          },
+          headerStyle: {
+            backgroundColor: 'blue',
+          },
+        }}
+        />
         <Stack.Screen name="Candidate Register" component={Home} />
         <Stack.Screen name="CvvView" component={CvvView} 
+         options={{
+          title: 'Candidate Details',
+          headerTitleStyle: {
+            color: 'white',
+          },
+          headerStyle: {
+            backgroundColor: 'mediumblue',
+          },
+        }}
+        />
+        <Stack.Screen name="CvvView2" component={CvvView2} 
          options={{
           title: 'Candidate Details',
           headerTitleStyle: {
@@ -83,7 +99,7 @@ const MyStack = () => {
             color: '#fff',
           },
           headerStyle: {
-            backgroundColor: 'royalblue',
+            backgroundColor: 'blue',
           },
         }}
         />
@@ -94,18 +110,29 @@ const MyStack = () => {
             color: '#fff',
           },
           headerStyle: {
-            backgroundColor: 'royalblue',
+            backgroundColor: 'blue',
           },
         }}
         />
         <Stack.Screen name="Dash Board" component={Dashboard} 
-         options={{
+        options={{
           title: 'Dash Board',
           headerTitleStyle: {
             color: '#fff',
           },
           headerStyle: {
-            backgroundColor: 'royalblue',
+            backgroundColor: 'blue',
+          },
+        }}
+        />
+        <Stack.Screen name="Candidate Status" component={CandidateStatus} 
+        options={{
+          title: 'Candidate Status List',
+          headerTitleStyle: {
+            color: '#fff',
+          },
+          headerStyle: {
+            backgroundColor: 'blue',
           },
         }}
         />
@@ -119,18 +146,57 @@ const MyStack = () => {
             alignItems:'center'
           },
           headerStyle: {
-            backgroundColor: 'royalblue',
+            backgroundColor: 'blue',
+          },
+        }}
+        />
+        <Stack.Screen name="EmpList" component={EmpList}
+        options={{
+          title: 'Employee List',
+          headerTitleStyle: {
+            color: '#fff',
+            fontWeight:'bold',
+            fontSize:20,
+            alignItems:'center'
+          },
+          headerStyle: {
+            backgroundColor: 'blue',
+          },
+        }}
+        />
+        <Stack.Screen name="EmpList2" component={EmpList2}
+        options={{
+          title: 'Employee List',
+          headerTitleStyle: {
+            color: '#fff',
+            fontWeight:'bold',
+            fontSize:20,
+            alignItems:'center'
+          },
+          headerStyle: {
+            backgroundColor: 'blue',
           },
         }}
         />
         <Stack.Screen name="EmpView" component={EmpView} 
-         options={{
+          options={{
           title: 'Emp Details',
           headerTitleStyle: {
             color: 'white',
           },
           headerStyle: {
-            backgroundColor: 'green',
+            backgroundColor: 'blue',
+          },
+        }}
+        />
+        <Stack.Screen name="EmpView2" component={EmpView2} 
+          options={{
+          title: 'Emp Details',
+          headerTitleStyle: {
+            color: 'white',
+          },
+          headerStyle: {
+            backgroundColor: 'blue',
           },
         }}
         />
@@ -144,7 +210,7 @@ const MyStack = () => {
             alignItems:'center'
           },
           headerStyle: {
-            backgroundColor: 'royalblue',
+            backgroundColor: 'blue',
           },
         }}
         />

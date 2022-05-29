@@ -7,7 +7,7 @@ import axios from 'axios';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 //import { event } from 'react-native-reanimated';
 
-const Main = () => {
+const Main2 = () => {
   const MyStack = useNavigation();
 
 const [ cards, setCards ] = useState([])
@@ -22,28 +22,6 @@ const [ cards, setCards ] = useState([])
     })
   }, [])
 
-const Delcandid = (id) => {
-  Alert.alert(
-    "Alert!",
-    "Are you Sure Want to Delete",
-    [{
-        text: "Cancel",
-        onPress: () => console.log("Cancel Pressed"),
-        style: "cancel"
-      },
-      { 
-        text: "Confirm", 
-        onPress: () => axios.delete(`http://192.168.1.3:8080/candidate/${id}`)
-        .then(({data}) => {
-          console.log(data)
-          alert(data.msg)
-        })
-        .catch(({response}) => {
-          console.log(response.data)
-          alert(response.data.msg)
-        }) 
-      }]);
-}
 const [refreshing, setRefreshing] = React.useState(false);
 
   const onRefresh = React.useCallback(() => {
@@ -69,19 +47,12 @@ return(
       
       {cards.map((card, idx) => (
         <TouchableOpacity activeOpacity={0.9} key={idx}
-          onPress={() => MyStack.navigate('CvvView',{data:card})}>
+          onPress={() => MyStack.navigate('CvvView2',{data:card})}>
       <Card
         style={styles.card}> 
       <View style={styles.list}>
         <Text style={styles.text}>Firstname</Text>
-        <Text style={styles.datatxtname}>{card.firstName}</Text>
-        <Pressable
-        onPress={() => Delcandid(card.id)}
-        style={{
-          backgroundColor:"blue",borderColor:"white",
-          borderWidth :0.7,borderRadius:5,marginRight :5}}>
-        <Icon name='delete' color="white" size={25} />
-      </Pressable>
+        <Text style={styles.datatxt}>{card.firstName}</Text>
       </View>
       <View style={styles.list}>
         <Text style={styles.text}>Contact</Text>
@@ -129,18 +100,13 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight:'bold',
     color:"white",
-    marginRight :30,
+    marginRight :20,
+    marginLeft :10,
     //marginTop :5
-  },
-  datatxtname: {
-    flex: 1,
-    fontSize: 14,
-    fontWeight:'bold',
-    color:"white",
-    //marginRight :15
   },
   card:{
     margin:7,
+    height :130,
     marginVertical:5,
     backgroundColor:"blue",
     borderRadius:13,
@@ -148,4 +114,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Main;
+export default Main2;

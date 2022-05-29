@@ -5,15 +5,10 @@ import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-const EmpView = ({route}) => {
+const EmpView2 = ({route}) => {
   //console.log(route.params.data.id);
 
   const MyStack = useNavigation();
-
-  const Edit = () => {
-    //console.log("Edit is Pressed")
-    MyStack.navigate('RegEmp');
-  }
 
   const [cards,setCards] = useState([])
   
@@ -36,15 +31,7 @@ const EmpView = ({route}) => {
     
     <Card
     style={styles.card}>
-      <View style={{flexDirection:'row',marginBottom :10}}>
-      <Text style={styles.heading1}>Basic Information</Text>
-      <Pressable
-        onPress={Edit} 
-        style={styles.editbtn}>
-          <Icon name="pencil" color="black" size={20} />
-        </Pressable>
-        </View>
-      
+        <Text style={styles.heading}>Basic Information</Text>          
       <View style={styles.cardview}>      
         <Text style={styles.text}>First Name</Text>
         <Text style={styles.data}>     {cards?.data?.firstName}</Text> 
@@ -171,16 +158,6 @@ const styles = StyleSheet.create({
     padding: 5,
     backgroundColor: "lightblue"
   },
-  heading1: {
-    //alignItems:'center',
-    //textAlign:'center',
-    color:"white",
-    fontWeight:'bold',
-    fontSize:20,
-    textShadowColor:"black",
-    textShadowRadius:2,
-    marginLeft :80
-  },
   heading: {
     alignItems:'center',
     textAlign:'center',
@@ -190,17 +167,6 @@ const styles = StyleSheet.create({
     textShadowColor:"black",
     textShadowRadius:2,
   },
-  editbtn: {
-    marginLeft :40,
-    backgroundColor:"#e8e8e8",
-    padding:3,
-    paddingHorizontal:5,
-    paddingLeft :5,
-    paddingRight :5,
-    borderRadius :5,
-    borderStyle:'solid',
-  },
-
   cardview: {
     flexDirection:'row',
     padding: 5
@@ -237,4 +203,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default EmpView;
+export default EmpView2;

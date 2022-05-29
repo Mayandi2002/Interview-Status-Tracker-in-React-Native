@@ -1,11 +1,11 @@
 import React,{ useState,useEffect } from 'react';
-import { Button, DrawerLayoutAndroid, Text, StyleSheet, View,ScrollView, Pressable,Alert,FlatList ,TouchableOpacity} from 'react-native';
+import { Text, StyleSheet, View,ScrollView, TouchableOpacity } from 'react-native';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Card } from 'react-native-paper';
 import axios from 'axios';
 
-const EmpList = () => {
+const EmpList2 = () => {
   const MyStack = useNavigation();
  
 const [cards,setCards] = useState([])
@@ -21,30 +21,6 @@ useEffect(()=>{
   })
 }, [])
 
-
-const DelEmp = (id) => {
-  Alert.alert(
-    "Alert!",
-    "Are you Sure Want to Delete",
-    [{
-        text: "Cancel",
-        onPress: () => console.log("Cancel Pressed"),
-        style: "cancel"
-      },
-      { 
-        text: "Confirm", 
-        onPress: () => axios.delete(`http://192.168.1.3:8080/employee/${id}`)
-        .then(({data}) => {
-          console.log(data)
-          alert(data.msg)
-        })
-        .catch(({response}) => {
-          console.log(response.data)
-          alert(response.status)
-        }) 
-      }]);
-}
-
 return(
     <ScrollView style={styles.container}>
       
@@ -52,17 +28,9 @@ return(
       <TouchableOpacity 
         key={idx}
         activeOpacity={0.9} 
-        onPress={()=> MyStack.navigate('EmpView',{data:card})}>
+        onPress={()=> MyStack.navigate('EmpView2',{data:card})}>
       <Card
         style={styles.card}> 
-      
-      <Pressable
-        onPress={() => DelEmp(card.id)}
-        style={{
-          backgroundColor:"blue",borderColor:"white",
-          borderWidth :0.7,marginLeft :310,marginRight :10,marginTop :2,borderRadius:5}}>
-        <Icon name='delete' color="white" size={25} />
-      </Pressable>
       <View style={styles.list}>
         
         <Text style={styles.text}>First Name</Text>
@@ -109,12 +77,12 @@ const styles = StyleSheet.create({
   },
   card:{
     margin:6,
-    height :150,
-    paddingTop :5,
+    height :130,
+    paddingTop :10,
     backgroundColor:"blue",
     borderRadius:15,
     paddingBottom :3,
   }
 });
 
-export default EmpList;
+export default EmpList2;
