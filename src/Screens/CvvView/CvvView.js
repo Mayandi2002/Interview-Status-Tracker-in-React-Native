@@ -1,15 +1,15 @@
 import React,{ useState, useEffect} from 'react';
 import { Text, StyleSheet, View, Pressable, ScrollView,
-        Alert, ToastAndroid } from 'react-native';
+        Alert, ToastAndroid,RefreshControl } from 'react-native';
 import { Card } from 'react-native-paper';
 import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
-
+import Icon from 'react-native-vector-icons/FontAwesome';
 const CvvView = ({route}) => {
   
   const MyStack = useNavigation();
   const Edit = () => {
-    MyStack.navigate('CvvUpdate');
+    MyStack.navigate('CvvUpdate',{data:cards});
   }
   const[ cards, setCards ] = useState([])
   useEffect(()=>{
@@ -79,7 +79,7 @@ const CvvView = ({route}) => {
         },
         { 
           text: "Confirm", 
-          onPress: () => axios.post(`http://192.168.1.3:8080/candidate/${route.params.data.id}/waitingList`)
+          onPress: () => axios.post(`http://192.168.1.3:8080/candidate/${route.params.data.id}/waitinglist`)
           .then(({data}) => {
             console.log(data)
             ToastAndroid.show(data.msg,ToastAndroid.LONG)
@@ -111,9 +111,28 @@ const CvvView = ({route}) => {
           })
         }]);
     }
+    const [refreshing, setRefreshing] = React.useState(false);
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+      axios.get(`http://192.168.1.3:8080/candidate/${route.params.data.id}`)
+    .then(({data}) => {
+      console.log(data)
+      setCards(data)
+      setRefreshing(false);
+    }) 
+    .catch((err) => {
+      console.log(err)
+    })
+    
+  }, [refreshing]);
 
   return(
-    <ScrollView style={styles.container}>
+    <ScrollView style={styles.container}
+    refreshControl={
+      <RefreshControl
+        refreshing={refreshing}
+        onRefresh={onRefresh}/>}>
                       
     <View style={styles.topbtncontainer}>
       <Pressable
@@ -160,10 +179,7 @@ const CvvView = ({route}) => {
       <Pressable
         onPress={Edit} 
         style={styles.editbtn}>
-        <Text 
-          style={{
-            color:"black",
-            fontWeight:'bold'}}>Update</Text>
+        <Icon name="pencil" color="black" size={20} />
       </Pressable>
       </View>
       
@@ -317,9 +333,11 @@ const styles = StyleSheet.create({
     //textDecorationLine: 'underline',
   },
   editbtn: {
-    marginLeft :35,
+    marginLeft :50,
     backgroundColor:"#e8e8e8",
     padding:5,
+    paddingHorizontal:10,
+    paddingVertical:6,
     borderRadius :5,
     borderColor:"black",
     borderWidth :0.6,

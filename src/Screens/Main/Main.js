@@ -1,11 +1,11 @@
 import React,{ useState, useEffect } from 'react';
 import { Text, StyleSheet, View, ScrollView, RefreshControl,
-        Pressable, TouchableOpacity, Alert, FlatList } from 'react-native';
+        Pressable, TouchableOpacity, Alert, FlatList, ToastAndroid } from 'react-native';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
-import { Card } from 'react-native-paper';
+import { Card, FAB } from 'react-native-paper';
 import axios from 'axios';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-//import { event } from 'react-native-reanimated';
+import RNFetchBlob from "rn-fetch-blob";
 
 const Main = () => {
   const MyStack = useNavigation();
@@ -21,6 +21,29 @@ const [ cards, setCards ] = useState([])
       console.log(err)
     })
   }, [])
+
+const Download = () => {
+  const { config, fs } = RNFetchBlob
+  let DownloadDir = fs.dirs.DownloadDir
+  let options = {
+    fileCache: true,
+    addAndroidDownloads : {
+      useDownloadManager : true,
+      notification : true,
+      path:  DownloadDir + '/Interview Status Tracker/'+ '/Candidate/' + "/Candidate Details.xlsx", 
+      description : 'Downloading File'
+    }
+  }
+  config(options).fetch('GET', "http://192.168.1.3:8080/excel/candidate?size=1000&page=0")
+          .then(({data}) => {
+            console.log(data)
+            ToastAndroid.show("Downloading Start",ToastAndroid.LONG);
+          })
+          .catch((err) => {
+            console.log(err)
+            ToastAndroid.show("Downloading Failed",ToastAndroid.LONG);
+          })
+}
 
 const Delcandid = (id) => {
   Alert.alert(
@@ -61,12 +84,13 @@ const [refreshing, setRefreshing] = React.useState(false);
   }, [refreshing]);
 
 return(
+  <View style={{flex:1}}>
     <ScrollView style={styles.container}
     refreshControl={
       <RefreshControl
         refreshing={refreshing}
         onRefresh={onRefresh}/>}>
-      
+  
       {cards.map((card, idx) => (
         <TouchableOpacity activeOpacity={0.9} key={idx}
           onPress={() => MyStack.navigate('CvvView',{data:card})}>
@@ -98,8 +122,20 @@ return(
       </Card>
       </TouchableOpacity>))}
       <Text></Text>
+</ScrollView>
+<FAB
+      style={styles.fab}
+      small
+      icon="account-plus"
+      color='white'
+      onPress={() => MyStack.navigate('CvvUpload')} />
+  <FAB
+      style={styles.fab2}
+      small
+      icon="download"
+      onPress={Download} />
 
-  </ScrollView>
+  </View>
     );
 };
 
@@ -115,6 +151,24 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     padding: 5,
     //marginTop :5
+  },
+  fab: {
+    justifyContent: "center",
+		alignItems: "center",
+		position: "absolute",
+    padding: 10,
+		bottom : 110,
+		right : 15,
+		backgroundColor: "crimson",
+  },
+  fab2: {
+    justifyContent: "center",
+		alignItems: "center",
+		position: "absolute",
+    padding: 10,
+		bottom : 40,
+		right : 15,
+		backgroundColor: "crimson",
   },
   text: {
     flex: 1,

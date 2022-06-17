@@ -145,7 +145,7 @@ const onRegisterPressed = () => {
   console.log(Form)
   if(!isValid()) {
   console.log('Connecting Api')
-  axios.post('http://192.168.1.3:8080/employee ', { 
+  axios.post('http://192.168.92.111:8080/employee ', { 
   firstName: Firstname,
   lastName: Lastname,
   email: Email,
@@ -195,7 +195,7 @@ const onRegisterPressed = () => {
 
   const [Drop,setDrop] = useState([])
   useEffect(()=>{
-    axios.get("http://192.168.1.3:8080/dropDown/role")
+    axios.get("http://192.168.92.111:8080/dropDown/role")
     .then(({data}) => {
     console.log(data)
     setDrop(data)

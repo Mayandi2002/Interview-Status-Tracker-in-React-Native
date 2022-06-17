@@ -1,13 +1,10 @@
-import React, { useState,useEffect } from 'react';
-import { View  , Text , Button , Pressable , ScrollView , Image, StyleSheet,
-         TextInput, useWindowDimensions,ToastAndroid } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, Pressable, ScrollView, StyleSheet,
+         TextInput, ToastAndroid } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
-//import CustomInput from "../../componet/CustomInput/CustomInput";
 import axios from "axios";
-//import Icon from 'react-native-vector-icons/FontAwesome';
 
-  const JobDesc = () => {
-    
+  const JobDesc = () => {    
     const[Form,SetForm] = useState({
       From:'',
       To:'',
@@ -37,12 +34,8 @@ import axios from "axios";
 
           const isValid = () => {
             if(!isValidObjField(Form)) {
-              alert('Require All Fields');
-              return true; 
-              }
-              if(!From.trim() || From.length > 30) {
-                updateError('Username is too Long',setErr);
-                return true;
+              updateError('Require All Fields',setErr);
+              return true;    
               }
             };
 
@@ -119,7 +112,7 @@ import axios from "axios";
               }, [])
 
       const submit = () => {
-          if(isValid) {
+          if(!isValid()) {
           console.log("api connection")
           axios.post('http://192.168.1.3:8080/job',{
             employeeId:Employee,

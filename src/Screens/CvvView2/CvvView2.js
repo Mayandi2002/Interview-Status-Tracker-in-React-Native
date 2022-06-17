@@ -10,7 +10,7 @@ const CvvView2 = ({route}) => {
   const MyStack = useNavigation();
   const[ cards, setCards ] = useState([])
   useEffect(()=>{
-  axios.get(`http://192.168.1.3:8080/candidate/${route.params.data.id}`)
+  axios.get(`http://192.168.92.111:8080/candidate/${route.params.data.id}`)
   .then(({data}) => {
     console.log(data)
       setCards(data)

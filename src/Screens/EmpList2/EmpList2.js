@@ -10,7 +10,7 @@ const EmpList2 = () => {
  
 const [cards,setCards] = useState([])
 useEffect(()=>{
-  axios.get("http://192.168.1.3:8080/employee?size=1000&page=0")
+  axios.get("http://192.168.92.111:8080/employee?size=1000&page=0")
   .then(({data}) => {
     console.log(data)
     setCards(data)

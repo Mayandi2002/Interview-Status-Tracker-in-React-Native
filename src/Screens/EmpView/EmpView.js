@@ -6,13 +6,10 @@ import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 const EmpView = ({route}) => {
-  //console.log(route.params.data.id);
 
   const MyStack = useNavigation();
-
   const Edit = () => {
-    //console.log("Edit is Pressed")
-    MyStack.navigate('RegEmp');
+    MyStack.navigate('UpdateEmp',{data:cards});
   }
 
   const [cards,setCards] = useState([])
@@ -21,7 +18,6 @@ const EmpView = ({route}) => {
   axios.get(`http://192.168.1.3:8080/employee/${route.params.data.id}`)
   .then(({data}) => {
     console.log(data)
-    //alert(data.msg)
     setCards(data)
   })
   .catch(({response}) => {
@@ -29,8 +25,7 @@ const EmpView = ({route}) => {
   })
 }, [])
 
-//console.log(cards?.data?.id)
-
+console.log(cards.data?.id)
   return(
     <ScrollView style={styles.container}>
     
@@ -47,7 +42,7 @@ const EmpView = ({route}) => {
       
       <View style={styles.cardview}>      
         <Text style={styles.text}>First Name</Text>
-        <Text style={styles.data}>     {cards?.data?.firstName}</Text> 
+        <Text style={styles.data}>     {cards.data?.firstName}</Text> 
       </View>
       
       <View style={styles.cardview}>      
@@ -61,6 +56,11 @@ const EmpView = ({route}) => {
       </View>
       
       <View style={styles.cardview}>      
+        <Text style={styles.text}>Username</Text>
+        <Text style={styles.data}>      {cards?.data?.userName}</Text> 
+      </View>
+
+      <View style={styles.cardview}>      
         <Text style={styles.text}>Mobile No</Text>
         <Text style={styles.data}>     {cards?.data?.phone}</Text> 
       </View>
@@ -68,6 +68,11 @@ const EmpView = ({route}) => {
       <View style={styles.cardview}>      
         <Text style={styles.text}>DOB</Text>
         <Text style={styles.data}>                {cards?.data?.dob}</Text> 
+      </View>
+
+      <View style={styles.cardview}>      
+        <Text style={styles.text}>Gender</Text>
+        <Text style={styles.data}>          {cards?.data?.gender}</Text> 
       </View>
     </Card>
     
@@ -114,7 +119,8 @@ const EmpView = ({route}) => {
 
     {cards?.data?.company?.map((card,idx) => [
     <Card
-    style={styles.card}>
+      style={styles.card}
+      key={idx}>
     <Text style={styles.heading}>Professional Details</Text>
       <View style={styles.cardview}>      
         <Text style={styles.text}>Company Name</Text>
@@ -147,13 +153,15 @@ const EmpView = ({route}) => {
       </View>
       
       {cards?.data?.role.map((card,idx) => (
-      <View style={styles.cardview}>      
+      <View style={styles.cardview}
+      key={idx}>      
         <Text style={styles.text}>Role</Text>
         <Text style={styles.data}>              {card}</Text>
       </View>))}
 
     {cards?.data?.skill.map((card,idx) => (
-      <View style={styles.cardview}>      
+      <View style={styles.cardview}
+      key={idx}>      
         <Text style={styles.text}>Skill</Text>
         <Text style={styles.data}>              {card}</Text>
       </View>))}             
@@ -193,10 +201,8 @@ const styles = StyleSheet.create({
   editbtn: {
     marginLeft :40,
     backgroundColor:"#e8e8e8",
-    padding:3,
-    paddingHorizontal:5,
-    paddingLeft :5,
-    paddingRight :5,
+    padding:5,
+    paddingHorizontal:10,
     borderRadius :5,
     borderStyle:'solid',
   },

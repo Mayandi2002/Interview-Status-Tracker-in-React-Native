@@ -1,23 +1,27 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View  , Text , Button , Pressable , ScrollView ,
-   		 StyleSheet, TextInput, useWindowDimensions} from 'react-native';
-import CustomInput from '../../componet/CustomInput/CustomInput';
+   		  StyleSheet, TextInput, useWindowDimensions} from 'react-native';
+import CustomInput from "../../../componet/CustomInput/CustomInput";
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { Picker } from '@react-native-picker/picker';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import axios from "axios";
+import { Card } from 'react-native-paper';
 
-const CvvUpload = () => {
+const UpdateEmp = ({route,navigation}) => {
 
 const[Form,SetForm] = useState({
-  Firstname:'',
-  Lastname:'',
-  Email:'',
+  Id: route.params.data.data?.id,
+  Firstname: route.params.data.data?.firstName,
+  Lastname: route.params.data.data?.lastName,
+  Email: route.params.data.data?.email,
   Mobileno:'',
-  doorno:'',
-  Street:'',
+  Username: route.params.data.data?.userName,
+  Password:'',
+  doorno:route.params.data.data?.address?.doorNo,
+  Street:route.params.data.data?.address?.street,
   Pincode:'',
-  city:'',
+  city:route.params.data.data?.address?.place,
   Currentcompany:'',
   RolesandResponsible:'',
   Previouscompany1:'',
@@ -25,9 +29,11 @@ const[Form,SetForm] = useState({
   TechSkill:'',
 });
 
+const[Gender,setGender] = useState(route.params.data.data?.gender)
+const[Dept,setDept] = useState(route.params.data.data?.department)
 const[qualification,setqualification] = useState([])
 const[college,setcollege] = useState([])
-const[Job,setJob] = useState('');
+const[Role,setRole] = useState('')
 const[components,setComponents] = useState([1])
 
 const[Err,setErr] = useState('');
@@ -35,7 +41,7 @@ const[FnameErr,setFnameErr] = useState('');
 const[LnameErr,setLnameErr] = useState('');
 const[EmailErr,setEmailErr] = useState('');
 
-const{Firstname,Lastname,Email,Mobileno,doorno,Street,Pincode,city,
+const{ Id,Firstname,Lastname,Email,Mobileno,Username,Password,doorno,Street,Pincode,city,
   Currentcompany,RolesandResponsible,Previouscompany1,RolesandResponsible1,
   TechSkill} = Form
 
@@ -61,7 +67,7 @@ return regx.test(value)
 
 const isValid = () => {
 if(!isValidObjField(Form)) {
-  updateError('Require All Fields',setErr);
+  updateError('Require All Fields !!!',setErr);
   return true; 
   }
 if(!ValidationEmail(Email)) {
@@ -137,15 +143,19 @@ if (Platform.OS === 'android') {
 };
 
 const onRegisterPressed = () => {
-  console.log(qualification)
-  console.log(college)
+  console.log(Form)
   if(!isValid()) {
   console.log('Connecting Api')
-  axios.post('http://192.168.1.3:8080/candidate ', { 
+  axios.post('http://192.168.1.3:8080/employee ', { 
+  id: Id,
   firstName: Firstname,
   lastName: Lastname,
   email: Email,
   phone: Mobileno,
+  userName: Username,
+  password: Password,
+  gender: Gender,
+  department:Dept,
   address: {
     doorNo: doorno,
     street: Street,
@@ -159,22 +169,21 @@ const onRegisterPressed = () => {
     to: date3,
   },
   {
-    roll:RolesandResponsible1,
+    roll: RolesandResponsible1,
     name: Previouscompany1,
     from: date4,
     to: date5,
   }],
-  qualification: [{
-    collegeName :college,
-    degree : qualification,
+  degree: [{
+    collegeName: college,
+    degree: qualification,
   }],
-  job: Job,
+  role: [Role],
   dob: date6,
   skill: [ 
-      TechSkill
+      TechSkill,
     ]
   })
-  
   .then(({data}) => {
     console.log(data)
     alert(data.msg)
@@ -186,54 +195,147 @@ const onRegisterPressed = () => {
   }
   };
 
+  const [Drop,setDrop] = useState([])
+  useEffect(()=>{
+    axios.get("http://192.168.1.3:8080/dropDown/role")
+    .then(({data}) => {
+    console.log(data)
+    setDrop(data)
+    })
+    .catch((err) => {
+    console.log(err)
+    })
+  }, [])
+
   const renderQualificationForm = () => {
     setComponents([...components,''])
   }
   const deletequalificationform = (index) => {
-    const list = [...components];
-    list.splice(index, 1);
-    setComponents(list);
-  } 
-  const handleDegree = (e,index) => {
-    qualification[index] = e;
-    setqualification(qualification);
+    const _inputs = components.splice((index,1));
+    setComponents(_inputs);
+  }
+  
+  {/*const handleDegree = (q,index) => {
+    qualification[index] = q.currentTarget;
+    //components[index] = c.currentTarget;
+    setqualification([qualification]);
   };
-  const handleCollege = (e, index) => {
-    college[index] = e;
-    setcollege(college);
-  };
-
+  const handleCollege = (c, index) => {
+    college[index] = c.currentTarget;
+    //components[index] = c.currentTarget;
+    setcollege([college]);
+  };*/}
+  //console.log(Role)
+//console.log(route.params.data.data?.phone)
 return (
+  <View style={{flex:1,backgroundColor:'lightblue'}}>
+    <Card style={styles.card}>
+      <View style={{flexDirection:'row'}}>
+      <Pressable 
+        style = {({ pressed }) => [{ 
+        opacity: pressed ? 0.5 : 1.0 },styles.savebtn]}
+        onPress={onRegisterPressed} >
+          <Icon name="check" color="white" />
+          <Text style={{color:"white",fontSize:16,fontWeight:'bold'}}>Save</Text>
+      </Pressable>
+      <Pressable 
+        style={({ pressed }) => [{ 
+        opacity: pressed ? 0.5 : 1.0 },styles.cancelbtn]}
+        onPress={()=>{navigation.navigate('EmpView')}} >
+          <Icon name="remove" color="white" />
+          <Text style={{color:"white",fontSize:16,fontWeight:'bold'}}>Cancel</Text>
+      </Pressable>
+      </View>
+      {Err ? <Text style={{color:"white",fontWeight:'bold',marginLeft :115}}>{Err}</Text>:null}
+    </Card>
 <ScrollView>
 <View style ={styles.container}>
   <Text style={styles.heading}>Basic Information</Text>
 
   <CustomInput
+    placeholder="ID"
+    placeholderTextColor="lightgrey"
+    Value={Id}
+    editable={false}
+    setValue={(value) => handleOnchangeText(value,'Id')} />
+
+  <CustomInput
     placeholder="Firstname"
     placeholderTextColor="lightgrey"
-    value={Firstname}
+    Value={Firstname}
     setValue={(value) => handleOnchangeText(value,'Firstname')} />
 
   <CustomInput
     placeholder="Lastname"
     placeholderTextColor="lightgrey"
-    value={Lastname}
+    Value={Lastname}
     setValue={(value)=>handleOnchangeText(value,'Lastname')} />
 
   <CustomInput
     placeholder="Email"
     placeholderTextColor="lightgrey"
-    value={Email}
+    Value={Email}
     setValue={(value)=>handleOnchangeText(value,'Email')}
     keyboardType='email-address'
     autoCapitalize='none' />
+  {EmailErr ? <Text style={{color:"red",fontWeight:'bold'}}>{EmailErr}</Text>:null}
 
   <CustomInput
     placeholder="Mobileno"
     placeholderTextColor="lightgrey"
-    value={Mobileno}
+    Value={Mobileno}
     setValue={(value)=>handleOnchangeText(value,'Mobileno')}
     keyboardType='number-pad' />
+{FnameErr ? <Text style={{color:"red",fontWeight:'bold'}}>{FnameErr}</Text>:null}
+  <CustomInput
+    placeholder="Username"
+    placeholderTextColor="lightgrey"
+    Value={Username}
+    setValue={(value)=>handleOnchangeText(value,'Username')} />
+
+  <CustomInput
+    placeholder="Password"
+    placeholderTextColor="lightgrey"
+    value={Password}
+    setValue={(value)=>handleOnchangeText(value,'Password')} />
+  
+  <View style={{flexDirection:'row',marginVertical:5}}>
+  <Picker
+    mode="dropdown"
+    style={{
+      flex:1,
+      width :'45%',
+      backgroundColor:"white",
+      color:"black",
+      marginRight :5,
+      //paddingHorizontal:10
+    }}
+    selectedValue = {Gender} 
+    onValueChange = {setGender}>
+    <Picker.Item label = "<Gender>" />
+    <Picker.Item label = "Male" value = "Male" />
+    <Picker.Item label = "Female" value = "Female" />
+    <Picker.Item label = "Others" value = "others" />
+  </Picker> 
+  <Picker
+    mode="dropdown"
+    style={{
+      //alignItems:'center',
+      flex:1,
+      width :'50%',
+      backgroundColor:"white",
+      color:"black",
+      paddingHorizontal:10
+    }}
+    selectedValue = {Dept} 
+    onValueChange = {setDept}>
+    <Picker.Item label = "<Dept>" />
+    <Picker.Item label = "Mobile" value = "Mobile" />
+    <Picker.Item label = "Website" value = "Website" />
+    <Picker.Item label = "API" value = "Api" />
+    <Picker.Item label = "Devops" value = "Devops" />
+  </Picker>
+  </View> 
 
   <Text style={{fontSize: 16,fontWeight:'bold',color:'grey'}}>Date of Birth</Text>
   <View style={{flexDirection:'row'}}>
@@ -298,24 +400,24 @@ return (
   value={city}
   onChangeText={(value)=>handleOnchangeText(value,'city')} />
 </View>
-
+{LnameErr ? <Text style={{color:"red",fontWeight:'bold'}}>{LnameErr}</Text>:null}
 <Text style={styles.heading}>Qualification</Text>      
-{components.map((val,index) =>
+{components.map((value,index) =>
 <View 
   style={{flex:1,flexDirection:'row'}}
-  key={index} >
+  key={index}>
   <TextInput 
     style={styles.LeftInput} 
-    placeholder="Degree"
+    placeholder = "Degree"
     placeholderTextColor="lightgrey"
-    value={val.qualification}
-    onChangeText={(e)=>handleDegree(e,index)} />   
+    value={value.qualification}
+    onChangeText={setqualification} />   
   <TextInput 
     style={styles.RightInput} 
     placeholder = "College Name"
     placeholderTextColor="lightgrey"
-    value={val.college}
-    onChangeText={(e)=>handleCollege(e,index)} />
+    value={value.college}
+    onChangeText={setcollege} />
   </View>)}
 <View style={{flex:1,flexDirection:'row',marginRight :210}}>
   <Pressable
@@ -325,7 +427,7 @@ return (
   </Pressable>
   <Pressable
     style={{backgroundColor:"mediumblue",padding:10,marginLeft :7,borderRadius:7}}
-    onPress={(index)=>deletequalificationform(index)}>
+    onPress={deletequalificationform}>
   <Text style={{alignItems:'center',color:"white",fontWeight:"bold"}}>Clear</Text>
   </Pressable>
 </View>
@@ -465,34 +567,27 @@ return (
 <Text style={styles.heading}>Apply Job Position</Text>
 
   <Picker
+    mode="dropdown"
     style={{
       alignItems:'center',
       width :'100%',
       backgroundColor:"white",
       color:"black"}}
-    selectedValue = {Job} 
-    onValueChange = {setJob}>
-    <Picker.Item label = "React" value = "react" />
-    <Picker.Item label = "Native" value = "native" />
-    <Picker.Item label = "Springboot" value = "spring" />
-    <Picker.Item label = "AWS" value = "aws" />
+    selectedValue = {Role} 
+    onValueChange = {setRole}>
+      <Picker.Item label="<Role>" />
+    {Drop?.data?.map((dropdata,idx) => (
+        <Picker.Item 
+        key={idx}
+        label = {dropdata} 
+        value = {dropdata} />))}
   </Picker>
 
   <Text></Text>
-  {Err ? <Text style={{color:"red",fontWeight:'bold'}}>{Err}</Text>:null}
-  {FnameErr ? <Text style={{color:"red",fontWeight:'bold'}}>{FnameErr}</Text>:null}
-  {LnameErr ? <Text style={{color:"red",fontWeight:'bold'}}>{LnameErr}</Text>:null}
-  {EmailErr ? <Text style={{color:"red",fontWeight:'bold'}}>{EmailErr}</Text>:null}
-
-  <Pressable 
-    onPress={onRegisterPressed}
-    style={({ pressed }) => [{ 
-      opacity: pressed ? 0.7 : 1.0 }, styles.button]}>
-      <Text style={{color:"white",fontWeight:'bold',fontSize:15}}>Submit</Text>
-  </Pressable>
-  <Text></Text> 
+  
 </View>
 </ScrollView>
+</View>
 );
 };
 
@@ -500,14 +595,36 @@ const styles = StyleSheet.create({
 container: {
   alignItems: 'center',
   padding: 20,
+  marginTop :-15,
   backgroundColor:"lightblue"
+},
+card: {
+  padding:2,
+  paddingTop :5,
+  paddingBottom :5,
+  marginVertical:2,
+  marginHorizontal:3,
+  backgroundColor:"blue",
+  borderRadius:7,
+  borderStyle:'solid',
+  borderWidth :0.5
 },
 heading: {
   fontSize: 20,
   fontWeight:'bold',
   color: 'gray',
   padding: 2,
-  margin:5
+  //margin:2
+},
+savebtn: {
+flex:1,
+alignItems:'center',
+marginRight :10
+},
+cancelbtn: {
+flex:1,
+alignItems:'center',
+marginLeft :10
 },
 LeftInput: {
   backgroundColor: 'white',
@@ -518,7 +635,7 @@ LeftInput: {
   borderWidth : 0.5,
   borderRadius: 7,
   paddingHorizontal: 10,
-  marginHorizontal:2,
+  marginHorizontal: 3,
   marginVertical: 5
 },
 RightInput: {
@@ -565,13 +682,12 @@ datePicker: {
 button:{
   backgroundColor: 'blue', 
   alignItems:"center", 
-  width : '70%',
+  width : '75%',
   padding: 15,
-  marginVertical: 15,
+  marginVertical: 10,
   alignItems: 'center',
   borderRadius: 5,
-  borderWidth : 0.5,
-}
+  borderWidth : 0.5,}
 });
 
-export default CvvUpload;
+export default UpdateEmp;

@@ -7,17 +7,18 @@ import { Picker } from '@react-native-picker/picker';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import axios from "axios";
 
-const CvvUpdate = () => {
+const CvvUpdate = ({route}) => {
 
   const[Form,SetForm] = useState({
-    Firstname:'',
-    Lastname:'',
-    Email:'',
+    Id:route.params.data.id,
+    Firstname:route.params.data.firstName,
+    Lastname:route.params.data.lastName,
+    Email:route.params.data.email,
     Mobileno:'',
-    doorno:'',
-    Street:'',
+    doorno:route.params.data.address?.doorNo,
+    Street:route.params.data.address?.street,
     Pincode:'',
-    city:'',
+    city:route.params.data.address?.place,
     Currentcompany:'',
     RolesandResponsible:'',
     Previouscompany1:'',
@@ -25,8 +26,8 @@ const CvvUpdate = () => {
     TechSkill:'',
   });
   
-  const[qualification,setqualification] = useState([])
-  const[college,setcollege] = useState([])
+  const[qualification,setqualification] = useState([route.params.data.qualification?.degree])
+  const[college,setcollege] = useState([route.params.data.qualification?.collegeName])
   const[Job,setJob] = useState('');
   const[components,setComponents] = useState([1])
   
@@ -35,9 +36,9 @@ const CvvUpdate = () => {
   const[LnameErr,setLnameErr] = useState('');
   const[EmailErr,setEmailErr] = useState('');
   
-  const{Firstname,Lastname,Email,Mobileno,doorno,Street,Pincode,city,
+  const{ Id,Firstname,Lastname,Email,Mobileno,doorno,Street,Pincode,city,
     Currentcompany,RolesandResponsible,Previouscompany1,RolesandResponsible1,
-    TechSkill} = Form
+    TechSkill } = Form
   
   const handleOnchangeText = (value,fieldname) => {
     SetForm({...Form, [fieldname]: value});
@@ -140,6 +141,7 @@ const CvvUpdate = () => {
     if(!isValid()) {
     console.log('Connecting Api')
     axios.post('http://192.168.1.3:8080/candidate ', { 
+    id:Id,
     firstName: Firstname,
     lastName: Lastname,
     email: Email,
@@ -191,39 +193,34 @@ const CvvUpdate = () => {
       const _inputs = components.splice((index,1));
       setComponents(_inputs);
     }
-    
-    {/*const handleDegree = (q,index) => {
-      qualification[index] = q.currentTarget;
-      //components[index] = c.currentTarget;
-      setqualification([qualification]);
-    };
-    const handleCollege = (c, index) => {
-      college[index] = c.currentTarget;
-      //components[index] = c.currentTarget;
-      setcollege([college]);
-    };*/}
-  
+      
   return (
   <ScrollView>
   <View style ={styles.container}>
     <Text style={styles.heading}>Basic Information</Text>
-  
+    <CustomInput
+      placeholder="ID"
+      placeholderTextColor="lightgrey"
+      editable={false}
+      Value={Id}
+      setValue={(value) => handleOnchangeText(value,'Id')} />
+
     <CustomInput
       placeholder="Firstname"
       placeholderTextColor="lightgrey"
-      value={Firstname}
+      Value={Firstname}
       setValue={(value) => handleOnchangeText(value,'Firstname')} />
   
     <CustomInput
       placeholder="Lastname"
       placeholderTextColor="lightgrey"
-      value={Lastname}
+      Value={Lastname}
       setValue={(value)=>handleOnchangeText(value,'Lastname')} />
   
     <CustomInput
       placeholder="Email"
       placeholderTextColor="lightgrey"
-      value={Email}
+      Value={Email}
       setValue={(value)=>handleOnchangeText(value,'Email')}
       keyboardType='email-address'
       autoCapitalize='none' />
@@ -231,7 +228,7 @@ const CvvUpdate = () => {
     <CustomInput
       placeholder="Mobileno"
       placeholderTextColor="lightgrey"
-      value={Mobileno}
+      Value={Mobileno}
       setValue={(value)=>handleOnchangeText(value,'Mobileno')}
       keyboardType='number-pad' />
   
@@ -334,12 +331,12 @@ const CvvUpdate = () => {
     <CustomInput
       placeholder="Company Name"
       placeholderTextColor="lightgrey"
-      value={Currentcompany}
+      Value={Currentcompany}
       setValue={(value)=>handleOnchangeText(value,'Currentcompany')} />
     <CustomInput 
       placeholder="Role"
       placeholderTextColor="lightgrey"
-      value={RolesandResponsible}
+      Value={RolesandResponsible}
       setValue={(value)=>handleOnchangeText(value,'RolesandResponsible')} />
     
     <Text style={{fontSize:16,fontWeight:'bold',color:'grey'}}>Starting Date</Text>
@@ -397,12 +394,12 @@ const CvvUpdate = () => {
     <CustomInput
       placeholder="Company Name"
       placeholderTextColor="lightgrey"
-      value={Previouscompany1}
+      Value={Previouscompany1}
       setValue={(value)=>handleOnchangeText(value,'Previouscompany1')} />
     <CustomInput
       placeholder="Role"
       placeholderTextColor="lightgrey"
-      value={RolesandResponsible1}
+      Value={RolesandResponsible1}
       setValue={(value)=>handleOnchangeText(value,'RolesandResponsible1')} />
   
     <Text style={{fontSize: 16,fontWeight:'bold',color: 'grey'}}>Starting Date</Text>
@@ -442,7 +439,7 @@ const CvvUpdate = () => {
         name="calendar" 
         color="blue" 
         size={30} 
-        onPress={showPicker4} 
+        onPress={showPicker5} 
         style={{paddingTop :5}} />
     </View>)}
     {isPickerShow5 && (
@@ -459,7 +456,7 @@ const CvvUpdate = () => {
     <CustomInput
       placeholder="Technology Skill"
       placeholderTextColor="lightgrey"
-      value={TechSkill}
+      Value={TechSkill}
       setValue={(value)=>handleOnchangeText(value,'TechSkill')} />
   
   <Text style={styles.heading}>Apply Job Position</Text>

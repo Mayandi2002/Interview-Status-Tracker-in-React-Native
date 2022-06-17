@@ -1,9 +1,11 @@
 import React,{ useState,useEffect } from 'react';
-import { Button, DrawerLayoutAndroid, Text, StyleSheet, View,ScrollView, Pressable,Alert,FlatList ,TouchableOpacity} from 'react-native';
+import { Text, StyleSheet, View, ScrollView, Pressable, 
+          Alert, TouchableOpacity, RefreshControl,ToastAndroid } from 'react-native';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { Card } from 'react-native-paper';
+import { Card,FAB } from 'react-native-paper';
 import axios from 'axios';
+import RNFetchBlob from 'rn-fetch-blob';
 
 const EmpList = () => {
   const MyStack = useNavigation();
@@ -21,6 +23,21 @@ useEffect(()=>{
   })
 }, [])
 
+const [refreshing, setRefreshing] = React.useState(false);
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+      axios.get("http://192.168.1.3:8080/employee?size=1000&page=0")
+    .then(({data}) => {
+      console.log(data)
+      setCards(data)
+      setRefreshing(false);
+    }) 
+    .catch((err) => {
+      console.log(err)
+    })
+    
+  }, [refreshing]);
 
 const DelEmp = (id) => {
   Alert.alert(
@@ -45,8 +62,35 @@ const DelEmp = (id) => {
       }]);
 }
 
+const Download = () => {
+  const { config, fs } = RNFetchBlob
+  let DownloadDir = fs.dirs.DownloadDir
+  let options = {
+    fileCache: true,
+    addAndroidDownloads : {
+      useDownloadManager : true,
+      notification : true,
+      path:  DownloadDir + '/Interview Status Tracker/'+ '/Employee/' + "/Employee Details.xlsx", 
+      description : 'Downloading File'
+    }
+  }
+  config(options).fetch('GET', "http://192.168.1.3:8080/excel/employee?size=1000&page=0")
+          .then(({data}) => {
+            console.log(data)
+            ToastAndroid.show("Downloading Start",ToastAndroid.LONG);
+          })
+          .catch((err) => {
+            console.log(err)
+            ToastAndroid.show("Downloading Failed",ToastAndroid.LONG);
+          })
+}
 return(
-    <ScrollView style={styles.container}>
+  <View style={{flex:1}}>
+    <ScrollView style={styles.container}
+    refreshControl={
+      <RefreshControl
+        refreshing={refreshing}
+        onRefresh={onRefresh}/>}>
       
       {cards.map((card, idx) => (
       <TouchableOpacity 
@@ -83,8 +127,20 @@ return(
       </Card>
       </TouchableOpacity>))}
       <Text></Text>
-
   </ScrollView>
+  <FAB
+      style={styles.fab}
+      small
+      icon="account-plus"
+      color='white'
+      onPress={() => MyStack.navigate('RegEmp')} />
+  <FAB
+      style={styles.fab2}
+      small
+      icon="download"
+      onPress={Download} />
+
+  </View>
     );
 };
 
@@ -106,6 +162,24 @@ const styles = StyleSheet.create({
     fontSize: 13.5,
     fontWeight:'bold',
     color:"white"
+  },
+  fab: {
+    justifyContent: "center",
+		alignItems: "center",
+		position: "absolute",
+    padding: 10,
+		bottom : 95,
+		right : 15,
+		backgroundColor: "crimson",
+  },
+  fab2: {
+    justifyContent: "center",
+		alignItems: "center",
+		position: "absolute",
+    padding: 10,
+		bottom : 30,
+		right : 15,
+		backgroundColor: "crimson",
   },
   card:{
     margin:6,

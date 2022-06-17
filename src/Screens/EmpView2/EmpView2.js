@@ -13,7 +13,7 @@ const EmpView2 = ({route}) => {
   const [cards,setCards] = useState([])
   
   useEffect(()=>{
-  axios.get(`http://192.168.1.3:8080/employee/${route.params.data.id}`)
+  axios.get(`http://192.168.92.111:8080/employee/${route.params.data.id}`)
   .then(({data}) => {
     console.log(data)
     //alert(data.msg)

@@ -7,6 +7,7 @@ import BGLogo from '../../../assets/images/Icanio2.png';
 import Logo from '../../../assets/images/Icanio.png';
 import axios from 'axios';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import IIcon from 'react-native-vector-icons/Ionicons';
 //import { Card } from 'react-native-paper';
 
 const Login = () => {
@@ -89,6 +90,9 @@ const Login = () => {
             if(data.msg === "admin"){
               MyStack.navigate('Main');
             }
+            if(data.msg === "hr"){
+              MyStack.navigate('Main');
+            }
             if(data.msg === "panel"){
               MyStack.navigate('Main2');
             }
@@ -117,54 +121,52 @@ const Login = () => {
     <View style={styles.input}>
     <Icon name="user" color="mediumblue" size={25} />
     <TextInput
-    style={{flex:1,marginHorizontal:5,color:"black"}}
-    placeholder='Username'
-    placeholderTextColor="lightgrey"
-    Value={Username}
-    onChangeText={(value) => handleOnchangeText(value,'Username')}
-    keyboardType='email-address' />
+      style={{flex:1,marginHorizontal:5,color:"black"}}
+      placeholder='Username'
+      placeholderTextColor="lightgrey"
+      Value={Username}
+      onChangeText={(value) => handleOnchangeText(value,'Username')}
+      keyboardType='email-address' />
     </View>
-   
-    {UserErr ? <Text style={{color:"red",fontWeight:'bold',fontSize:13,marginRight :150}}>
-      {UserErr}</Text>: null}
-
+      {UserErr ? <Text style={{color:"red",fontWeight:'bold',fontSize:13,marginRight :150}}>{UserErr}</Text>: null}
     
     <View style={styles.input2}>
     <Icon name="lock" color="mediumblue" size={25} />
     <TextInput
-    style={{flex:1,marginHorizontal:5,color:"black"}}
-    placeholder='Password'
-    placeholderTextColor="lightgrey"
-    Value={Password}
-    onChangeText={(value) => handleOnchangeText(value,'Password')}
-    secureTextEntry={isSecureEntry} />
-    
-    <Icon
-    onPress={()=>setIsSecureEntry(!isSecureEntry)}
-    name={isSecureEntry ? "eye-slash":"eye"} color="mediumblue" size={25} />
+      style={{flex:1,marginHorizontal:5,color:"black"}}
+      placeholder='Password'
+      placeholderTextColor="lightgrey"
+      Value={Password}
+      onChangeText={(value) => handleOnchangeText(value,'Password')}
+      secureTextEntry={isSecureEntry} />
+    <IIcon
+      onPress={()=> setIsSecureEntry(!isSecureEntry)}
+      name={isSecureEntry ? "ios-eye-off":"ios-eye"} color="mediumblue" size={25} />
     </View>
-
     {PassErr ? <Text style={{color:"red",fontWeight:'bold',fontSize:13,marginRight :140}}>{PassErr}</Text>: null}
+
     <Picker
       style={styles.pickstyl} 
       mode="dropdown"
       selectedValue = {Position}
       onValueChange = {SetPosition}>
-        
-        {Drop?.data?.map((dropdata,idx) => (
-        <Picker.Item 
+      {Drop?.data?.map((dropdata,idx) => (
+      <Picker.Item 
         key={idx}
         label = {dropdata} 
         value = {dropdata} />))}
     </Picker>  
 
     <Pressable
-    style={({ pressed }) => [{ 
-    opacity: pressed ? 0.7 : 1.0 }, styles.Btn1Style]}
-    onPress={loginpress}>
-    
-    <Text style={styles.LoginBtntxt}>Login</Text>
-    <Icon style={{marginHorizontal:10}} name="arrow-right" color="white" size={15}/>
+      style={({ pressed }) => [{ 
+      opacity: pressed ? 0.7 : 1.0 }, styles.Btn1Style]}
+      onPress={loginpress}>
+        <Text style={styles.LoginBtntxt}>Login</Text>
+        <Icon 
+          style={{marginHorizontal:10}} 
+          name="arrow-right" 
+          color="white"
+          size={15} />
     </Pressable>
     
     {/* 
@@ -189,8 +191,7 @@ const Login = () => {
     <Text style={styles.LoginBtntxt}>Job Description</Text>
     </Pressable>*/}
     </View>
-  );
-  
+  );  
 }
 
 const styles = StyleSheet.create({
@@ -213,7 +214,6 @@ const styles = StyleSheet.create({
       maxWidth : 330,
       maxHeight : 5,
     },
-
     input:{
       backgroundColor: 'white',
       flexDirection:'row',
@@ -234,19 +234,16 @@ const styles = StyleSheet.create({
       borderRadius: 7,
       paddingHorizontal:7,
       marginVertical:10,
-    },
-    
+    },    
     show:{
       marginLeft :270
     },
-
     pickstyl:{
       alignItems:'center',
       width :'85%',
       backgroundColor:"white",
       color:"black"
     },
-
     Btn1Style:{
       backgroundColor: 'mediumblue', 
       alignItems:"center",
@@ -267,6 +264,5 @@ const styles = StyleSheet.create({
       alignItems:"center",
     },
 });
-
 
 export default Login;

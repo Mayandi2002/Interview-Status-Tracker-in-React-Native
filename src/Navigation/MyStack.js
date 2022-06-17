@@ -21,6 +21,8 @@ import JobDesc from '../Screens/JobDesc/JobDesc';
 import CandidateStatus from '../Screens/CandidateStatus/CandidateStatus';
 import DrawerRoute from '../DrawerRoute/DrawerRoute';
 import DrawerRoute2 from '../DrawerRoute2/DrawerRoute2';
+import UpdateEmp from '../Screens/RegEmp/UpdateEmp/UpdateEmp';
+
 const Stack = createStackNavigator();
 
 const MyStack = () => {
@@ -139,6 +141,20 @@ const MyStack = () => {
         <Stack.Screen name="RegEmp" component={RegEmp}
         options={{
           title: 'Create Employee',
+          headerTitleStyle: {
+            color: '#fff',
+            fontWeight:'bold',
+            fontSize:20,
+            alignItems:'center'
+          },
+          headerStyle: {
+            backgroundColor: 'blue',
+          },
+        }}
+        />
+        <Stack.Screen name="UpdateEmp" component={UpdateEmp}
+        options={{
+          title: 'Edit Employee',
           headerTitleStyle: {
             color: '#fff',
             fontWeight:'bold',
